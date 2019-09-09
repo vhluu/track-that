@@ -3,14 +3,16 @@ chrome.runtime.onInstalled.addListener(function() {
     console.log("The color is green.");
   });
 
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+  /*chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     chrome.declarativeContent.onPageChanged.addRules([{
       conditions: [new chrome.declarativeContent.PageStateMatcher({
         pageUrl: {hostEquals: 'developer.chrome.com'},
+      },), new chrome.declarativeContent.PageStateMatcher({
+        pageUrl: { urlMatches: 'https://*.google.com/' }, // use https if necessary or add another line to match for both
       })
       ],
           actions: [new chrome.declarativeContent.ShowPageAction()]
     }]);
-  });
+  });*/
 });
 
