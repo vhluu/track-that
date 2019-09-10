@@ -5,10 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Track That</title>
+  <style>
+    * { 
+      box-sizing: border-box; 
+    }
+    .calendar { 
+      display: flex; 
+      flex-wrap: wrap; 
+      background: grey; 
+      justify-content: space-between; 
+    }
+    .day, .cal-header { 
+      flex-basis: calc(100%/7); 
+      max-width: calc(100%/7); 
+      background: white; 
+      box-shadow: -1px -1px grey, inset -1px -1px 0 0 grey;
+      padding: 5px;
+    }
+  </style>
 </head>
 <body>
+  <!-- TODO: get the days of the month -->
+  <h1 class="curr-month"></h1>
   <div class="calendar">
-
+    <!-- dynamically create boxes?? -->
+    <div class="cal-header">Sunday</div>
+    <div class="cal-header">Monday</div>
+    <div class="cal-header">Tuesday</div>
+    <div class="cal-header">Wednesday</div>
+    <div class="cal-header">Thursday</div>
+    <div class="cal-header">Friday</div>
+    <div class="cal-header">Saturday</div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
+    <div class="day"></div>
   </div>
+  <script src="calendar.js"></script>
 </body>
 </html>
