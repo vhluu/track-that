@@ -6,72 +6,179 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Track That</title>
   <style>
+    /* @import url('https://fonts.googleapis.com/css?family=Muli:400,600&display=swap'); */
+    @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,600&display=swap');
     * { 
       box-sizing: border-box; 
+    }
+    body {
+      /* font-family: 'Muli', sans-serif; */
+      font-family: 'Quicksand', sans-serif;
+      background: rgb(244,245,254);
+      background: rgb(247, 250, 255);
+    }
+    h1 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+    section {
+      padding: 0 40px;
+    }
+
+    /* Header */
+    header {
+      padding: 25px;
+    }
+    .logo {
+      font-size: 20px;
+      color: #9495ea;
+      font-weight: 600;
+    }
+    .calendar-wrapper {
+      /* padding: 20px; */
     }
     .calendar { 
       display: flex; 
       flex-wrap: wrap; 
-      background: grey; 
       justify-content: space-between; 
     }
     .day, .cal-header { 
       flex-basis: calc(100%/7); 
       max-width: calc(100%/7); 
       background: white; 
-      box-shadow: -1px -1px grey, inset -1px -1px 0 0 grey;
+      box-shadow: -1px -1px #ececec, inset -1px -1px 0 0 #ececec;
       padding: 5px;
+    }
+    .cal-header {
+      text-align: center;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #6a7175;
+      color: #00b4ff;
+      letter-spacing: 1px;
+      text-align: left;
+      font-weight: 600;
+      color: #9495ea;
+    }
+    .day {
+      text-align: right;
+      height: 100px;
+      padding: 10px 15px;
+      font-size: 14px; 
+      color: rgba(14,30,37,0.7);
+      font-weight: 600;
+    }
+    .not-current {
+      background: #fafcfd;
+      color: #c1c1c1;
+    }
+    .today {
+      
+    }
+
+    .curr-month {
+      text-align: center;
+      color: rgba(14,30,37,0.8);
+    }
+
+    .card {
+      box-shadow: 0 0 11px 0 #eaf0f6;
+      border-radius: 25px;
+      background: #fff;
+      padding: 30px;
+    }
+
+    .tag {
+      border-radius: 25px;
+      padding: 5px 8px;
+    }
+
+    .green {
+      background-color: #E3FBE9;
+    }
+
+    @media only screen and (min-width: 768px) {
+      .flex_t { display: flex; }
+      .main-wrapper {
+        align-items: flex-start;
+      }
+      .calendar-wrapper {
+        max-width: 60vw;
+      }
+      .tags {
+        margin-right: 25px;
+        flex-grow: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- TODO: get the days of the month -->
-  <h1 class="curr-month"></h1>
-  <div class="calendar">
-    <!-- dynamically create boxes?? -->
-    <div class="cal-header">Sunday</div>
-    <div class="cal-header">Monday</div>
-    <div class="cal-header">Tuesday</div>
-    <div class="cal-header">Wednesday</div>
-    <div class="cal-header">Thursday</div>
-    <div class="cal-header">Friday</div>
-    <div class="cal-header">Saturday</div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-    <div class="day"></div>
-  </div>
+  <header>
+    <div class="logo">Track That!</div>
+  </header>
+  <section>
+    <div class="flex_t main-wrapper">
+      <div class="tags card">
+        <div class="tag green">🌱 Watered Plants</div>
+        <div>+</div>
+      </div>
+      <div class="calendar-wrapper card">
+        <h1 class="curr-month"></h1>
+        <div class="calendar">
+          <!-- dynamically create boxes?? -->
+          <!--<div class="cal-header">Sunday</div>
+          <div class="cal-header">Monday</div>
+          <div class="cal-header">Tuesday</div>
+          <div class="cal-header">Wednesday</div>
+          <div class="cal-header">Thursday</div>
+          <div class="cal-header">Friday</div>
+          <div class="cal-header">Saturday</div>-->
+          <div class="cal-header">Sun</div>
+          <div class="cal-header">Mon</div>
+          <div class="cal-header">Tue</div>
+          <div class="cal-header">Wed</div>
+          <div class="cal-header">Thur</div>
+          <div class="cal-header">Fri</div>
+          <div class="cal-header">Sat</div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+          <div class="day"></div>
+        </div>
+      </div>
+    </div>
+  </section>
   <script src="calendar.js"></script>
 </body>
 </html>

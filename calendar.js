@@ -20,16 +20,24 @@ window.onload = function() {
     date.setDate(0); // sets date to last day of previous month
     var endOfPrevDate = date.getDate();
 
+    var today = (new Date()).getDate();
+
     /* Sets the calendar days */
     for (var i = 0; i < day; i++) { // from end of previous month to 1st of current month
       calendarBoxes[i].textContent = endOfPrevDate - day + i + 1;
+      calendarBoxes[i].classList.add('not-current');
     }
     for(var i = 0; i < daysInMonth; i++) { // from 1st to end of month
       calendarBoxes[day + i].textContent = i + 1;
+      if((i + 1) == today) calendarBoxes[day + i].classList.add('today');
     }
     for (var i = 0; i < (calendarBoxes.length - daysInMonth - day); i++) { // beginning of next month 
       calendarBoxes[day + daysInMonth + i].textContent = i + 1;
+      calendarBoxes[day + daysInMonth + i].classList.add('not-current');
     }
+
+    
+    
   }
 
   // TODO: should we store the day values?
