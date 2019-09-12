@@ -19,7 +19,6 @@
     }
     h1 {
       font-size: 20px;
-      margin-top: 0;
     }
     section {
       padding: 0 40px;
@@ -32,10 +31,17 @@
     .logo {
       font-size: 20px;
       color: #9495ea;
+      color: rgba(14,30,37,0.6);
       font-weight: 600;
     }
     .calendar-wrapper {
       /* padding: 20px; */
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
     }
     .calendar { 
       display: flex; 
@@ -67,18 +73,38 @@
       font-size: 14px; 
       color: rgba(14,30,37,0.7);
       font-weight: 600;
+      position: relative;
+    }
+    .day-number {
+      position: absolute;
+      right: 10px;
     }
     .not-current {
       background: #fafcfd;
       color: #c1c1c1;
     }
-    .today {
-      
+    .today .day-number {
+      right: 5px;
+      top: 5px;
+      text-align: center;
+      border-radius: 50px;
+      background: #bff8ff;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
     }
 
     .curr-month {
       text-align: center;
-      color: rgba(14,30,37,0.8);
+      color: rgba(14,30,37,0.6);
+      margin: 0;
+    }
+    .curr-year {
+      text-align: center;
+      letter-spacing: 1px;
+      color: #898a8a;
+      font-size: 14px;
+      margin-top: 5px;
     }
 
     .card {
@@ -91,6 +117,8 @@
     .tag {
       border-radius: 25px;
       padding: 5px 8px;
+      cursor: move;
+      cursor: grab;
     }
 
     .green {
@@ -124,6 +152,7 @@
       </div>
       <div class="calendar-wrapper card">
         <h1 class="curr-month"></h1>
+        <p class="curr-year"></p>
         <div class="calendar">
           <!-- dynamically create boxes?? -->
           <!--<div class="cal-header">Sunday</div>
@@ -140,41 +169,41 @@
           <div class="cal-header">Thur</div>
           <div class="cal-header">Fri</div>
           <div class="cal-header">Sat</div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
-          <div class="day"></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
+          <div class="day"><span class="day-number"></span></div>
         </div>
       </div>
     </div>

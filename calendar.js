@@ -1,6 +1,8 @@
 window.onload = function() {
   var calendarBoxes = document.querySelectorAll('.calendar .day');
+  var calendarBoxNumbers = document.querySelectorAll('.day-number');
   var monthHeader = document.querySelector('.curr-month');
+  var yearHeader = document.querySelector('.curr-year');
 
   // sets calendar to current month
   var date = new Date();
@@ -10,6 +12,7 @@ window.onload = function() {
     var date = new Date();
     date.setMonth(month);
     monthHeader.textContent = date.toLocaleString('default', { month: 'long' });
+    yearHeader.textContent = date.getYear() + 1900;
 
     date.setDate(1); // sets date to the 1st of current month
     var day = date.getDay(); // gets day of week for the 1st
@@ -24,15 +27,15 @@ window.onload = function() {
 
     /* Sets the calendar days */
     for (var i = 0; i < day; i++) { // from end of previous month to 1st of current month
-      calendarBoxes[i].textContent = endOfPrevDate - day + i + 1;
+      calendarBoxNumbers[i].textContent = endOfPrevDate - day + i + 1;
       calendarBoxes[i].classList.add('not-current');
     }
     for(var i = 0; i < daysInMonth; i++) { // from 1st to end of month
-      calendarBoxes[day + i].textContent = i + 1;
+      calendarBoxNumbers[day + i].textContent = i + 1;
       if((i + 1) == today) calendarBoxes[day + i].classList.add('today');
     }
     for (var i = 0; i < (calendarBoxes.length - daysInMonth - day); i++) { // beginning of next month 
-      calendarBoxes[day + daysInMonth + i].textContent = i + 1;
+      calendarBoxNumbers[day + daysInMonth + i].textContent = i + 1;
       calendarBoxes[day + daysInMonth + i].classList.add('not-current');
     }
 
