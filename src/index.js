@@ -3,7 +3,7 @@ const React = require('react')
 const { define } = require('remount/es5')
 
 async function main() {
-  const data = await (await fetch('all.json')).json()
+  const data = await (await fetch('/assets/all.json')).json()
   const Picker = props => (React.createElement(NimblePicker, {
     set: 'twitter',
     data,
