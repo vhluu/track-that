@@ -1,5 +1,6 @@
 /* @import url('https://fonts.googleapis.com/css?family=Muli:400,600&display=swap'); */
 @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,600&display=swap');
+/* ==== GENERAL ====*/
 * { 
   box-sizing: border-box; 
 }
@@ -9,14 +10,16 @@ body {
   background: rgb(244,245,254);
   background: rgb(247, 250, 255);
 }
-h1 {
-  font-size: 20px;
-}
-section {
+.section {
   padding: 0 40px;
 }
 
-/* Header */
+/* ==== TYPOGRAPHY ==== */
+h1 {
+  font-size: 20px;
+}
+
+/* ==== HEADER ==== */
 header {
   padding: 25px;
 }
@@ -26,6 +29,8 @@ header {
   color: rgba(14,30,37,0.6);
   font-weight: 600;
 }
+
+/* ==== CALENDAR ==== */
 .calendar-wrapper {
   /* padding: 20px; */
   -webkit-touch-callout: none; /* iOS Safari */
@@ -86,6 +91,7 @@ header {
   line-height: 28px;
 }
 
+/* ==== CALENDAR HEADER ==== */
 .curr-month {
   text-align: center;
   color: rgba(14,30,37,0.6);
@@ -99,6 +105,7 @@ header {
   margin-top: 5px;
 }
 
+/* ==== CARDS ==== */
 .card {
   box-shadow: 0 0 11px 0 #eaf0f6;
   border-radius: 25px;
@@ -106,6 +113,7 @@ header {
   padding: 30px;
 }
 
+/* ==== TAGS ==== */
 .tag {
   border-radius: 25px;
   padding: 5px 8px;
@@ -118,13 +126,18 @@ header {
 }
 
 @media only screen and (min-width: 768px) {
+  /* ==== LAYOUT ==== */
   .flex_t { display: flex; }
   .main-wrapper {
     align-items: flex-start;
   }
+
+  /* ==== CALENDAR ==== */
   .calendar-wrapper {
     max-width: 60vw;
   }
+
+  /* ==== TAGS ==== */
   .tags {
     margin-right: 25px;
     flex-grow: 0;
