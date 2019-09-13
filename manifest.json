@@ -4,7 +4,7 @@
   "description": "Extension that allows you to keep track of when you last did something",
   "permissions": ["declarativeContent", "storage", "tabs"],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["dist/main.js"],
     "persistent": false
   },
   "browser_action": {
