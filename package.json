@@ -2,9 +2,14 @@
   "name": "track-that",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "private": true,
+  "main": "src.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm dist/bundle.js",
+    "build": "npm run build-prod",
+    "build-prod": "webpack --mode production --config webpack.config.js",
+    "build-dev": "webpack --mode development --config webpack.config.js",
+    "start": "npm run build-dev&&http-server -p 8080"
   },
   "repository": {
     "type": "git",
@@ -15,5 +20,16 @@
   "bugs": {
     "url": "https://github.com/vhluu/track-that/issues"
   },
-  "homepage": "https://github.com/vhluu/track-that#readme"
+  "homepage": "https://github.com/vhluu/track-that#readme",
+  "dependencies": {
+    "emoji-mart": "^2.11.1",
+    "preact": "^10.0.0-rc.3",
+    "preact-compat": "^3.19.0",
+    "remount": "^0.11.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
+  }
 }
