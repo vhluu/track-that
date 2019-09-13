@@ -1,13 +1,21 @@
 window.onload = function() {
+  /* Calendar */
   var calendarBoxes = document.querySelectorAll('.calendar .day');
   var calendarBoxNumbers = document.querySelectorAll('.day-number');
   var monthHeader = document.querySelector('.curr-month');
   var yearHeader = document.querySelector('.curr-year');
 
-  // sets calendar to current month
+  /* Tags */
+  var addTagBtn = document.querySelector('.btn-add-tag');
+  var tagModal = document.querySelector('.tag-modal');
+  var tagEmoji = tagModal.querySelector('.tag-emoji');
+  var emojiPicker = tagModal.querySelector('emoji-picker');
+
+  /* Sets calendar to current month */
   var date = new Date();
   setCalendar(date.getMonth());
 
+  /* Sets calendar to given month */
   function setCalendar(month) {
     var date = new Date();
     date.setMonth(month);
@@ -38,10 +46,15 @@ window.onload = function() {
       calendarBoxNumbers[day + daysInMonth + i].textContent = i + 1;
       calendarBoxes[day + daysInMonth + i].classList.add('not-current');
     }
-
-    
-    
   }
+
+  addTagBtn.addEventListener('click', function() {
+    tagModal.classList.remove('hide');
+  });
+
+  tagEmoji.addEventListener('click', function() {
+    emojiPicker.classList.toggle('hide');
+  });
 
   // TODO: should we store the day values?
   // TODO: add class for current date

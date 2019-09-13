@@ -13,10 +13,24 @@ body {
 .section {
   padding: 0 40px;
 }
+input {
+  outline: none;
+  font-size: 14px;
+  font-family: 'Quicksand', sans-serif;
+  padding: 5px;
+}
+input::placeholder {
+  color: #b7bdc3;
+}
 
 /* ==== TYPOGRAPHY ==== */
 h1 {
   font-size: 20px;
+}
+
+/* ==== HELPER CLASSES ==== */
+.hide {
+  display: none;
 }
 
 /* ==== HEADER ==== */
@@ -117,13 +131,33 @@ header {
 .tag {
   border-radius: 25px;
   padding: 5px 8px;
-  cursor: move;
+  cursor: move; /* fallback */
   cursor: grab;
+  position: relative;
 }
-
+.tag-modal {
+  position: absolute;
+  z-index: 20;
+}
+.tag-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.tag-emoji {
+  position: absolute;
+  fill: rgba(14,30,37,0.6);
+  width: 20px;
+  right: 5px;
+}
+.tag-emoji-picker {
+  position: absolute;
+}
 .green {
   background-color: #E3FBE9;
 }
+
+/* ==== EMOJI PICKER ==== */
 
 @media only screen and (min-width: 768px) {
   /* ==== LAYOUT ==== */
