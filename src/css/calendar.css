@@ -9,9 +9,6 @@ body {
   margin: 0;
   min-height: 100vh;
 }
-.section {
-  padding: 0 40px;
-}
 input {
   outline: none;
   font-size: 14px;
@@ -32,7 +29,7 @@ label {
   font-weight: 600;
 }
 p {
-  color:#a1a1a1;
+  color:rgb(93, 114, 123);
   font-weight: 500;
 }
 
@@ -41,6 +38,17 @@ h1 {
   letter-spacing: 0.7px;
   font-size: 25px;
   font-weight: 500;
+}
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: rgb(106, 218, 166);
+}
+
+/* ==== LAYOUT ==== */
+.section {
+  padding: 0 40px;
+  position: relative;
 }
 
 /* ==== HELPER CLASSES ==== */
@@ -157,8 +165,10 @@ header {
 }
 
 /* ==== TAGS ==== */
+.tags {
+  margin-top: 30px;
+}
 .tag {
-  padding: 5px 8px;
   cursor: move; /* fallback */
   cursor: grab;
   position: relative;
@@ -168,10 +178,17 @@ header {
   line-height: 16px;
   border-radius: 10px;
   font-weight: 500;
+  width: fit-content;
 }
 .tag-modal {
   position: absolute;
   z-index: 20;
+}
+.btn-add-tag {
+  width: fit-content;
+  margin-top: 10px;
+  color: #53cafb;
+  border: 1px dashed #53cafb;
 }
 .tag-input-wrapper {
   position: relative;
