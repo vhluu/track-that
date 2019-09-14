@@ -1,14 +1,13 @@
 /* @import url('https://fonts.googleapis.com/css?family=Muli:400,600&display=swap'); */
-@import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap');
 /* ==== GENERAL ====*/
 * { 
   box-sizing: border-box; 
 }
 body {
-  /* font-family: 'Muli', sans-serif; */
   font-family: 'Quicksand', sans-serif;
-  background: rgb(244,245,254);
-  background: rgb(247, 250, 255);
+  margin: 0;
+  min-height: 100vh;
 }
 .section {
   padding: 0 40px;
@@ -17,15 +16,31 @@ input {
   outline: none;
   font-size: 14px;
   font-family: 'Quicksand', sans-serif;
-  padding: 5px;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e6eaee;
+  box-shadow: none;
+  color: #2c355a;
 }
 input::placeholder {
   color: #b7bdc3;
 }
+label {
+  color: #56618f;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+p {
+  color:#a1a1a1;
+  font-weight: 500;
+}
 
 /* ==== TYPOGRAPHY ==== */
 h1 {
-  font-size: 20px;
+  letter-spacing: 0.7px;
+  font-size: 25px;
+  font-weight: 500;
 }
 
 /* ==== HELPER CLASSES ==== */
@@ -35,13 +50,13 @@ h1 {
 
 /* ==== HEADER ==== */
 header {
-  padding: 25px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 15px 25px;
 }
 .logo {
   font-size: 20px;
-  color: #9495ea;
-  color: rgba(14,30,37,0.6);
   font-weight: 600;
+  color: rgba(14,30,37,0.6);
 }
 
 /* ==== CALENDAR ==== */
@@ -53,6 +68,7 @@ header {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+  padding: 45px 40px 40px 40px;
 }
 .calendar { 
   display: flex; 
@@ -76,6 +92,7 @@ header {
   text-align: left;
   font-weight: 600;
   color: #9495ea;
+  font-size: 12px;
 }
 .day {
   text-align: right;
@@ -107,9 +124,13 @@ header {
 
 /* ==== CALENDAR HEADER ==== */
 .curr-month {
-  text-align: center;
-  color: rgba(14,30,37,0.6);
-  margin: 0;
+  /* text-align: center; */
+  color: rgba(14,30,37,1);
+  margin-top: 0;
+  /* margin: 0; */
+  /* background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
 }
 .curr-year {
   text-align: center;
@@ -122,18 +143,25 @@ header {
 /* ==== CARDS ==== */
 .card {
   box-shadow: 0 0 11px 0 #eaf0f6;
-  border-radius: 25px;
+  border-radius: 15px;
   background: #fff;
   padding: 30px;
+  box-shadow: 0 0 20px rgba(51,79,136,.12);
+  box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.12);
 }
 
 /* ==== TAGS ==== */
 .tag {
-  border-radius: 25px;
   padding: 5px 8px;
   cursor: move; /* fallback */
   cursor: grab;
   position: relative;
+  color: rgba(14,30,37,0.6);
+  padding: 10px 10px;
+  font-size: 14px;
+  line-height: 16px;
+  border-radius: 10px;
+  font-weight: 500;
 }
 .tag-modal {
   position: absolute;
