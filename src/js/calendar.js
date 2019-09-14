@@ -19,8 +19,8 @@ window.onload = function() {
   function setCalendar(month) {
     var date = new Date();
     date.setMonth(month);
-    monthHeader.textContent = date.toLocaleString('default', { month: 'long' });
-    yearHeader.textContent = date.getYear() + 1900;
+    monthHeader.innerHTML = date.toLocaleString('default', { month: 'long' });
+    yearHeader.innerHTML = " " + (date.getYear() + 1900);
 
     date.setDate(1); // sets date to the 1st of current month
     var day = date.getDay(); // gets day of week for the 1st
