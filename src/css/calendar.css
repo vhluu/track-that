@@ -59,6 +59,12 @@ header {
   color: rgba(14,30,37,0.6);
 }
 
+/* ==== BACKGROUND ==== */
+.background-svg {
+  position: absolute;
+  bottom: 0;
+}
+
 /* ==== CALENDAR ==== */
 .calendar-wrapper {
   /* padding: 20px; */
