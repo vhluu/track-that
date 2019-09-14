@@ -8,12 +8,14 @@ window.onload = function() {
   /* Tags */
   var addTagBtn = document.querySelector('.btn-add-tag');
   var tagModal = document.querySelector('.tag-modal');
-  var tagEmoji = tagModal.querySelector('.tag-emoji');
+  var tagIcon = tagModal.querySelector('.tag-field-icon');
   var emojiPicker = tagModal.querySelector('emoji-picker');
+  var createTagBtn = tagModal.querySelector('.btn-create-tag');
 
   /* Sets calendar to current month */
   var date = new Date();
   setCalendar(date.getMonth());
+
 
   /* Sets calendar to given month */
   function setCalendar(month) {
@@ -33,7 +35,7 @@ window.onload = function() {
 
     var today = (new Date()).getDate();
 
-    /* Sets the calendar days */
+    // Sets the calendar days
     for (var i = 0; i < day; i++) { // from end of previous month to 1st of current month
       calendarBoxNumbers[i].textContent = endOfPrevDate - day + i + 1;
       calendarBoxes[i].classList.add('not-current');
@@ -52,8 +54,18 @@ window.onload = function() {
     tagModal.classList.remove('hide');
   });
 
-  tagEmoji.addEventListener('click', function() {
+
+  tagIcon.addEventListener('click', function() {
     emojiPicker.classList.toggle('hide');
+  });
+
+  /* Create new tag */
+  var tagTitleInput;
+  createTagBtn.addEventListener('click', function() {
+    // get tag title
+    tagTitleInput = tagModal.querySelector('[name="tag-title"]');
+    tagTitleInput.value;
+    // get color
   });
 
   // TODO: should we store the day values?

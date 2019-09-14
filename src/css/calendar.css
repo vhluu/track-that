@@ -13,7 +13,7 @@ input {
   outline: none;
   font-size: 14px;
   font-family: 'Quicksand', sans-serif;
-  padding: 12px;
+  padding: 8px 10px;
   border-radius: 6px;
   border: 1px solid #e6eaee;
   box-shadow: none;
@@ -24,9 +24,11 @@ input::placeholder {
 }
 label {
   color: #56618f;
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   font-weight: 600;
+  margin-bottom: 2px;
+  display: block;
 }
 p {
   color:rgb(93, 114, 123);
@@ -48,6 +50,21 @@ h2 {
 .section {
   padding: 0 40px;
   position: relative;
+}
+
+/* ==== BUTTONS ==== */
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  width: 100px;
+  text-align: center;
+  font-size: 14px;
+  padding: 8px 0;
+  background: #66d1fd;
+  color: #fff;
+}
+.btn:hover {
+  cursor: pointer;
 }
 
 /* ==== HELPER CLASSES ==== */
@@ -104,7 +121,7 @@ header {
 .day {
   text-align: right;
   height: 100px;
-  padding: 10px 15px;
+  padding: 10px;
   font-size: 14px; 
   font-weight: 600;
   position: relative;
@@ -114,6 +131,11 @@ header {
 .day-number {
   position: absolute;
   right: 10px;
+}
+.day-tag {
+  font-size: 15px;
+  border-radius: 50px;
+  width: 25px;
 }
 .not-current {
   background: transparent;
@@ -174,22 +196,38 @@ header {
   color: #53cafb;
   border: 1px dashed #53cafb;
 }
-.tag-input-wrapper {
+.tag-field-wrapper {
+  margin-bottom: 15px;
   position: relative;
-  display: flex;
-  align-items: center;
 }
-.tag-emoji {
-  position: absolute;
-  fill: rgba(14,30,37,0.6);
-  width: 20px;
-  right: 5px;
+.tag-field-icon {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e6eaee;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 6px;
 }
 .tag-emoji-picker {
   position: absolute;
+  z-index: 40;
 }
 .green {
   background-color: #E3FBE9;
+}
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.color-picker-item {
+  border-radius: 50px;
+  width: 25px;
+  height: 25px;
+  border: 2px solid #fff;
 }
 
 /* ==== EMOJI PICKER ==== */
