@@ -9,7 +9,7 @@
     "build": "npm run build-prod",
     "build-prod": "webpack --mode production --config webpack.config.js",
     "build-dev": "webpack --mode development --config webpack.config.js",
-    "start": "npm run build-dev&&http-server ./dist -p 8080"
+    "start": "npm run build-dev"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.4",
-    "http-server": "^0.11.1",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8"
   }
