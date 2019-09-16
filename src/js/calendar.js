@@ -9,13 +9,13 @@ window.onload = function() {
   var tagsList = document.querySelector('.tags-list');
   var addTagBtn = document.querySelector('.btn-add-tag');
   var tagModal = document.querySelector('.tag-modal');
-  var tagIcon = tagModal.querySelector('.tag-field-icon');
-  var emojiPicker = tagModal.querySelector('emoji-picker');
+  //var emojiPicker = tagModal.querySelector('emoji-picker');
   var colorPicker = tagModal.querySelector('.color-picker');
   var colorPickerItems = colorPicker.querySelectorAll('.color-picker-items');
   var createTagBtn = tagModal.querySelector('.btn-create-tag');
   var tagTitleField = tagModal.querySelector('[name="tag-field-title"]');
   var tagIconField = tagModal.querySelector(' .tag-field-icon');
+  var tagFieldWrapper = tagModal.querySelectorAll('.tag-field-wrapper');
 
   /* Sets calendar to current month */
   var date = new Date();
@@ -60,14 +60,36 @@ window.onload = function() {
     tagModal.classList.remove('hide');
   });
 
-  tagIcon.addEventListener('click', function() {
-    emojiPicker.classList.toggle('hide');
+  
+  tagIconField.addEventListener('click', function() {
+    // emojiPicker.classList.toggle('hide');
+    toggleEmojiPicker();
   });
+
+  var emojiPicker;
+  /* Creates/removing emoji picker since hide/showing it causes issues w/ the emoji nav bar */
+  function toggleEmojiPicker() {
+    emojiPicker = document.querySelector('emoji-picker');
+    if(!emojiPicker) {
+      emojiPicker = document.createElement('emoji-picker');
+      tagIconField.parentElement.appendChild(emojiPicker);
+      for(var i = 0; i < tagFieldWrapper.length; i++) {
+        tagFieldWrapper[i].classList.add('prevent-click');
+      }
+    }
+    else {
+      tagIconField.parentElement.removeChild(emojiPicker);
+      for(var i = 0; i < tagFieldWrapper.length; i++) {
+        tagFieldWrapper[i].classList.remove('prevent-click');
+      }
+    }
+  }
 
   document.body.addEventListener('click', function() {
     // if emoji picker is open, then close it
     // else check if tag modal is open, then close it
-    if(emojiPicker.className.indexOf('hide') == -1) emojiPicker.classList.add('hide');
+    emojiPicker = document.querySelector('emoji-picker');
+    if(emojiPicker) toggleEmojiPicker();
     else if(tagModal.className.indexOf('hide') == -1) {
       tagModal.classList.add('hide');
       tagTitleField.value = "";
@@ -77,8 +99,7 @@ window.onload = function() {
 
  tagModal.addEventListener('click', function(e) {
     e.stopPropagation();
-    //console.log(e.target);
-    if(e.target.className == "tag-modal" && emojiPicker.className.indexOf('hide') == -1) emojiPicker.classList.add('hide'); // hide icon picker on modal click
+    if((e.target.tagName == 'FORM' || e.target.className == 'tag-modal card') && emojiPicker) toggleEmojiPicker(); // hide icon picker on modal click
   })
 
   addTagBtn.addEventListener('click', function(e) {

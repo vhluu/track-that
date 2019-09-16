@@ -10,8 +10,16 @@ async function main() {
     native: true,
     onSelect: emoji => {
       console.log('emoji chosen ' + emoji);
-      document.querySelector('.tag-field-icon').textContent = emoji.native;
-      document.querySelector('.tag-emoji-picker').classList.add('hide');
+      var tagIconField = document.querySelector('.tag-field-icon');
+      tagIconField.textContent = emoji.native; // sets content of icon field in form 
+
+      var emojiPicker = document.querySelector('emoji-picker'); 
+      tagIconField.parentElement.removeChild(emojiPicker); // removes the emoji picker
+
+      var tagFieldWrapper = document.querySelectorAll('.tag-field-wrapper');
+      for(var i = 0; i < tagFieldWrapper.length; i++) {
+        tagFieldWrapper[i].classList.remove('prevent-click'); // allows click event on form again
+      }
     },
     title: 'Pick your emoji',
     showPreview: true,
@@ -20,9 +28,6 @@ async function main() {
   }))
 
   define({ 'emoji-picker': Picker})
-
-  // const picker = document.createElement('emoji-picker')
-  // document.body.appendChild(picker)
 }
 
 main().catch(err => console.error(err))

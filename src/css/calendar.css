@@ -71,6 +71,9 @@ h2 {
 .hide {
   display: none;
 }
+.prevent-click {
+  pointer-events: none;
+}
 
 /* ==== HEADER ==== */
 header {
@@ -212,9 +215,10 @@ header {
   text-align: center;
   border-radius: 6px;
 }
-.tag-emoji-picker {
+emoji-picker {
   position: absolute;
   z-index: 40;
+  pointer-events: auto !important;
 }
 
 .red { background-color: #ffc9c9; }
@@ -247,8 +251,6 @@ header {
 .color-picker [type="radio"]:checked + label .color-picker-item {
   border-color: #66d1fd;
 }
-
-/* ==== EMOJI PICKER ==== */
 
 @media only screen and (min-width: 768px) {
   /* ==== LAYOUT ==== */
