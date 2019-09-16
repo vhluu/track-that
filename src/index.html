@@ -28,22 +28,53 @@
               <label for="tag-field-title">Tag Name</label>
               <input type="text" name="tag-field-title" required>
             </div>
-            <div class="tag-field-wrapper">
+            <div class="tag-field-wrapper tag-icon-wrapper">
               <label>Icon</label>
               <div class="tag-field-icon"></div>
-              <emoji-picker class="tag-emoji-picker hide"></emoji-picker>
+              <!-- <emoji-picker class="tag-emoji-picker hide"></emoji-picker> -->
             </div>
             <div class="tag-field-wrapper">
               <label>Color</label>
               <div class="color-picker">
-                <div class="color-picker-item" style="background:#ffc9c9"></div>
-                <div class="color-picker-item" style="background:#ffecbf"></div>
-                <div class="color-picker-item" style="background:#fffcd4"></div>
-                <div class="color-picker-item" style="background:#E3FBE9"></div>
-                <div class="color-picker-item" style="background:#d1f6fb"></div>
-                <div class="color-picker-item" style="background:#daecff"></div>
-                <div class="color-picker-item" style="background:#ece5ff"></div>
-                <div class="color-picker-item" style="background:#FFE3FF"></div>
+                <input type="radio" name="tag-color-picker" id="red-color" value="red">
+                <label for="red-color">
+                  <div class="color-picker-item red"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="orange-color" value="orange">
+                <label for="orange-color">
+                  <div class="color-picker-item orange"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="yellow-color" value="yellow">
+                <label for="yellow-color">
+                  <div class="color-picker-item yellow"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="green-color" value="green">
+                <label for="green-color">
+                  <div class="color-picker-item green"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="lightblue-color" value="lightblue">
+                <label for="lightblue-color">
+                  <div class="color-picker-item lightblue"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="blue-color" value="blue">
+                <label for="blue-color">
+                  <div class="color-picker-item blue"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="purple-color" value="purple">
+                <label for="purple-color">
+                  <div class="color-picker-item purple"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="pink-color" value="pink">
+                <label for="pink-color">
+                  <div class="color-picker-item pink"></div>
+                </label>
               </div>
             </div>
             <div class="btn btn-create-tag">Create Tag</div>

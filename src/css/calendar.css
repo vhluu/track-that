@@ -216,9 +216,16 @@ header {
   position: absolute;
   z-index: 40;
 }
-.green {
-  background-color: #E3FBE9;
-}
+
+.red { background-color: #ffc9c9; }
+.orange { background-color: #ffecbf; }
+.yellow { background-color: #fffcd4; }
+.green { background-color: #e3fbe9; }
+.lightblue { background-color: #d1f6fb; }
+.blue { background-color: #daecff; }
+.purple { background-color: #ece5ff; }
+.pink { background-color: #ffe3ff; }
+
 .color-picker {
   display: flex;
   flex-wrap: wrap;
@@ -230,7 +237,14 @@ header {
   height: 25px;
   border: 2px solid #fff;
 }
-.color-picker-item.selected {
+.color-picker-item:hover {
+  cursor: pointer;
+  border-color: #66d1fd;
+}
+.color-picker [type="radio"] {
+  display: none;
+}
+.color-picker [type="radio"]:checked + label .color-picker-item {
   border-color: #66d1fd;
 }
 

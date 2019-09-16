@@ -75,8 +75,10 @@ window.onload = function() {
     }
   });
 
-  tagModal.addEventListener('click', function(e) {
+ tagModal.addEventListener('click', function(e) {
     e.stopPropagation();
+    //console.log(e.target);
+    if(e.target.className == "tag-modal" && emojiPicker.className.indexOf('hide') == -1) emojiPicker.classList.add('hide'); // hide icon picker on modal click
   })
 
   addTagBtn.addEventListener('click', function(e) {
@@ -87,8 +89,10 @@ window.onload = function() {
   createTagBtn.addEventListener('click', function() {
     var newTag = document.createElement('div');
     newTag.textContent = tagIconField.textContent + tagTitleField.value;
-    newTag.className = "tag green";
+    
     tagsList.appendChild(newTag);
+    var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
+    newTag.className = "tag " + selectedColor.value;
 
     // store tag
 
@@ -96,7 +100,7 @@ window.onload = function() {
     tagModal.classList.add('hide');
     tagTitleField.value = "";
     tagIconField.textContent = "";
-
+    selectedColor.checked = false;
   });
 
 }
