@@ -8,7 +8,11 @@ async function main() {
     set: 'apple',
     data,
     native: true,
-    onSelect: emoji => console.log('emoji selected', emoji),
+    onSelect: emoji => {
+      console.log('emoji chosen ' + emoji);
+      document.querySelector('.tag-field-icon').textContent = emoji.native;
+      document.querySelector('.tag-emoji-picker').classList.add('hide');
+    },
     title: 'Pick your emoji',
     showPreview: true,
     autoFocus: true,

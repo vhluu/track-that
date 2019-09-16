@@ -185,6 +185,7 @@ header {
   border-radius: 10px;
   font-weight: 500;
   width: fit-content;
+  margin-bottom: 5px;
 }
 .tag-modal {
   position: absolute;
@@ -228,6 +229,9 @@ header {
   width: 25px;
   height: 25px;
   border: 2px solid #fff;
+}
+.color-picker-item.selected {
+  border-color: #66d1fd;
 }
 
 /* ==== EMOJI PICKER ==== */

@@ -6,11 +6,16 @@ window.onload = function() {
   var yearHeader = document.querySelector('.curr-year');
 
   /* Tags */
+  var tagsList = document.querySelector('.tags-list');
   var addTagBtn = document.querySelector('.btn-add-tag');
   var tagModal = document.querySelector('.tag-modal');
   var tagIcon = tagModal.querySelector('.tag-field-icon');
   var emojiPicker = tagModal.querySelector('emoji-picker');
+  var colorPicker = tagModal.querySelector('.color-picker');
+  var colorPickerItems = colorPicker.querySelectorAll('.color-picker-items');
   var createTagBtn = tagModal.querySelector('.btn-create-tag');
+  var tagTitleField = tagModal.querySelector('[name="tag-field-title"]');
+  var tagIconField = tagModal.querySelector(' .tag-field-icon');
 
   /* Sets calendar to current month */
   var date = new Date();
@@ -50,27 +55,48 @@ window.onload = function() {
     }
   }
 
+  /* Handles opening and closing of Add New Tag modal */
   addTagBtn.addEventListener('click', function() {
     tagModal.classList.remove('hide');
   });
-
 
   tagIcon.addEventListener('click', function() {
     emojiPicker.classList.toggle('hide');
   });
 
-  /* Create new tag */
-  var tagTitleInput;
-  createTagBtn.addEventListener('click', function() {
-    // get tag title
-    tagTitleInput = tagModal.querySelector('[name="tag-title"]');
-    tagTitleInput.value;
-    // get color
+  document.body.addEventListener('click', function() {
+    // if emoji picker is open, then close it
+    // else check if tag modal is open, then close it
+    if(emojiPicker.className.indexOf('hide') == -1) emojiPicker.classList.add('hide');
+    else if(tagModal.className.indexOf('hide') == -1) {
+      tagModal.classList.add('hide');
+      tagTitleField.value = "";
+      tagIconField.textContent = "";
+    }
   });
 
-  // TODO: should we store the day values?
-  // TODO: add class for current date
-  // TODO: add class for days from other months
-  // TODO: add pagination
-  // TODO: add drag and drop
+  tagModal.addEventListener('click', function(e) {
+    e.stopPropagation();
+  })
+
+  addTagBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+  })
+
+  /* Create new tag */
+  createTagBtn.addEventListener('click', function() {
+    var newTag = document.createElement('div');
+    newTag.textContent = tagIconField.textContent + tagTitleField.value;
+    newTag.className = "tag green";
+    tagsList.appendChild(newTag);
+
+    // store tag
+
+    // clear form and close modal
+    tagModal.classList.add('hide');
+    tagTitleField.value = "";
+    tagIconField.textContent = "";
+
+  });
+
 }
