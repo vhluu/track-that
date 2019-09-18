@@ -150,9 +150,6 @@ window.onload = function() {
   function tagDragStart(e) {
     e.target.classList.add('dragged');
     e.dataTransfer.effectAllowed = 'copyLink';
-    console.log(this);
-    console.log(this.innerHTML);
-    console.log(this.id);
     e.dataTransfer.setData('text/plain', this.id);
   }
 
@@ -181,18 +178,18 @@ window.onload = function() {
     if(e.stopPropagation) {
       e.stopPropagation();
     }
-    if(e.target.classList.contains("day")) {
-      e.target.classList.remove('chosen-day');
+    if(e.currentTarget.classList.contains("day")) {
+      e.currentTarget.classList.remove('chosen-day');
       droppedTagId = e.dataTransfer.getData('text/plain');
       droppedTag = document.querySelector('#' + droppedTagId);
 
-      if(!(e.target.querySelector('#day-tag-' + droppedTagId))) {
+      if(!(e.currentTarget.querySelector('#day-tag-' + droppedTagId))) {
         var toAdd = document.createElement('div');
         toAdd.className = "day-tag " + droppedTag.getAttribute('data-tag-color');
         toAdd.textContent = droppedTag.textContent.split(' ')[0];
         toAdd.id = "day-tag-" + droppedTagId;
 
-        e.target.querySelector('.day-tags').appendChild(toAdd);
+        e.currentTarget.querySelector('.day-tags').appendChild(toAdd);
       }
     }
     // create tag element

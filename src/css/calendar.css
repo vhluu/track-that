@@ -140,6 +140,7 @@ header {
 .day-tags {
   display: flex;
   flex-wrap: wrap;
+  pointer-events: none;
 }
 .day-tag {
   font-size: 15px;
@@ -147,6 +148,7 @@ header {
   width: 25px;
   margin-right: 5px;
   margin-bottom: 5px;
+  pointer-events: auto;
 }
 .not-current {
   background: transparent;
