@@ -33,6 +33,7 @@ label {
 p {
   color:rgb(93, 114, 123);
   font-weight: 500;
+  font-size: 14px;
 }
 
 /* ==== TYPOGRAPHY ==== */
@@ -215,14 +216,19 @@ header {
   text-align: center;
   border-radius: 6px;
 }
+.tag-error-message {
+  color: red;
+  margin: 0 0 10px 0;
+}
+
 emoji-picker {
   position: absolute;
   z-index: 40;
   pointer-events: auto !important;
 }
 
-.red { background-color: #ffc9c9; }
-.orange { background-color: #ffecbf; }
+.red { background-color: #ffdfdf; }
+.orange { background-color: #fff2d9; }
 .yellow { background-color: #fffcd4; }
 .green { background-color: #e3fbe9; }
 .lightblue { background-color: #d1f6fb; }

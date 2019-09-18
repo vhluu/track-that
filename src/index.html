@@ -24,6 +24,7 @@
         <div class="tag btn-add-tag">+ Add New Tag</div>
         <div class="tag-modal card hide">
           <form>
+            <p class="tag-error-message hide">All fields are required!!</p>
             <div class="tag-field-wrapper">
               <label for="tag-field-title">Tag Name</label>
               <input type="text" name="tag-field-title" required>
@@ -36,7 +37,7 @@
             <div class="tag-field-wrapper">
               <label>Color</label>
               <div class="color-picker">
-                <input type="radio" name="tag-color-picker" id="red-color" value="red">
+                <input type="radio" name="tag-color-picker" id="red-color" value="red" required>
                 <label for="red-color">
                   <div class="color-picker-item red"></div>
                 </label>

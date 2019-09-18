@@ -16,6 +16,7 @@ window.onload = function() {
   var tagTitleField = tagModal.querySelector('[name="tag-field-title"]');
   var tagIconField = tagModal.querySelector(' .tag-field-icon');
   var tagFieldWrapper = tagModal.querySelectorAll('.tag-field-wrapper');
+  var tagError = tagModal.querySelector('.tag-error-message');
 
   /* Sets calendar to current month */
   var date = new Date();
@@ -94,6 +95,9 @@ window.onload = function() {
       tagModal.classList.add('hide');
       tagTitleField.value = "";
       tagIconField.textContent = "";
+      var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
+      if(selectedColor) selectedColor.checked = false;
+      tagError.classList.add('hide');
     }
   });
 
@@ -108,11 +112,17 @@ window.onload = function() {
 
   /* Create new tag */
   createTagBtn.addEventListener('click', function() {
+    var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
+    if(tagTitleField.value == "" || tagIconField.textContent == "" || !selectedColor) {
+      tagError.classList.remove('hide');
+      return;
+    }
+
     var newTag = document.createElement('div');
-    newTag.textContent = tagIconField.textContent + tagTitleField.value;
+    newTag.textContent = tagIconField.textContent + " " + tagTitleField.value;
     
     tagsList.appendChild(newTag);
-    var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
+    
     newTag.className = "tag " + selectedColor.value;
 
     // store tag
@@ -122,6 +132,6 @@ window.onload = function() {
     tagTitleField.value = "";
     tagIconField.textContent = "";
     selectedColor.checked = false;
+    tagError.classList.add('hide');
   });
-
 }
