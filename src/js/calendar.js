@@ -177,7 +177,7 @@ window.onload = function() {
   }
 
   var droppedTagId; var droppedTag;
-  function tagDrop(e) {
+  function tagDrop(e) { // adds dropped tag to calendar for a specific day
     if(e.stopPropagation) {
       e.stopPropagation();
     }
@@ -186,11 +186,14 @@ window.onload = function() {
       droppedTagId = e.dataTransfer.getData('text/plain');
       droppedTag = document.querySelector('#' + droppedTagId);
 
-      var toAdd = document.createElement('div');
-      toAdd.className = "day-tag " + droppedTag.getAttribute('data-tag-color');
-      toAdd.textContent = droppedTag.textContent.split(' ')[0];
+      if(!(e.target.querySelector('#day-tag-' + droppedTagId))) {
+        var toAdd = document.createElement('div');
+        toAdd.className = "day-tag " + droppedTag.getAttribute('data-tag-color');
+        toAdd.textContent = droppedTag.textContent.split(' ')[0];
+        toAdd.id = "day-tag-" + droppedTagId;
 
-      e.target.querySelector('.day-tags').appendChild(toAdd);
+        e.target.querySelector('.day-tags').appendChild(toAdd);
+      }
     }
     // create tag element
 
