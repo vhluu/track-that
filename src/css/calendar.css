@@ -135,6 +135,7 @@ header {
 .day-number {
   position: absolute;
   right: 10px;
+  pointer-events: none;
 }
 .day-tag {
   font-size: 15px;
@@ -256,6 +257,14 @@ emoji-picker {
 }
 .color-picker [type="radio"]:checked + label .color-picker-item {
   border-color: #66d1fd;
+}
+
+/* ==== DRAG & DROP ==== */
+.dragged {
+  opacity: 0.5;
+}
+.chosen-day {
+  background: #ddf7ff;
 }
 
 @media only screen and (min-width: 768px) {

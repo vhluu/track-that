@@ -134,4 +134,51 @@ window.onload = function() {
     selectedColor.checked = false;
     tagError.classList.add('hide');
   });
+
+
+  /* ==== DRAG & DROP ==== */
+  function tagDragStart(e) {
+    e.target.classList.add('dragged');
+  }
+
+  function tagDragEnd(e) {
+    e.target.classList.remove('dragged');
+  }
+
+  function tagDragOver(e) {
+  }
+
+  function tagDragEnter(e) {
+    if(e.target.classList.contains("day")) {
+      e.target.classList.add('chosen-day');
+    }
+  }
+
+  function tagDragLeave(e) {
+    if(e.target.classList.contains("day")) {
+      e.target.classList.remove('chosen-day');
+    }
+  }
+
+  function tagDrop(e) {
+    if(e.target.classList.contains("day")) {
+      e.target.classList.remove('chosen-day');
+    }
+    // create tag element
+
+    // store tag 
+  }
+
+  var tags = document.querySelectorAll('.tags-list .tag');
+  for (var i = 0; i < tags.length; i++) {
+    tags[i].addEventListener('dragstart', tagDragStart);
+    tags[i].addEventListener('dragend', tagDragEnd);
+  }
+
+  for (var i = 0; i < calendarBoxes.length; i++) {
+    calendarBoxes[i].addEventListener('dragover', tagDragOver, false);
+    calendarBoxes[i].addEventListener('dragenter', tagDragEnter, false);
+    calendarBoxes[i].addEventListener('dragleave', tagDragLeave, false);
+    calendarBoxes[i].addEventListener('drop', tagDrop, false);
+  }
 }
