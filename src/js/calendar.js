@@ -111,6 +111,7 @@ window.onload = function() {
   })
 
   /* Create new tag */
+  var lastId = 1;
   createTagBtn.addEventListener('click', function() {
     var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
     if(tagTitleField.value == "" || tagIconField.textContent == "" || !selectedColor) {
@@ -120,12 +121,21 @@ window.onload = function() {
 
     var newTag = document.createElement('div');
     newTag.textContent = tagIconField.textContent + " " + tagTitleField.value;
-    
-    tagsList.appendChild(newTag);
-    
     newTag.className = "tag " + selectedColor.value;
+    newTag.setAttribute('draggable', true);
+    newTag.id = "a" + (lastId + 1);
+    newTag.setAttribute('data-tag-color', selectedColor.value);
+    lastId++;
+
+    // add drag/drop events for new tag
+    newTag.addEventListener('dragstart', tagDragStart);
+    newTag.addEventListener('dragend', tagDragEnd);
+    newTag.addEventListener('drop', tagDrop, false);
+    tagsList.appendChild(newTag);
 
     // store tag
+
+    
 
     // clear form and close modal
     tagModal.classList.add('hide');
@@ -136,9 +146,14 @@ window.onload = function() {
   });
 
 
-  /* ==== DRAG & DROP ==== */
+  /* Drag & Drop */
   function tagDragStart(e) {
     e.target.classList.add('dragged');
+    e.dataTransfer.effectAllowed = 'copyLink';
+    console.log(this);
+    console.log(this.innerHTML);
+    console.log(this.id);
+    e.dataTransfer.setData('text/plain', this.id);
   }
 
   function tagDragEnd(e) {
@@ -146,6 +161,7 @@ window.onload = function() {
   }
 
   function tagDragOver(e) {
+    if (e.preventDefault) e.preventDefault(); // allows drop
   }
 
   function tagDragEnter(e) {
@@ -160,9 +176,21 @@ window.onload = function() {
     }
   }
 
+  var droppedTagId; var droppedTag;
   function tagDrop(e) {
+    if(e.stopPropagation) {
+      e.stopPropagation();
+    }
     if(e.target.classList.contains("day")) {
       e.target.classList.remove('chosen-day');
+      droppedTagId = e.dataTransfer.getData('text/plain');
+      droppedTag = document.querySelector('#' + droppedTagId);
+
+      var toAdd = document.createElement('div');
+      toAdd.className = "day-tag " + droppedTag.getAttribute('data-tag-color');
+      toAdd.textContent = droppedTag.textContent.split(' ')[0];
+
+      e.target.querySelector('.day-tags').appendChild(toAdd);
     }
     // create tag element
 
@@ -173,6 +201,7 @@ window.onload = function() {
   for (var i = 0; i < tags.length; i++) {
     tags[i].addEventListener('dragstart', tagDragStart);
     tags[i].addEventListener('dragend', tagDragEnd);
+    tags[i].addEventListener('drop', tagDrop, false);
   }
 
   for (var i = 0; i < calendarBoxes.length; i++) {
