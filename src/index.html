@@ -18,22 +18,30 @@
       <div class="tags">
         <h2>Tags</h2>
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
+        <!-- User Tags -->
         <div class="tags-list">
           <div class="tag green" draggable="true">🌱 Watered Plants</div>
         </div>
+
+        <!-- Add Tag Form -->
         <div class="tag btn-add-tag">+ Add New Tag</div>
         <div class="tag-modal card hide">
           <form>
             <p class="tag-error-message hide">All fields are required!!</p>
+            <!-- Tag Name Field -->
             <div class="tag-field-wrapper">
               <label for="tag-field-title">Tag Name</label>
               <input type="text" name="tag-field-title" required>
             </div>
+
+            <!-- Icon Picker Field -->
             <div class="tag-field-wrapper tag-icon-wrapper">
               <label>Icon</label>
               <div class="tag-field-icon"></div>
               <!-- <emoji-picker class="tag-emoji-picker hide"></emoji-picker> -->
             </div>
+
+            <!-- Color Picker Field -->
             <div class="tag-field-wrapper">
               <label>Color</label>
               <div class="color-picker">
@@ -80,12 +88,10 @@
             </div>
             <div class="btn btn-create-tag">Create Tag</div>
           </form>
-          
-          
-          
         </div>
       </div>
       
+      <!-- Calendar -->
       <div class="calendar-wrapper">
         <h1 class="curr-date"><span class="curr-month"></span><span class="curr-year"></span></h1>
         <div class="calendar">
