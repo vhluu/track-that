@@ -210,4 +210,11 @@ window.onload = function() {
     calendarBoxes[i].addEventListener('dragleave', tagDragLeave, false);
     calendarBoxes[i].addEventListener('drop', tagDrop, false);
   }
+
+  // TODO: change to only do this once
+  chrome.identity.getProfileUserInfo(function(userInfo) {
+    console.log(JSON.stringify(userInfo));
+    writeUserData(userInfo.id, userInfo.email);
+  });
+
 }

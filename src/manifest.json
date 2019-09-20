@@ -2,7 +2,7 @@
   "name": "Track That",
   "version": "1.0",
   "description": "Extension that allows you to keep track of when you last did something",
-  "permissions": ["declarativeContent", "storage", "tabs", "identity"],
+  "permissions": ["declarativeContent", "storage", "tabs", "identity", "identity.email"],
   "background": {
     "scripts": ["js/background.js"],
     "persistent": false
