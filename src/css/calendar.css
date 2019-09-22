@@ -8,6 +8,11 @@ body {
   font-family: 'Quicksand', sans-serif;
   margin: 0;
   min-height: 100vh;
+  background-image: linear-gradient(125deg, rgb(172, 239, 208),rgb(182, 240, 247));
+  color:rgb(93, 114, 123);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 input {
   outline: none;
@@ -31,7 +36,6 @@ label {
   display: block;
 }
 p {
-  color:rgb(93, 114, 123);
   font-weight: 500;
   font-size: 14px;
 }
@@ -44,13 +48,17 @@ h1 {
 h2 {
   font-size: 22px;
   font-weight: 700;
-  color: #66d1fd;
 }
 
 /* ==== LAYOUT ==== */
 .section {
   padding: 0 40px;
   position: relative;
+}
+.main-wrapper {
+  max-width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ==== BUTTONS ==== */
@@ -101,7 +109,10 @@ header {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-  padding: 45px 40px 40px 40px;
+  padding: 20px 40px;
+  border-left: 1px solid rgb(0,0,0,0.05);
+  width: 90%;
+
 }
 .calendar { 
   display: flex; 
@@ -169,10 +180,9 @@ header {
 }
 .curr-date {
   margin-top: 0;
-  color: #66d1fd;
 }
 .curr-year {
-  color: #a4e3fd;
+  color: rgba(93,114,123,0.7);
 }
 
 /* ==== CARDS ==== */
@@ -181,13 +191,15 @@ header {
   border-radius: 15px;
   background: #fff;
   padding: 30px;
-  box-shadow: 0 0 20px rgba(51,79,136,.12);
-  box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.12);
+  box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
 }
 
 /* ==== TAGS ==== */
 .tags {
-  margin-top: 30px;
+  margin-top: 25px;
+}
+.tags h2 {
+  margin-top: 0;
 }
 .tag {
   cursor: move; /* fallback */
@@ -282,11 +294,6 @@ emoji-picker {
   .flex_t { display: flex; }
   .main-wrapper {
     align-items: flex-start;
-  }
-
-  /* ==== CALENDAR ==== */
-  .calendar-wrapper {
-    max-width: 60vw;
   }
 
   /* ==== TAGS ==== */
