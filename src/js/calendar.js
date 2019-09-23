@@ -21,6 +21,8 @@ window.onload = function() {
   var userId;
   var userTags = {};
   var lastTagId = 0;
+
+  /* Gets chrome info of current user & adds data */
   chrome.identity.getProfileUserInfo(function(userInfo) {
     console.log(JSON.stringify(userInfo));
     userId = userInfo.id;
@@ -34,12 +36,15 @@ window.onload = function() {
 
     // Creates user tag list
     dbGetTags(userId).then(function(tags) {
-      userTags = tags;
-      var keys = Object.keys(tags);
-      keys.forEach(function(key) {
-        appendTag(tags[key], key);
-      });
-      lastTagId = parseInt(keys[keys.length - 1]) + 1;
+      if(tags) {
+        userTags = tags;
+        var keys = Object.keys(tags);
+        keys.forEach(function(key) {
+          appendTag(tags[key], key);
+        });
+        lastTagId = parseInt(keys[keys.length - 1]) + 1;
+      }
+      
     });
   });
 
@@ -70,15 +75,26 @@ window.onload = function() {
     for (var i = 0; i < day; i++) { // from end of previous month to 1st of current month
       calendarBoxNumbers[i].textContent = endOfPrevDate - day + i + 1;
       calendarBoxes[i].classList.add('not-current');
+      console.log('there');
+      calendarBoxes[i].setAttribute('data-tag-day', formatDigit(date.getMonth() + 1) + formatDigit(endOfPrevDate - day + i + 1));
     }
     for(var i = 0; i < daysInMonth; i++) { // from 1st to end of month
       calendarBoxNumbers[day + i].textContent = i + 1;
       if((i + 1) == today) calendarBoxes[day + i].classList.add('today');
+      console.log(lastDay.getMonth());
+      calendarBoxes[i].setAttribute('data-tag-day', formatDigit(lastDay.getMonth() + 1) + formatDigit(i + 1));
     }
     for (var i = 0; i < (calendarBoxes.length - daysInMonth - day); i++) { // beginning of next month 
       calendarBoxNumbers[day + daysInMonth + i].textContent = i + 1;
       calendarBoxes[day + daysInMonth + i].classList.add('not-current');
+      console.log('here');
+      calendarBoxes[day + daysInMonth + i].setAttribute('data-tag-day', formatDigit(lastDay.getMonth() + 2) + formatDigit(i + 1));
     }
+  }
+
+  /* Formats the number so that it is always two digits (ex. 2 will be 02) */
+  function formatDigit(num) {
+    return num < 10 ? ('0' + num) : num;
   }
 
   /* Handles opening and closing of Add New Tag modal */
@@ -143,9 +159,9 @@ window.onload = function() {
       return;
     }
 
-    var tagInfo = { icon: tagIconField.textContent, title: tagTitleField.value, color: selectedColor.value }; 
+    var tagInfo = { id: lastTagId, icon: tagIconField.textContent, title: tagTitleField.value, color: selectedColor.value }; 
     appendTag(tagInfo, lastTagId); // appends tag to dom
-    dbCreateTag(userId, lastTagId, tagInfo); // stores tag in firebase
+    dbCreateTag(userId, tagInfo); // stores tag in firebase
     lastTagId++;
     
     // clear form and close modal
@@ -163,7 +179,7 @@ window.onload = function() {
     newTag.textContent = tag.icon + " " + tag.title;
     newTag.className = "tag " + tag.color;
     newTag.setAttribute('draggable', true);
-    newTag.id = id;
+    newTag.id = "t" + id;
     newTag.setAttribute('data-tag-color', tag.color);
 
     newTag.addEventListener('dragstart', tagDragStart);
@@ -205,7 +221,10 @@ window.onload = function() {
     if(e.stopPropagation) {
       e.stopPropagation();
     }
+
+    // create tag element
     if(e.currentTarget.classList.contains("day")) {
+
       e.currentTarget.classList.remove('chosen-day');
       droppedTagId = e.dataTransfer.getData('text/plain');
       droppedTag = document.querySelector('#' + droppedTagId);
@@ -217,11 +236,11 @@ window.onload = function() {
         toAdd.id = "day-tag-" + droppedTagId;
 
         e.currentTarget.querySelector('.day-tags').appendChild(toAdd);
+
+        // store tag 
+        //dbCreateDayTag(userId, { id: droppedTagId, month: e.currentTarget., day: }, month, year);
       }
     }
-    // create tag element
-
-    // store tag 
   }
 
   var tags = document.querySelectorAll('.tags-list .tag');

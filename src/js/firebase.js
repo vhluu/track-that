@@ -29,8 +29,8 @@ function dbCreateUser(userId, email) {
 }
 
 // Adds a tag to the user's tag list in the database
-function dbCreateTag(userId, tagId, tag) {
-  firebase.database().ref(`users/${userId}/tags/${tagId}`).set({
+function dbCreateTag(userId, tag) {
+  firebase.database().ref(`users/${userId}/tags/${tag.id}`).set({
     icon: tag.icon,
     title: tag.title,
     color: tag.color
@@ -40,6 +40,20 @@ function dbCreateTag(userId, tagId, tag) {
 // Gets the user's tag list
 function dbGetTags(userId) {
   return firebase.database().ref(`users/${userId}/tags`).once('value').then(function(snapshot) {
+    return snapshot.val();
+  });
+}
+
+// Adds a tag to a specific day (mm dd yyyy)
+function dbCreateDayTag(userId, dayTag, month, year) {
+  var obj = {};
+  obj[dayTag.id] = true;
+  firebase.database().ref(`users/${userId}/tagged/${month}${year}/${dayTag.month}${dayTag.day}`).set(obj);
+}
+
+// Gets tags set for each day in the given month/year (mm/yyyy)
+function dbGetDayTags(userId, month, year) {
+  return firebase.database().ref(`users/${userId}/tagged/${month}${year}`).once('value').then(function(snapshot) {
     return snapshot.val();
   });
 }
