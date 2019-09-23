@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 // Creates a user in the database
-function createUser(userId, email) {
+function dbCreateUser(userId, email) {
   firebase.database().ref(`users/${userId}`).once('value').then(function(snapshot) {
     if(!snapshot.val()) {
       console.log('add user to db with user id ' + userId);
@@ -29,7 +29,7 @@ function createUser(userId, email) {
 }
 
 // Adds a tag to the user's tag list in the database
-function createTag(userId, tagId, tag) {
+function dbCreateTag(userId, tagId, tag) {
   firebase.database().ref(`users/${userId}/tags/${tagId}`).set({
     icon: tag.icon,
     title: tag.title,
@@ -38,6 +38,8 @@ function createTag(userId, tagId, tag) {
 }
 
 // Gets the user's tag list
-function getTags(userId) {
-
+function dbGetTags(userId) {
+  return firebase.database().ref(`users/${userId}/tags`).once('value').then(function(snapshot) {
+    return snapshot.val();
+  });
 }

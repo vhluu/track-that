@@ -19,15 +19,30 @@ window.onload = function() {
   var tagError = tagModal.querySelector('.tag-error-message');
 
   var userId;
-  chrome.storage.sync.get(["tt-created-user"], function(result) {
-    if(!result["tt-created-user"]) {
-      chrome.identity.getProfileUserInfo(function(userInfo) {
-        console.log(JSON.stringify(userInfo));
-        userId = userInfo.id;
-        createUser(userInfo.id, userInfo.email);
+  var userTags = {};
+  var lastTagId = 0;
+  chrome.identity.getProfileUserInfo(function(userInfo) {
+    console.log(JSON.stringify(userInfo));
+    userId = userInfo.id;
+
+    // Gets user info and adds user in db if not already there
+    chrome.storage.sync.get(["tt-created-user"], function(result) {
+      if(!result["tt-created-user"]) {
+        dbCreateUser(userInfo.id, userInfo.email);
+      }
+    });
+
+    // Creates user tag list
+    dbGetTags(userId).then(function(tags) {
+      userTags = tags;
+      var keys = Object.keys(tags);
+      keys.forEach(function(key) {
+        appendTag(tags[key], key);
       });
-    }
+      lastTagId = parseInt(keys[keys.length - 1]) + 1;
+    });
   });
+
 
   /* Sets calendar to current month */
   var date = new Date();
@@ -121,7 +136,6 @@ window.onload = function() {
   })
 
   /* Create new tag */
-  var lastId = 1;
   createTagBtn.addEventListener('click', function() {
     var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
     if(tagTitleField.value == "" || tagIconField.textContent == "" || !selectedColor) {
@@ -129,22 +143,10 @@ window.onload = function() {
       return;
     }
 
-    var newTag = document.createElement('div');
-    newTag.textContent = tagIconField.textContent + " " + tagTitleField.value;
-    newTag.className = "tag " + selectedColor.value;
-    newTag.setAttribute('draggable', true);
-    newTag.id = "a" + (lastId + 1);
-    newTag.setAttribute('data-tag-color', selectedColor.value);
-    lastId++;
-
-    // add drag/drop events for new tag
-    newTag.addEventListener('dragstart', tagDragStart);
-    newTag.addEventListener('dragend', tagDragEnd);
-    newTag.addEventListener('drop', tagDrop, false);
-    tagsList.appendChild(newTag);
-
-    // store tag
-    createTag(userId, newTag.id, { icon: tagIconField.textContent, title: tagTitleField.value, color: selectedColor.value});
+    var tagInfo = { icon: tagIconField.textContent, title: tagTitleField.value, color: selectedColor.value }; 
+    appendTag(tagInfo, lastTagId); // appends tag to dom
+    dbCreateTag(userId, lastTagId, tagInfo); // stores tag in firebase
+    lastTagId++;
     
     // clear form and close modal
     tagModal.classList.add('hide');
@@ -153,6 +155,22 @@ window.onload = function() {
     selectedColor.checked = false;
     tagError.classList.add('hide');
   });
+
+
+  /* Creates tag element and appends it to the dom */
+  function appendTag(tag, id) {
+    var newTag = document.createElement('div');
+    newTag.textContent = tag.icon + " " + tag.title;
+    newTag.className = "tag " + tag.color;
+    newTag.setAttribute('draggable', true);
+    newTag.id = id;
+    newTag.setAttribute('data-tag-color', tag.color);
+
+    newTag.addEventListener('dragstart', tagDragStart);
+    newTag.addEventListener('dragend', tagDragEnd);
+    newTag.addEventListener('drop', tagDrop, false);
+    tagsList.appendChild(newTag);
+  }
 
 
   /* Drag & Drop */
