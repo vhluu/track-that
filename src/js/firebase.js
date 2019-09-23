@@ -53,6 +53,7 @@ function dbCreateDayTag(userId, dayTag, month, year) {
 
 // Gets tags set for each day in the given month/year (mm/yyyy)
 function dbGetDayTags(userId, month, year) {
+  console.log(userId);
   return firebase.database().ref(`users/${userId}/tagged/${month}${year}`).once('value').then(function(snapshot) {
     return snapshot.val();
   });

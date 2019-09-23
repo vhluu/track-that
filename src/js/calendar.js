@@ -22,6 +22,10 @@ window.onload = function() {
   var userTags = {};
   var lastTagId = 0;
 
+  var date = new Date();
+  var currentMonth = date.getMonth();
+  var currentYear = (date.getYear() + 1900);
+
   /* Gets chrome info of current user & adds data */
   chrome.identity.getProfileUserInfo(function(userInfo) {
     console.log(JSON.stringify(userInfo));
@@ -44,16 +48,12 @@ window.onload = function() {
         });
         lastTagId = parseInt(keys[keys.length - 1]) + 1;
       }
-      
     });
+
+    /* Sets calendar to current month */
+    setCalendar(date.getMonth());
   });
 
-
-  /* Sets calendar to current month */
-  var date = new Date();
-  var currentMonth = date.getMonth();
-  var currentYear = (date.getYear() + 1900);
-  setCalendar(date.getMonth());
 
   /* Sets calendar to given month */
   function setCalendar(month) {
@@ -91,6 +91,21 @@ window.onload = function() {
       calendarBoxes[day + daysInMonth + i].classList.add('not-current');
       calendarBoxes[day + daysInMonth + i].setAttribute('data-tag-day', formatDigit(currMonth.getMonth() + 2) + formatDigit(i + 1));
     }
+
+    // Gets tags for current month & sets them in the calendar
+    dbGetDayTags(userId, formatDigit(month + 1), currentYear).then(function(taggedDays) {
+      if(taggedDays) {
+        var days = Object.keys(taggedDays);
+        var dayTagList;
+        days.forEach(function(day) {
+          dayTagList = Object.keys(taggedDays[day]);
+          dayTagList.forEach(function(tagId) {
+            appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), tagId);
+          });
+          
+        });
+      }
+    });
   }
 
   /* Formats the number so that it is always two digits (ex. 2 will be 02) */
@@ -174,7 +189,7 @@ window.onload = function() {
   });
 
 
-  /* Creates tag element and appends it to the dom */
+  /* Creates tag element and appends it to tags list in the dom */
   function appendTag(tag, id) {
     var newTag = document.createElement('div');
     newTag.textContent = tag.icon + " " + tag.title;
@@ -189,6 +204,15 @@ window.onload = function() {
     tagsList.appendChild(newTag);
   }
 
+  /* Creates tag element and appends it to calendar day the dom */
+  function appendDayTag(target, tagId) {
+    var toAdd = document.createElement('div');
+    var tagFromList = tagsList.querySelector('#' + tagId);
+    toAdd.className = "day-tag " + tagFromList.getAttribute('data-tag-color');
+    toAdd.textContent = tagFromList.textContent.split(' ')[0];
+    toAdd.id = "day-tag-" + tagId;
+    target.querySelector('.day-tags').appendChild(toAdd);
+  }
 
   /* Drag & Drop */
   function tagDragStart(e) {
