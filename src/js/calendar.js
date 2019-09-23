@@ -18,10 +18,20 @@ window.onload = function() {
   var tagFieldWrapper = tagModal.querySelectorAll('.tag-field-wrapper');
   var tagError = tagModal.querySelector('.tag-error-message');
 
+  var userId;
+  chrome.storage.sync.get(["tt-created-user"], function(result) {
+    if(!result["tt-created-user"]) {
+      chrome.identity.getProfileUserInfo(function(userInfo) {
+        console.log(JSON.stringify(userInfo));
+        userId = userInfo.id;
+        createUser(userInfo.id, userInfo.email);
+      });
+    }
+  });
+
   /* Sets calendar to current month */
   var date = new Date();
   setCalendar(date.getMonth());
-
 
   /* Sets calendar to given month */
   function setCalendar(month) {
@@ -134,9 +144,8 @@ window.onload = function() {
     tagsList.appendChild(newTag);
 
     // store tag
-
+    createTag(userId, newTag.id, { icon: tagIconField.textContent, title: tagTitleField.value, color: selectedColor.value});
     
-
     // clear form and close modal
     tagModal.classList.add('hide');
     tagTitleField.value = "";
@@ -210,11 +219,4 @@ window.onload = function() {
     calendarBoxes[i].addEventListener('dragleave', tagDragLeave, false);
     calendarBoxes[i].addEventListener('drop', tagDrop, false);
   }
-
-  // TODO: change to only do this once
-  chrome.identity.getProfileUserInfo(function(userInfo) {
-    console.log(JSON.stringify(userInfo));
-    writeUserData(userInfo.id, userInfo.email);
-  });
-
 }

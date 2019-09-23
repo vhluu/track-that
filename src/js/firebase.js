@@ -13,8 +13,31 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
-function writeUserData(userId, email) {
-  firebase.database().ref('users/' + userId).set({
-    email: email,
+// Creates a user in the database
+function createUser(userId, email) {
+  firebase.database().ref(`users/${userId}`).once('value').then(function(snapshot) {
+    if(!snapshot.val()) {
+      console.log('add user to db with user id ' + userId);
+      database.ref('users/' + userId).set({
+        email: email,
+      });
+      chrome.storage.sync.set({"tt-created-user": true}, function() {
+        console.log("Created new user in firebase");
+      });
+    }
   });
+}
+
+// Adds a tag to the user's tag list in the database
+function createTag(userId, tagId, tag) {
+  firebase.database().ref(`users/${userId}/tags/${tagId}`).set({
+    icon: tag.icon,
+    title: tag.title,
+    color: tag.color
+  });
+}
+
+// Gets the user's tag list
+function getTags(userId) {
+
 }
