@@ -51,23 +51,27 @@ window.onload = function() {
 
   /* Sets calendar to current month */
   var date = new Date();
+  var currentMonth = date.getMonth();
+  var currentYear = (date.getYear() + 1900);
   setCalendar(date.getMonth());
 
   /* Sets calendar to given month */
   function setCalendar(month) {
-    var date = new Date();
-    date.setMonth(month);
-    monthHeader.innerHTML = date.toLocaleString('default', { month: 'long' });
-    yearHeader.innerHTML = " " + (date.getYear() + 1900);
+    var currMonth = new Date();
+    currMonth.setMonth(month);
+    monthHeader.innerHTML = currMonth.toLocaleString('default', { month: 'long' });
+    yearHeader.innerHTML = " " + (currMonth.getYear() + 1900);
 
-    date.setDate(1); // sets date to the 1st of current month
-    var day = date.getDay(); // gets day of week for the 1st
+    currMonth.setDate(1); // sets date to the 1st of current month
+    var day = currMonth.getDay(); // gets day of week for the 1st
   
-    var lastDay = new Date(date.getYear(), month + 1, 0); // sets date to last day of current month
+    var lastDay = new Date(currMonth.getYear(), month + 1, 0); // sets date to last day of current month
     var daysInMonth = lastDay.getDate(); // gets the number of days in current month
   
-    date.setDate(0); // sets date to last day of previous month
-    var endOfPrevDate = date.getDate();
+    var prevMonth = new Date();
+    prevMonth.setMonth(month);
+    prevMonth.setDate(0); // sets date to last day of previous month
+    var endOfPrevDate = prevMonth.getDate();
 
     var today = (new Date()).getDate();
 
@@ -75,20 +79,17 @@ window.onload = function() {
     for (var i = 0; i < day; i++) { // from end of previous month to 1st of current month
       calendarBoxNumbers[i].textContent = endOfPrevDate - day + i + 1;
       calendarBoxes[i].classList.add('not-current');
-      console.log('there');
-      calendarBoxes[i].setAttribute('data-tag-day', formatDigit(date.getMonth() + 1) + formatDigit(endOfPrevDate - day + i + 1));
+      calendarBoxes[i].setAttribute('data-tag-day', formatDigit(prevMonth.getMonth() + 1) + formatDigit(endOfPrevDate - day + i + 1));
     }
     for(var i = 0; i < daysInMonth; i++) { // from 1st to end of month
       calendarBoxNumbers[day + i].textContent = i + 1;
       if((i + 1) == today) calendarBoxes[day + i].classList.add('today');
-      console.log(lastDay.getMonth());
-      calendarBoxes[i].setAttribute('data-tag-day', formatDigit(lastDay.getMonth() + 1) + formatDigit(i + 1));
+      calendarBoxes[i].setAttribute('data-tag-day', formatDigit(currMonth.getMonth() + 1) + formatDigit(i + 1));
     }
     for (var i = 0; i < (calendarBoxes.length - daysInMonth - day); i++) { // beginning of next month 
       calendarBoxNumbers[day + daysInMonth + i].textContent = i + 1;
       calendarBoxes[day + daysInMonth + i].classList.add('not-current');
-      console.log('here');
-      calendarBoxes[day + daysInMonth + i].setAttribute('data-tag-day', formatDigit(lastDay.getMonth() + 2) + formatDigit(i + 1));
+      calendarBoxes[day + daysInMonth + i].setAttribute('data-tag-day', formatDigit(currMonth.getMonth() + 2) + formatDigit(i + 1));
     }
   }
 
@@ -238,7 +239,7 @@ window.onload = function() {
         e.currentTarget.querySelector('.day-tags').appendChild(toAdd);
 
         // store tag 
-        //dbCreateDayTag(userId, { id: droppedTagId, month: e.currentTarget., day: }, month, year);
+        dbCreateDayTag(userId, { id: droppedTagId, date: e.currentTarget.getAttribute('data-tag-day') }, formatDigit(currentMonth + 1), currentYear);
       }
     }
   }
