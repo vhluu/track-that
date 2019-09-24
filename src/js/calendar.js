@@ -95,14 +95,13 @@ window.onload = function() {
     // Gets tags for current month & sets them in the calendar
     dbGetDayTags(userId, formatDigit(month + 1), currentYear).then(function(taggedDays) {
       if(taggedDays) {
-        var days = Object.keys(taggedDays);
+        var days = Object.keys(taggedDays); // lists of days that have tags
         var dayTagList;
         days.forEach(function(day) {
-          dayTagList = Object.keys(taggedDays[day]);
-          dayTagList.forEach(function(tagId) {
-            appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), tagId);
+          dayTagList = Object.values(taggedDays[day]); // list of tag objects for specific day          console.log(taggedDays[day]);
+          dayTagList.forEach(function(tag) {
+            appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), Object.keys(tag)[0]);
           });
-          
         });
       }
     });
