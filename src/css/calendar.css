@@ -65,12 +65,12 @@ h2 {
 .btn {
   border-radius: 10px;
   font-weight: 500;
-  width: 100px;
   text-align: center;
   font-size: 14px;
-  padding: 8px 0;
+  padding: 8px 14px;
   background: #66d1fd;
   color: #fff;
+  display: inline-block;
 }
 .btn:hover {
   cursor: pointer;
@@ -78,7 +78,7 @@ h2 {
 
 /* ==== HELPER CLASSES ==== */
 .hide {
-  display: none;
+  display: none !important;
 }
 .prevent-click {
   pointer-events: none;
@@ -195,6 +195,9 @@ header {
 }
 
 /* ==== TAGS ==== */
+.tags-list {
+  position: relative;
+}
 .tags {
   margin-top: 25px;
 }
@@ -239,9 +242,33 @@ header {
   text-align: center;
   border-radius: 6px;
 }
+.tag-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .tag-error-message {
   color: red;
   margin: 0 0 10px 0;
+}
+.delete-icon {
+  height: 30px;
+  overflow: visible;
+}
+.delete-icon-top {
+  transition: transform 0.7s;
+}
+.delete-icon:hover {
+  cursor: pointer;
+}
+.delete-icon:hover .delete-icon-top {
+  transform: translateX(-40px) rotate(-20deg);
+}
+.tag-update .btn-create-tag{
+  display: none;
+}
+.tag-add .tag-btn-wrapper {
+  display: none;
 }
 
 emoji-picker {

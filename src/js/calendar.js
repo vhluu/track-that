@@ -13,6 +13,7 @@ window.onload = function() {
   var colorPicker = tagModal.querySelector('.color-picker');
   var colorPickerItems = colorPicker.querySelectorAll('.color-picker-items');
   var createTagBtn = tagModal.querySelector('.btn-create-tag');
+  var updateTagBtn = tagModal.querySelector('.btn-update-tag');
   var tagTitleField = tagModal.querySelector('[name="tag-field-title"]');
   var tagIconField = tagModal.querySelector(' .tag-field-icon');
   var tagFieldWrapper = tagModal.querySelectorAll('.tag-field-wrapper');
@@ -113,10 +114,27 @@ window.onload = function() {
   }
 
   /* Handles opening and closing of Add New Tag modal */
-  addTagBtn.addEventListener('click', function() {
+  addTagBtn.addEventListener('click', function(e) {
+    tagModal.classList.add('tag-add');
     tagModal.classList.remove('hide');
+    e.stopPropagation();
   });
 
+  /* Handles opening and closing of Update/Remove New Tag modal */
+  function openUpdateModal(e) {
+    tagModal.classList.add('tag-update');
+    tagModal.classList.remove('hide');
+    e.stopPropagation();
+    // populate data
+    console.log(e.target);
+    tagTitleField.value = e.target.getAttribute('data-tag-title');
+    tagIconField.textContent = e.target.getAttribute('data-tag-icon');
+    var selectedColor = document.querySelector('.color-picker #' + e.target.getAttribute('data-tag-color') + '-color'); 
+    selectedColor.checked = true;
+    // var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
+    // if(selectedColor) selectedColor.checked = false;
+  };
+  
   
   tagIconField.addEventListener('click', function() {
     // emojiPicker.classList.toggle('hide');
@@ -148,12 +166,7 @@ window.onload = function() {
     emojiPicker = document.querySelector('emoji-picker');
     if(emojiPicker) toggleEmojiPicker();
     else if(tagModal.className.indexOf('hide') == -1) {
-      tagModal.classList.add('hide');
-      tagTitleField.value = "";
-      tagIconField.textContent = "";
-      var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
-      if(selectedColor) selectedColor.checked = false;
-      tagError.classList.add('hide');
+      closeTagModal();
     }
   });
 
@@ -162,9 +175,6 @@ window.onload = function() {
     if((e.target.tagName == 'FORM' || e.target.className == 'tag-modal card') && emojiPicker) toggleEmojiPicker(); // hide icon picker on modal click
   })
 
-  addTagBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-  })
 
   /* Create new tag */
   createTagBtn.addEventListener('click', function() {
@@ -179,13 +189,21 @@ window.onload = function() {
     dbCreateTag(userId, tagInfo); // stores tag in firebase
     lastTagId++;
     
-    // clear form and close modal
+    closeTagModal();
+  });
+
+
+  /* Clears the tag create/update form and closes the container modal */
+  function closeTagModal() {
     tagModal.classList.add('hide');
     tagTitleField.value = "";
     tagIconField.textContent = "";
-    selectedColor.checked = false;
+    var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
+    if(selectedColor) selectedColor.checked = false;
     tagError.classList.add('hide');
-  });
+    tagModal.classList.remove('tag-add');
+    tagModal.classList.remove('tag-update');
+  }
 
 
   /* Creates tag element and appends it to tags list in the dom */
@@ -196,10 +214,13 @@ window.onload = function() {
     newTag.setAttribute('draggable', true);
     newTag.id = "t" + id;
     newTag.setAttribute('data-tag-color', tag.color);
+    newTag.setAttribute('data-tag-icon', tag.icon);
+    newTag.setAttribute('data-tag-title', tag.title);
 
     newTag.addEventListener('dragstart', tagDragStart);
     newTag.addEventListener('dragend', tagDragEnd);
     newTag.addEventListener('drop', tagDrop, false);
+    newTag.addEventListener('click', openUpdateModal);
     tagsList.appendChild(newTag);
   }
 
@@ -208,7 +229,7 @@ window.onload = function() {
     var toAdd = document.createElement('div');
     var tagFromList = tagsList.querySelector('#' + tagId);
     toAdd.className = "day-tag " + tagFromList.getAttribute('data-tag-color');
-    toAdd.textContent = tagFromList.textContent.split(' ')[0];
+    toAdd.textContent = tagFromList.getAttribute('data-tag-icon');
     toAdd.id = "day-tag-" + tagId;
     target.querySelector('.day-tags').appendChild(toAdd);
   }
@@ -256,7 +277,7 @@ window.onload = function() {
       if(!(e.currentTarget.querySelector('#day-tag-' + droppedTagId))) {
         var toAdd = document.createElement('div');
         toAdd.className = "day-tag " + droppedTag.getAttribute('data-tag-color');
-        toAdd.textContent = droppedTag.textContent.split(' ')[0];
+        toAdd.textContent = droppedTag.getAttribute('data-tag-icon');
         toAdd.id = "day-tag-" + droppedTagId;
 
         e.currentTarget.querySelector('.day-tags').appendChild(toAdd);
@@ -267,12 +288,11 @@ window.onload = function() {
     }
   }
 
-  var tags = document.querySelectorAll('.tags-list .tag');
-  for (var i = 0; i < tags.length; i++) {
-    tags[i].addEventListener('dragstart', tagDragStart);
-    tags[i].addEventListener('dragend', tagDragEnd);
-    tags[i].addEventListener('drop', tagDrop, false);
-  }
+  var exampleTag = document.querySelector('.tags-list .tag');
+  exampleTag.addEventListener('dragstart', tagDragStart);
+  exampleTag.addEventListener('dragend', tagDragEnd);
+  exampleTag.addEventListener('drop', tagDrop, false);
+  exampleTag.addEventListener('click', openUpdateModal);
 
   for (var i = 0; i < calendarBoxes.length; i++) {
     calendarBoxes[i].addEventListener('dragover', tagDragOver, false);
