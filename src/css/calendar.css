@@ -248,8 +248,17 @@ header {
   align-items: center;
 }
 .tag-error-message {
-  color: red;
+  color: #ff8787;
   margin: 0 0 10px 0;
+}
+.tag-update .btn-create-tag{
+  display: none;
+}
+.tag-add .tag-btn-wrapper {
+  display: none;
+}
+.tag-delete-wrapper {
+  position: relative;
 }
 .delete-icon {
   height: 30px;
@@ -264,11 +273,31 @@ header {
 .delete-icon:hover .delete-icon-top {
   transform: translateX(-40px) rotate(-20deg);
 }
-.tag-update .btn-create-tag{
-  display: none;
+.delete-confirm {
+  position: absolute;
+  padding: 15px 12px;
+  width: 250px;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
+  bottom: 50px;
+  left: -100px;
 }
-.tag-add .tag-btn-wrapper {
-  display: none;
+.delete-confirm-title {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.delete-confirm-desc {
+  margin-top: 0;
+  opacity: 0.8;
+}
+.delete-confirm .btn {
+  padding: 5px 11px;
+}
+.delete-confirm .btn-delete {
+  background: #ff8787;
+  margin-left: 8px;
 }
 
 emoji-picker {

@@ -14,6 +14,7 @@ window.onload = function() {
   var colorPickerItems = colorPicker.querySelectorAll('.color-picker-items');
   var createTagBtn = tagModal.querySelector('.btn-create-tag');
   var updateTagBtn = tagModal.querySelector('.btn-update-tag');
+  var deleteTagBtn = tagModal.querySelector('.delete-icon');
   var tagTitleField = tagModal.querySelector('[name="tag-field-title"]');
   var tagIconField = tagModal.querySelector(' .tag-field-icon');
   var tagFieldWrapper = tagModal.querySelectorAll('.tag-field-wrapper');
@@ -131,8 +132,6 @@ window.onload = function() {
     tagIconField.textContent = e.target.getAttribute('data-tag-icon');
     var selectedColor = document.querySelector('.color-picker #' + e.target.getAttribute('data-tag-color') + '-color'); 
     selectedColor.checked = true;
-    // var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
-    // if(selectedColor) selectedColor.checked = false;
   };
   
   
@@ -191,6 +190,15 @@ window.onload = function() {
     
     closeTagModal();
   });
+
+  /* Update current tag */
+
+  /* Delete current tag */
+  deleteTagBtn.addEventListener('click', function() {
+    // show confirmation message
+    dbDeleteTag(userId, tagId); // deletes tag from db
+  });
+
 
 
   /* Clears the tag create/update form and closes the container modal */
