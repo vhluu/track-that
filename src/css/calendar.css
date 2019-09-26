@@ -267,6 +267,9 @@ header {
 .delete-icon-top {
   transition: transform 0.7s;
 }
+.delete-icon * {
+  pointer-events: none;
+}
 .delete-icon:hover {
   cursor: pointer;
 }
@@ -275,21 +278,22 @@ header {
 }
 .delete-confirm {
   position: absolute;
-  padding: 15px 12px;
+  padding: 18px 10px 15px 10px;
   width: 250px;
+  text-align: center;
+  left: -114px;
   border-radius: 15px;
   background: #fff;
   box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
   bottom: 50px;
-  left: -100px;
 }
 .delete-confirm-title {
-  margin: 0 0 5px 0;
-  font-size: 16px;
+  margin: 0 0 6px 0;
+  font-size: 17px;
   font-weight: 700;
 }
 .delete-confirm-desc {
-  margin-top: 0;
+  margin: 0 0 8px 0;
   opacity: 0.8;
 }
 .delete-confirm .btn {
@@ -297,7 +301,7 @@ header {
 }
 .delete-confirm .btn-delete {
   background: #ff8787;
-  margin-left: 8px;
+  margin-left: 5px;
 }
 
 emoji-picker {

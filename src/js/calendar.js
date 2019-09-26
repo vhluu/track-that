@@ -19,6 +19,9 @@ window.onload = function() {
   var tagIconField = tagModal.querySelector(' .tag-field-icon');
   var tagFieldWrapper = tagModal.querySelectorAll('.tag-field-wrapper');
   var tagError = tagModal.querySelector('.tag-error-message');
+  var deleteConfirm = tagModal.querySelector('.delete-confirm');
+  var confirmCancel = deleteConfirm.querySelector('.btn-cancel');
+  var confirmDelete = deleteConfirm.querySelector('.btn-delete');
 
   var userId;
   var userTags = {};
@@ -100,7 +103,7 @@ window.onload = function() {
         var days = Object.keys(taggedDays); // lists of days that have tags
         var dayTagList;
         days.forEach(function(day) {
-          dayTagList = Object.values(taggedDays[day]); // list of tag objects for specific day          console.log(taggedDays[day]);
+          dayTagList = Object.values(taggedDays[day]); // list of tag objects for specific day
           dayTagList.forEach(function(tag) {
             appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), Object.keys(tag)[0]);
           });
@@ -116,29 +119,47 @@ window.onload = function() {
 
   /* Handles opening and closing of Add New Tag modal */
   addTagBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    tagModal.style.top = "auto";
+    tagModal.classList.remove('tag-update');
     tagModal.classList.add('tag-add');
     tagModal.classList.remove('hide');
-    e.stopPropagation();
   });
 
   /* Handles opening and closing of Update/Remove New Tag modal */
   function openUpdateModal(e) {
+    e.stopPropagation();
+    tagModal.style.top = e.target.getBoundingClientRect().top + 'px';
+    tagModal.classList.remove('tag-add');
     tagModal.classList.add('tag-update');
     tagModal.classList.remove('hide');
-    e.stopPropagation();
     // populate data
-    console.log(e.target);
     tagTitleField.value = e.target.getAttribute('data-tag-title');
     tagIconField.textContent = e.target.getAttribute('data-tag-icon');
     var selectedColor = document.querySelector('.color-picker #' + e.target.getAttribute('data-tag-color') + '-color'); 
     selectedColor.checked = true;
   };
   
-  
   tagIconField.addEventListener('click', function() {
     // emojiPicker.classList.toggle('hide');
     toggleEmojiPicker();
   });
+
+  deleteTagBtn.addEventListener('click', function() {
+    deleteConfirm.classList.remove('hide');
+  });
+
+  confirmCancel.addEventListener('click', function() {
+    deleteConfirm.classList.add('hide');
+  });
+
+  confirmDelete.addEventListener('click', function() {
+    // delete the tag
+
+    // close all modals
+    deleteConfirm.classList.add('hide');
+  });
+
 
   var emojiPicker;
   /* Creates/removing emoji picker since hide/showing it causes issues w/ the emoji nav bar */
@@ -164,14 +185,13 @@ window.onload = function() {
     // else check if tag modal is open, then close it
     emojiPicker = document.querySelector('emoji-picker');
     if(emojiPicker) toggleEmojiPicker();
-    else if(tagModal.className.indexOf('hide') == -1) {
-      closeTagModal();
-    }
+    else if(deleteConfirm.className.indexOf('hide') == -1) deleteConfirm.classList.add('hide');
+    else if(tagModal.className.indexOf('hide') == -1) closeTagModal();
   });
 
  tagModal.addEventListener('click', function(e) {
     e.stopPropagation();
-    if((e.target.tagName == 'FORM' || e.target.className == 'tag-modal card') && emojiPicker) toggleEmojiPicker(); // hide icon picker on modal click
+    if((e.target.tagName == 'FORM' || (e.target.tagName !== 'svg' && e.target.className.includes('tag-modal'))) && emojiPicker) toggleEmojiPicker(); // hide icon picker on modal click
   })
 
 
@@ -190,15 +210,6 @@ window.onload = function() {
     
     closeTagModal();
   });
-
-  /* Update current tag */
-
-  /* Delete current tag */
-  deleteTagBtn.addEventListener('click', function() {
-    // show confirmation message
-    dbDeleteTag(userId, tagId); // deletes tag from db
-  });
-
 
 
   /* Clears the tag create/update form and closes the container modal */
