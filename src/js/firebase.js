@@ -37,6 +37,17 @@ function dbCreateTag(userId, tag) {
   });
 }
 
+// Updates the tag in the database
+function dbUpdateTag(userId, tag) {
+  var tagId = (tag.id).substring(1);
+  console.log(tagId);
+  firebase.database().ref(`users/${userId}/tags/${tagId}`).update({
+    icon: tag.icon,
+    title: tag.title,
+    color: tag.color
+  });
+}
+
 // Gets the user's tag list
 function dbGetTags(userId) {
   return firebase.database().ref(`users/${userId}/tags`).once('value').then(function(snapshot) {

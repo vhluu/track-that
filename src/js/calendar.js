@@ -117,6 +117,7 @@ window.onload = function() {
     return num < 10 ? ('0' + num) : num;
   }
 
+
   /* Handles opening and closing of Add New Tag modal */
   addTagBtn.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -138,6 +139,7 @@ window.onload = function() {
     tagIconField.textContent = e.target.getAttribute('data-tag-icon');
     var selectedColor = document.querySelector('.color-picker #' + e.target.getAttribute('data-tag-color') + '-color'); 
     selectedColor.checked = true;
+    tagModal.setAttribute('data-tag-modal-id', e.target.id);
   };
   
   tagIconField.addEventListener('click', function() {
@@ -211,6 +213,47 @@ window.onload = function() {
     closeTagModal();
   });
 
+  /* Updates current tag */
+  updateTagBtn.addEventListener('click', function() {
+    // check if any fields are updated
+    var updatedTag = {
+      title: tagTitleField.value,
+      icon: tagIconField.textContent,
+      color: document.querySelector('input[name="tag-color-picker"]:checked').value
+    }
+
+    var tagId = tagModal.getAttribute('data-tag-modal-id');
+    var tag = tagsList.querySelector('#' + tagId);
+    var oldTag = {
+      title: tag.getAttribute('data-tag-title'),
+      icon: tag.getAttribute('data-tag-icon'),
+      color: tag.getAttribute('data-tag-color')
+    }
+    
+    if(JSON.stringify(updatedTag) !== JSON.stringify(oldTag)) {
+      updatedTag["id"] = tagId;
+      console.log(updatedTag);
+      dbUpdateTag(userId, updatedTag);
+      // update frontend
+      tag.setAttribute('data-tag-title', updatedTag.title);
+      tag.setAttribute('data-tag-icon', updatedTag.icon);
+      tag.setAttribute('data-tag-color', updatedTag.color);
+
+      tag.textContent = updatedTag.icon + " " + updatedTag.title;
+      tag.classList.remove(oldTag.color);
+      tag.classList.add(updatedTag.color);
+
+      // updating tags on calendar
+      var dayTags = document.querySelectorAll('.calendar [data-day-tag-id="' + tagId + '"]');
+      for(var i = 0; i < dayTags.length; i++) {
+        dayTags[i].classList.remove(oldTag.color);
+        dayTags[i].classList.add(updatedTag.color);
+        dayTags[i].textContent = updatedTag.icon;
+      }
+    }
+    closeTagModal();
+  });
+
 
   /* Clears the tag create/update form and closes the container modal */
   function closeTagModal() {
@@ -249,7 +292,7 @@ window.onload = function() {
     var tagFromList = tagsList.querySelector('#' + tagId);
     toAdd.className = "day-tag " + tagFromList.getAttribute('data-tag-color');
     toAdd.textContent = tagFromList.getAttribute('data-tag-icon');
-    toAdd.id = "day-tag-" + tagId;
+    toAdd.setAttribute("data-day-tag-id", tagId);
     target.querySelector('.day-tags').appendChild(toAdd);
   }
 
@@ -297,7 +340,7 @@ window.onload = function() {
         var toAdd = document.createElement('div');
         toAdd.className = "day-tag " + droppedTag.getAttribute('data-tag-color');
         toAdd.textContent = droppedTag.getAttribute('data-tag-icon');
-        toAdd.id = "day-tag-" + droppedTagId;
+        toAdd.setAttribute("data-day-tag-id", droppedTagId);
 
         e.currentTarget.querySelector('.day-tags').appendChild(toAdd);
 
