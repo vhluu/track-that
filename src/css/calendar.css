@@ -112,13 +112,13 @@ header {
   padding: 20px 40px;
   border-left: 1px solid rgb(0,0,0,0.05);
   width: 90%;
-
 }
 .calendar { 
   display: flex; 
   flex-wrap: wrap; 
   justify-content: space-between; 
   background-image: linear-gradient(90deg, rgb(212, 253, 234),rgb(215, 251, 255));
+  position: relative;
 }
 .day, .cal-header { 
   flex-basis: calc(100%/7); 
@@ -217,6 +217,8 @@ header {
   width: fit-content;
   margin-bottom: 5px;
 }
+
+/* ==== TAG MODAL ====*/
 .tag-modal {
   position: absolute;
   z-index: 20;
@@ -257,6 +259,7 @@ header {
 .tag-add .tag-btn-wrapper {
   display: none;
 }
+
 .tag-delete-wrapper {
   position: relative;
 }
@@ -339,6 +342,15 @@ emoji-picker {
 }
 .color-picker [type="radio"]:checked + label .color-picker-item {
   border-color: #66d1fd;
+}
+
+/* ==== DAY MODAL ==== */
+.edit-day-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
 
 /* ==== DRAG & DROP ==== */
