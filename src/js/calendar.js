@@ -101,11 +101,26 @@ window.onload = function() {
     // Gets tags for current month & sets them in the calendar
     dbGetDayTags(userId, formatDigit(month + 1), currentYear).then(function(taggedDays) {
       if(taggedDays) {
-        var days = Object.keys(taggedDays); // lists of days that have tags
+        /*var days = Object.keys(taggedDays); // lists of days that have tags
         var dayTagList;
         days.forEach(function(day) {
           dayTags = Object.keys(taggedDays[day]);
           dayTags.forEach(function(tag) {
+            appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), tag);
+          });
+        });*/
+        /*var tagId;
+        taggedDays.forEach(function(tag) {
+          var tagId = tag.id;
+          (Object.keys(tag.days)).forEach(function(day) {
+            appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), 't' + tagId);
+          });
+          
+        });*/
+        var tags = Object.keys(taggedDays); // lists of days that have tags
+        tags.forEach(function(tag) {
+          days = Object.keys(taggedDays[tag]);
+          days.forEach(function(day) {
             appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), tag);
           });
         });
