@@ -52,6 +52,7 @@ window.onload = function() {
           appendTag(tags[key], key);
         });
         lastTagId = parseInt(keys[keys.length - 1]) + 1;
+        console.log(lastTagId);
       }
     });
 
@@ -103,9 +104,9 @@ window.onload = function() {
         var days = Object.keys(taggedDays); // lists of days that have tags
         var dayTagList;
         days.forEach(function(day) {
-          dayTagList = Object.values(taggedDays[day]); // list of tag objects for specific day
-          dayTagList.forEach(function(tag) {
-            appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), Object.keys(tag)[0]);
+          dayTags = Object.keys(taggedDays[day]);
+          dayTags.forEach(function(tag) {
+            appendDayTag(document.querySelector('[data-tag-day="' + day + '"]'), tag);
           });
         });
       }
@@ -253,6 +254,20 @@ window.onload = function() {
     }
     closeTagModal();
   });
+
+
+  /* Deletes current tag */
+  confirmDelete.addEventListener('click', function(e) {
+    closeTagModal();
+     // remove from frontend
+    var tagId = tagModal.getAttribute('data-tag-modal-id');
+    tagsList.removeChild(document.querySelector('#' + tagId));
+    
+    var dayTags = document.querySelectorAll('.calendar [data-day-tag-id="' + tagId + '"]');
+      for(var i = 0; i < dayTags.length; i++) {
+        dayTags[i].parentNode.removeChild(dayTags[i]);
+      }
+  }); 
 
 
   /* Clears the tag create/update form and closes the container modal */
