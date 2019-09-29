@@ -8,6 +8,8 @@ window.onload = function() {
   /* Tags */
   var tagsList = document.querySelector('.tags-list');
   var addTagBtn = document.querySelector('.btn-add-tag');
+
+  /* Tag Modal */
   var tagModal = document.querySelector('.tag-modal');
   //var emojiPicker = tagModal.querySelector('emoji-picker');
   var colorPicker = tagModal.querySelector('.color-picker');
@@ -22,6 +24,11 @@ window.onload = function() {
   var deleteConfirm = tagModal.querySelector('.delete-confirm');
   var confirmCancel = deleteConfirm.querySelector('.btn-cancel');
   var confirmDelete = deleteConfirm.querySelector('.btn-delete');
+
+  /* Day Modal */
+  var dayModal = document.querySelector('.edit-day-modal');
+  var selectAll = dayModal.querySelector('.select-all');
+  var dayCheckboxes = dayModal.querySelector('.day-checkboxes');
 
   var userId;
   var userTags = {};
@@ -110,6 +117,10 @@ window.onload = function() {
         });
       }
     });
+
+    for(var i = 0; i < calendarBoxes.length; i++) {
+      calendarBoxes[i].addEventListener('click', toggleDayModal);
+    }
   }
 
   /* Formats the number so that it is always two digits (ex. 2 will be 02) */
@@ -311,6 +322,48 @@ window.onload = function() {
     toAdd.setAttribute("data-day-tag-id", tagId);
     target.querySelector('.day-tags').appendChild(toAdd);
   }
+
+
+  /* Shows modal for deleting tags when click on a calendar day  */
+  function toggleDayModal(e) {
+    console.log(e.target);
+    var currDayTags = e.target.querySelectorAll('.day-tag');
+    if(dayModal.classList.contains('hide')) {
+      if(currDayTags.length > 0) {
+        dayModal.classList.remove('hide');
+        /*if(currDayTags.length > 1) selectAll.classList.remove('hide');
+        else selectAll.classList.add('hide');*/
+        // populate content
+        dayModal.querySelector('.edit-day').textContent = e.target.querySelector('.day-number').textContent;
+        var generatedCheckboxes = ``;
+        var tagFromList;
+        for(var i = 0; i < currDayTags.length; i++) {
+          tagFromList = tagsList.querySelector(`#${currDayTags[i].getAttribute('data-day-tag-id')}`);
+          generatedCheckboxes += `<div class="checkbox-wrapper">
+            <input type="checkbox" id="check-${tagFromList.id}" class="day-checkbox">
+            <label for="check-${tagFromList.id}">
+              <div class="custom-checkbox"></div>
+              ${tagFromList.outerHTML}
+            </label>
+          </div>`;
+        }
+        dayCheckboxes.innerHTML = generatedCheckboxes;
+      }
+    }
+    else {
+      dayModal.classList.add('hide');
+      selectAll.querySelector('input').checked = false;
+    }
+  }
+
+  
+  /* Selects all checkboxes */
+  selectAll.querySelector('input').addEventListener('click', function() {
+    var checkboxes = document.querySelectorAll('.day-checkbox');
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = this.checked;
+    }
+  });
 
   /* Drag & Drop */
   function tagDragStart(e) {

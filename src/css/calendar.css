@@ -161,7 +161,7 @@ header {
   height: 25px;
   margin-right: 5px;
   margin-bottom: 5px;
-  pointer-events: auto;
+  /* pointer-events: auto; */
 }
 .not-current {
   background: transparent;
@@ -351,6 +351,7 @@ emoji-picker {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
+  min-width: 250px;
 }
 .edit-day {
   font-size: 18px;
