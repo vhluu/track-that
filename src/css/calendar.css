@@ -352,6 +352,68 @@ emoji-picker {
   transform: translate(-50%, -50%);
   z-index: 10;
 }
+.edit-day {
+  font-size: 18px;
+  margin-top: 0;
+  font-weight: 600;
+  text-align: right;
+  margin-bottom: 0;
+}
+.checkbox-wrapper {
+  margin-bottom: 8px;
+}
+.checkbox-wrapper label {
+  display: flex;
+  align-items: center;
+  color: rgb(93, 114, 123);
+  text-transform: none;
+}
+.checkbox-wrapper input[type="checkbox"] {
+  display: none;
+}
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  position: relative;
+  border: 1px solid #ced1d4;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.custom-checkbox:before {
+  display: block;
+  content: '';
+  height: 9px;
+  transform: rotate(40deg);
+  width: 4px;
+  left: 5px;
+  top: 1px;
+  position: absolute;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+}
+input[type="checkbox"]:checked + label .custom-checkbox:before {
+  border: solid #53cafb;
+  border-width: 0 2.5px 2.5px 0;
+}
+.checkbox-wrapper .tag {
+  text-transform: none;
+  margin-bottom: 0;
+  cursor: pointer;
+  padding: 8px;
+}
+.select-all {
+  border-bottom: 1px solid #e6eaee;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+.select-all label {
+  cursor: pointer;
+}
+.edit-day-modal .delete-icon {
+  margin-top: 5px;
+}
 
 /* ==== DRAG & DROP ==== */
 .dragged {
