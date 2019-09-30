@@ -1,4 +1,5 @@
 window.onload = function() {
+  /*=================== VARIABLES ===================*/
   /* Calendar */
   var calendarBoxes = document.querySelectorAll('.calendar .day');
   var calendarBoxNumbers = document.querySelectorAll('.day-number');
@@ -11,15 +12,15 @@ window.onload = function() {
 
   /* Tag Modal */
   var tagModal = document.querySelector('.tag-modal');
-  //var emojiPicker = tagModal.querySelector('emoji-picker');
-  var colorPicker = tagModal.querySelector('.color-picker');
-  var colorPickerItems = colorPicker.querySelectorAll('.color-picker-items');
+
   var createTagBtn = tagModal.querySelector('.btn-create-tag');
   var updateTagBtn = tagModal.querySelector('.btn-update-tag');
   var deleteTagBtn = tagModal.querySelector('.delete-icon');
+
   var tagTitleField = tagModal.querySelector('[name="tag-field-title"]');
   var tagIconField = tagModal.querySelector(' .tag-field-icon');
   var tagFieldWrapper = tagModal.querySelectorAll('.tag-field-wrapper');
+
   var tagError = tagModal.querySelector('.tag-error-message');
   var deleteConfirm = tagModal.querySelector('.delete-confirm');
   var confirmCancel = deleteConfirm.querySelector('.btn-cancel');
@@ -38,7 +39,9 @@ window.onload = function() {
   var currentMonth = date.getMonth();
   var currentYear = (date.getYear() + 1900);
 
-  /* Gets chrome info of current user & adds data */
+
+  /*=================== SET UP ===================*/
+  /* Gets chrome info of current user & populates calendar/tags using db */
   chrome.identity.getProfileUserInfo(function(userInfo) {
     console.log(JSON.stringify(userInfo));
     userId = userInfo.id;
@@ -50,8 +53,7 @@ window.onload = function() {
       }
     });
 
-    // Creates user tag list
-    dbGetTags(userId).then(function(tags) {
+    dbGetTags(userId).then(function(tags) { // Creates user tag list using db
       if(tags) {
         userTags = tags;
         var keys = Object.keys(tags);
@@ -59,15 +61,14 @@ window.onload = function() {
           appendTag(tags[key], key);
         });
         lastTagId = parseInt(keys[keys.length - 1]) + 1;
-        console.log(lastTagId);
       }
     });
 
-    /* Sets calendar to current month */
-    setCalendar(date.getMonth());
+    setCalendar(date.getMonth()); // sets calendar to current month
   });
 
 
+  /*=================== CALENDAR ===================*/
   /* Sets calendar to given month */
   function setCalendar(month) {
     var currMonth = new Date();
@@ -118,17 +119,13 @@ window.onload = function() {
       }
     });
 
-    for(var i = 0; i < calendarBoxes.length; i++) {
-      calendarBoxes[i].addEventListener('click', toggleDayModal);
+    for(var i = 0; i < calendarBoxes.length; i++) { 
+      calendarBoxes[i].addEventListener('click', toggleDayModal); // opens modal when clicking on a calendar day
     }
   }
 
-  /* Formats the number so that it is always two digits (ex. 2 will be 02) */
-  function formatDigit(num) {
-    return num < 10 ? ('0' + num) : num;
-  }
 
-
+  /*=================== TAG ADD/UPDATE MODAL ===================*/
   /* Handles opening and closing of Add New Tag modal */
   addTagBtn.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -153,61 +150,29 @@ window.onload = function() {
     tagModal.setAttribute('data-tag-modal-id', e.target.id);
   };
   
-  tagIconField.addEventListener('click', function() {
-    // emojiPicker.classList.toggle('hide');
-    toggleEmojiPicker();
-  });
-
+  /* Handles hiding/showing of delete confirm modal */
   deleteTagBtn.addEventListener('click', function() {
     deleteConfirm.classList.remove('hide');
   });
-
   confirmCancel.addEventListener('click', function() {
     deleteConfirm.classList.add('hide');
   });
 
-  confirmDelete.addEventListener('click', function() {
-    // delete the tag
-
-    // close all modals
-    deleteConfirm.classList.add('hide');
-  });
-
-
-  var emojiPicker;
-  /* Creates/removing emoji picker since hide/showing it causes issues w/ the emoji nav bar */
-  function toggleEmojiPicker() {
-    emojiPicker = document.querySelector('emoji-picker');
-    if(!emojiPicker) {
-      emojiPicker = document.createElement('emoji-picker');
-      tagIconField.parentElement.appendChild(emojiPicker);
-      for(var i = 0; i < tagFieldWrapper.length; i++) {
-        tagFieldWrapper[i].classList.add('prevent-click');
-      }
-    }
-    else {
-      tagIconField.parentElement.removeChild(emojiPicker);
-      for(var i = 0; i < tagFieldWrapper.length; i++) {
-        tagFieldWrapper[i].classList.remove('prevent-click');
-      }
-    }
-  }
-
+  /* Clicking on the body closes the innermost modal that is open */
   document.body.addEventListener('click', function() {
-    // if emoji picker is open, then close it
-    // else check if tag modal is open, then close it
     emojiPicker = document.querySelector('emoji-picker');
     if(emojiPicker) toggleEmojiPicker();
     else if(deleteConfirm.className.indexOf('hide') == -1) deleteConfirm.classList.add('hide');
     else if(tagModal.className.indexOf('hide') == -1) closeTagModal();
   });
 
- tagModal.addEventListener('click', function(e) {
+  tagModal.addEventListener('click', function(e) {
     e.stopPropagation();
     if((e.target.tagName == 'FORM' || (e.target.tagName !== 'svg' && e.target.className.includes('tag-modal'))) && emojiPicker) toggleEmojiPicker(); // hide icon picker on modal click
   })
 
 
+  /*=================== TAG CRUD FUNCTIONALITY ===================*/
   /* Create new tag */
   createTagBtn.addEventListener('click', function() {
     var selectedColor = document.querySelector('input[name="tag-color-picker"]:checked');
@@ -265,22 +230,52 @@ window.onload = function() {
     closeTagModal();
   });
 
-
   /* Deletes current tag */
   confirmDelete.addEventListener('click', function(e) {
+    deleteConfirm.classList.add('hide');
     closeTagModal();
     var tagId = tagModal.getAttribute('data-tag-modal-id');
     dbDeleteTag(userId, tagId);
 
-     // remove from frontend
-    tagsList.removeChild(document.querySelector('#' + tagId));
+    tagsList.removeChild(document.querySelector('#' + tagId)); // remove from frontend
 
     var dayTags = document.querySelectorAll('.calendar [data-day-tag-id="' + tagId + '"]');
-      for(var i = 0; i < dayTags.length; i++) {
-        dayTags[i].parentNode.removeChild(dayTags[i]);
-      }
+    for(var i = 0; i < dayTags.length; i++) {
+      dayTags[i].parentNode.removeChild(dayTags[i]);
+    }
   }); 
 
+
+  /*=================== EMOJI PICKER ===================*/
+  /* Hides & shows emoji picker */
+  tagIconField.addEventListener('click', function() {
+    toggleEmojiPicker();
+  });
+
+  var emojiPicker;
+  /* Creates/removing emoji picker since hide/showing it causes issues w/ the emoji nav bar */
+  function toggleEmojiPicker() {
+    emojiPicker = document.querySelector('emoji-picker');
+    if(!emojiPicker) {
+      emojiPicker = document.createElement('emoji-picker');
+      tagIconField.parentElement.appendChild(emojiPicker);
+      for(var i = 0; i < tagFieldWrapper.length; i++) {
+        tagFieldWrapper[i].classList.add('prevent-click');
+      }
+    }
+    else {
+      tagIconField.parentElement.removeChild(emojiPicker);
+      for(var i = 0; i < tagFieldWrapper.length; i++) {
+        tagFieldWrapper[i].classList.remove('prevent-click');
+      }
+    }
+  }
+
+  /*=================== HELPER FUNCTIONS ===================*/
+  /* Formats the number so that it is always two digits (ex. 2 will be 02) */
+  function formatDigit(num) {
+    return num < 10 ? ('0' + num) : num;
+  }
 
   /* Clears the tag create/update form and closes the container modal */
   function closeTagModal() {
@@ -293,7 +288,6 @@ window.onload = function() {
     tagModal.classList.remove('tag-add');
     tagModal.classList.remove('tag-update');
   }
-
 
   /* Creates tag element and appends it to tags list in the dom */
   function appendTag(tag, id) {
@@ -324,6 +318,7 @@ window.onload = function() {
   }
 
 
+  /*=================== DAY MODAL ===================*/
   /* Shows modal for deleting tags when click on a calendar day  */
   function toggleDayModal(e) {
     console.log(e.target);
@@ -331,8 +326,6 @@ window.onload = function() {
     if(dayModal.classList.contains('hide')) {
       if(currDayTags.length > 0) {
         dayModal.classList.remove('hide');
-        /*if(currDayTags.length > 1) selectAll.classList.remove('hide');
-        else selectAll.classList.add('hide');*/
         // populate content
         dayModal.querySelector('.edit-day').textContent = e.target.querySelector('.day-number').textContent;
         var generatedCheckboxes = ``;
@@ -365,7 +358,8 @@ window.onload = function() {
     }
   });
 
-  /* Drag & Drop */
+
+  /*=================== DRAG & DROP ===================*/
   function tagDragStart(e) {
     e.target.classList.add('dragged');
     e.dataTransfer.effectAllowed = 'copyLink';
@@ -400,7 +394,6 @@ window.onload = function() {
 
     // create tag element
     if(e.currentTarget.classList.contains("day")) {
-
       e.currentTarget.classList.remove('chosen-day');
       droppedTagId = e.dataTransfer.getData('text/plain');
       droppedTag = document.querySelector('#' + droppedTagId);
@@ -410,7 +403,6 @@ window.onload = function() {
         toAdd.className = "day-tag " + droppedTag.getAttribute('data-tag-color');
         toAdd.textContent = droppedTag.getAttribute('data-tag-icon');
         toAdd.setAttribute("data-day-tag-id", droppedTagId);
-
         e.currentTarget.querySelector('.day-tags').appendChild(toAdd);
 
         // store tag 
