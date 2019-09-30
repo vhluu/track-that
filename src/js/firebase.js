@@ -75,9 +75,24 @@ function dbCreateDayTag(userId, dayTag, month, year) {
   firebase.database().ref(`users/${userId}/tags/${(dayTag.id).substring(1)}/months/${month}${year}`).set(true); // keeps track of months that include this tag
 }
 
+// Removes tag(s) from a specific day
+function dbDeleteDayTag(userId, month, day, year, tags) {
+  console.log(month + ' ' + day + ' ' + year);
+  console.log(tags);
+  var updates = {};
+  tags.forEach(tag => { updates[`users/${userId}/tagged/${month}${year}/${tag}/${month}${day}`] = null; });
+  firebase.database().ref().update(updates); // bulk remove through updates w/ value null
+}
+
 // Gets tags set for each day in the given month/year (mm/yyyy)
 function dbGetDayTags(userId, month, year) {
   return firebase.database().ref(`users/${userId}/tagged/${month}${year}`).once('value').then(function(snapshot) {
     return snapshot.val();
   });
+}
+
+// Removes month from tag's month obj
+// This means that this tag is no longer found in that month
+function dbDeleteMonthFromTag(userId, tagId, month, year) {
+  firebase.database().ref(`users/${userId}/tags/${tagId.substring(1)}/months/${month}${year}`).set(null);
 }

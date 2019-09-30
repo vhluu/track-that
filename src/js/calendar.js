@@ -30,6 +30,7 @@ window.onload = function() {
   var dayModal = document.querySelector('.edit-day-modal');
   var selectAll = dayModal.querySelector('.select-all');
   var dayCheckboxes = dayModal.querySelector('.day-checkboxes');
+  var dayTagDeleteBtn = dayModal.querySelector('.delete-icon');
 
   var userId;
   var userTags = {};
@@ -289,6 +290,12 @@ window.onload = function() {
     tagModal.classList.remove('tag-update');
   }
 
+  /* Resets the day modal checkbox and closes the day modal */
+  function closeDayModal() {
+    dayModal.classList.add('hide');
+    selectAll.querySelector('input').checked = false;
+  }
+
   /* Creates tag element and appends it to tags list in the dom */
   function appendTag(tag, id) {
     var newTag = document.createElement('div');
@@ -341,21 +348,43 @@ window.onload = function() {
           </div>`;
         }
         dayCheckboxes.innerHTML = generatedCheckboxes;
+        dayModal.setAttribute('data-day-modal', e.target.getAttribute('data-tag-day'));
       }
     }
     else {
-      dayModal.classList.add('hide');
-      selectAll.querySelector('input').checked = false;
+      closeDayModal();
     }
   }
-
   
-  /* Selects all checkboxes */
+  /* Select All checkbox functionality */
   selectAll.querySelector('input').addEventListener('click', function() {
     var checkboxes = document.querySelectorAll('.day-checkbox');
     for (var i = 0; i < checkboxes.length; i++) {
       checkboxes[i].checked = this.checked;
     }
+  });
+
+  /* Removes selected tags from given day */
+  dayTagDeleteBtn.addEventListener('click', function(e) {
+    var selectedDay = dayModal.getAttribute('data-day-modal');
+
+    // delete selected tags from day
+    var tagsToRemove = dayModal.querySelectorAll('input[type="checkbox"]:not(#check-all):checked');
+    console.log(tagsToRemove);
+    tagsToRemove = [...tagsToRemove].map(tag => (tag.id).substring(6));
+    if(tagsToRemove.length > 0) dbDeleteDayTag(userId, selectedDay.substring(0,2), selectedDay.substring(2), currentYear, tagsToRemove);
+
+    // remove from frontend
+    var dayTags = document.querySelector(`.calendar [data-tag-day="${selectedDay}"] .day-tags`);
+    tagsToRemove.forEach((tag) => {
+      var removing = dayTags.querySelector(`[data-day-tag-id="${tag}"]`);
+      removing.parentNode.removeChild(removing);
+    });
+    closeDayModal(); 
+
+    tagsToRemove.forEach((tag) => { // remove month from tag obj in db if tag no longer exists in month
+      if(!document.querySelector(`.calendar [data-day-tag-id="${tag}"]`)) dbDeleteMonthFromTag(userId, tag, selectedDay.substring(0,2), currentYear);
+    });
   });
 
 
