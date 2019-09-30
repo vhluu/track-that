@@ -53,9 +53,11 @@ function dbDeleteTag(userId, tagId) {
   firebase.database().ref(`users/${userId}/tags/${tagId.substring(1)}/months`).once('value').then(function(snapshot) {
     var months = snapshot.val();
     var updates = {};
-    (Object.keys(months)).forEach(function(monthYear) {
-      updates[`users/${userId}/tagged/${monthYear}/${tagId}`] = null; // removes tag from each month
-    });
+    if(months) {
+      (Object.keys(months)).forEach(function(monthYear) {
+        updates[`users/${userId}/tagged/${monthYear}/${tagId}`] = null; // removes tag from each month
+      });
+    }
 
     updates[`users/${userId}/tags/${tagId.substring(1)}`] = null; // removes tag from tag list
     firebase.database().ref().update(updates); // bulk remove through updates w/ value null
