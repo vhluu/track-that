@@ -129,6 +129,7 @@ window.onload = function() {
   /*=================== TAG ADD/UPDATE MODAL ===================*/
   /* Handles opening and closing of Add New Tag modal */
   addTagBtn.addEventListener('click', function(e) {
+    closeDayModal();
     e.stopPropagation();
     tagModal.style.top = "auto";
     tagModal.classList.remove('tag-update');
@@ -138,6 +139,7 @@ window.onload = function() {
 
   /* Handles opening and closing of Update/Remove New Tag modal */
   function openUpdateModal(e) {
+    closeDayModal();
     e.stopPropagation();
     tagModal.style.top = e.target.getBoundingClientRect().top + 'px';
     tagModal.classList.remove('tag-add');
@@ -165,6 +167,8 @@ window.onload = function() {
     if(emojiPicker) toggleEmojiPicker();
     else if(deleteConfirm.className.indexOf('hide') == -1) deleteConfirm.classList.add('hide');
     else if(tagModal.className.indexOf('hide') == -1) closeTagModal();
+
+    if(dayModal.className.indexOf('hide') == -1) closeDayModal();
   });
 
   tagModal.addEventListener('click', function(e) {
@@ -328,7 +332,8 @@ window.onload = function() {
   /*=================== DAY MODAL ===================*/
   /* Shows modal for deleting tags when click on a calendar day  */
   function toggleDayModal(e) {
-    console.log(e.target);
+    closeTagModal();
+    e.stopPropagation();
     var currDayTags = e.target.querySelectorAll('.day-tag');
     if(dayModal.classList.contains('hide')) {
       if(currDayTags.length > 0) {
