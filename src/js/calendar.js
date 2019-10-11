@@ -14,7 +14,6 @@ window.onload = function() {
 
   var date = new Date();
 
-
   /*=================== SET UP ===================*/
   /**
    * Gets user information from chrome & populates calendar/tags using database 
@@ -32,7 +31,6 @@ window.onload = function() {
 
     dbGetTags(userId).then((tags) => { // populates tags sidebar with tags from database
       if (tags) {
-        userTags = tags;
         var keys = Object.keys(tags);
         keys.forEach(key => { tagsSidebar.appendTag(tags[key], key); });
         lastTagId = parseInt(keys[keys.length - 1]) + 1;
