@@ -199,7 +199,7 @@ export function toggleEmojiPicker() {
     tagIconField.parentElement.removeChild(emojiPicker);
 
     tagFieldWrapper.forEach((wrapper) => {
-      wrapper.classList.classList.remove('prevent-click');
+      wrapper.classList.remove('prevent-click');
     });
   }
 }
