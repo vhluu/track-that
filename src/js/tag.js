@@ -1,3 +1,5 @@
+/*=================== Functions ===================*/
+
 /**
  * Handles drag start event for tag by transferring the tag id
  */

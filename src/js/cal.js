@@ -114,7 +114,8 @@ export function tagDrop(e) {
     let droppedTagId = e.dataTransfer.getData('text/plain');
     const droppedTag = document.querySelector(`#${droppedTagId}`);
 
-    if (!(e.currentTarget.querySelector(`#day-tag-${droppedTagId}`))) {
+    // adds tag to calendar & database if not already there
+    if (!(e.currentTarget.querySelector(`[data-day-tag-id="${droppedTagId}"`))) {
       let toAdd = document.createElement('div');
       toAdd.className = `day-tag ${droppedTag.getAttribute('data-tag-color')}`;
       toAdd.textContent = droppedTag.getAttribute('data-tag-icon');
