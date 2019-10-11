@@ -32,7 +32,7 @@ export function toggleDayModal(e) {
       // generates the checkboxes for all of the tags in the tags list
       let generatedCheckboxes = ``;
       currDayTags.forEach((dayTag) => {
-        let tagFromList = tagsList.querySelector(`#${currDayTags[i].getAttribute('data-day-tag-id')}`);
+        let tagFromList = tagsList.querySelector(`#${dayTag.getAttribute('data-day-tag-id')}`);
         generatedCheckboxes += `<div class="checkbox-wrapper">
           <input type="checkbox" id="check-${tagFromList.id}" class="day-checkbox">
           <label for="check-${tagFromList.id}">
