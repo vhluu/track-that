@@ -1,6 +1,8 @@
 import { userId } from './calendar.js';
 import { toggleDayModal } from './day-modal.js';
 
+/*=================== Variables ===================*/
+
 const tagsList = document.querySelector('.tags-list');
 
 const calendarBoxes = document.querySelectorAll('.calendar .day');
@@ -10,10 +12,12 @@ var date = new Date();
 var currentMonth = date.getMonth();
 var currentYear = (date.getYear() + 1900);
 
+/*=================== Functions ===================*/
+
 /**
-  * Sets calendar to given month w/ correct dates and tags
-  * TODO: split up & clean up code
-  */
+ * Sets calendar to given month w/ correct dates and tags
+ * TODO: split up & clean up code
+ */
 export function setCalendar(month) {
   const monthHeader = document.querySelector('.curr-month');
   const yearHeader = document.querySelector('.curr-year');
@@ -75,8 +79,8 @@ export function setCalendar(month) {
 
 
 /**
-  * Creates tag element and appends it to a specific calendar day in the dom.
-  */
+ * Creates tag element and appends it to a specific calendar day in the dom.
+ */
 export function appendDayTag(target, tagId) {
   let toAdd = document.createElement('div');
   let tagFromList = tagsList.querySelector(`#${tagId}`);
@@ -89,15 +93,14 @@ export function appendDayTag(target, tagId) {
 
 
 /**
-  * Formats the given number as two digits
-  */
+ * Formats the given number as two digits
+ */
 export function formatDigit(num) {
   return num < 10 ? `0${num}` : num;
 }
 
 
-/*=================== DRAG & DROP ===================*/
-
+/*=================== Drag & Drop ===================*/
 /**
  * Handles drop event on calendar
  * Adds dropped tag to calendar for that specific day
@@ -105,7 +108,7 @@ export function formatDigit(num) {
 export function tagDrop(e) { 
   if (e.stopPropagation) { e.stopPropagation(); }
 
-  // create tag element
+  // creates tag elements
   if (e.currentTarget.classList.contains('day')) {
     e.currentTarget.classList.remove('chosen-day');
     let droppedTagId = e.dataTransfer.getData('text/plain');
@@ -118,7 +121,7 @@ export function tagDrop(e) {
       toAdd.setAttribute('data-day-tag-id', droppedTagId);
       e.currentTarget.querySelector('.day-tags').appendChild(toAdd);
 
-      // store tag 
+      // stores tag in database
       dbCreateDayTag(userId, { id: droppedTagId, date: e.currentTarget.getAttribute('data-tag-day') }, formatDigit(currentMonth + 1), currentYear);
     }
   }
@@ -149,9 +152,11 @@ function tagDragLeave(e) {
 }
 
 // Adds drag & drop events to each calendar day
-calendarBoxes.forEach((calBox) => {
-  calBox.addEventListener('dragover', tagDragOver, false);
-  calBox.addEventListener('dragenter', tagDragEnter, false);
-  calBox.addEventListener('dragleave', tagDragLeave, false);
-  calBox.addEventListener('drop', tagDrop, false);
-});
+(function() {
+  calendarBoxes.forEach((calBox) => {
+    calBox.addEventListener('dragover', tagDragOver, false);
+    calBox.addEventListener('dragenter', tagDragEnter, false);
+    calBox.addEventListener('dragleave', tagDragLeave, false);
+    calBox.addEventListener('drop', tagDrop, false);
+  });
+})()
