@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Track That</title>
+  <link rel="stylesheet" href="/css/calendar.css">
+  <link rel="stylesheet" href="/css/emoji-mart.css">
+</head>
+<body>
+  <!--<header>
+    <div class="logo">Track That!</div>
+  </header>-->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="background-svg"><path fill="rgba(255,255,255,0.3)" d="M0 192l26.7 16c26.6 16 80.3 48 133.3 16 53.3-32 107-128 160-154.7C373.3 43 427 85 480 128c53.3 43 107 85 160 74.7C693.3 192 747 128 800 128c53.3 0 107 64 160 80 53.3 16 107-16 160-48 53.3-32 107-64 160-85.3 53.3-21.7 107-31.7 133-37.4l27-5.3v288H0z"></path></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="background-svg"><path fill="rgba(255,255,255,0.3)" d="M0 64l20 10.7C40 85 80 107 120 144s80 91 120 117.3c40 26.7 80 26.7 120 5.4 40-21.7 80-63.7 120-64 40 .3 80 42.3 120 37.3s80-59 120-53.3c40 5.3 80 69.3 120 85.3s80-16 120-26.7c40-10.3 80-.3 120 10.7s80 21 120 10.7c40-10.7 80-42.7 120-53.4 40-10.3 80-.3 100 5.4l20 5.3v96H0z"/></svg>
+  <section class="section">
+    <div class="flex_t main-wrapper card">
+      <div class="tags">
+        <h2>Tags</h2>
+        <p>Drag &amp; drop a tag to add it to the calendar!</p>
+        <!-- User Tags -->
+        <div class="tags-list">
+          <div class="tag green" draggable="true" id="aa" data-tag-color="green" data-tag-icon="🌱" data-tag-title="Watered Plants">🌱 Watered Plants</div>
+        </div>
+        
+
+        <!-- Add Tag Form -->
+        <div class="tag btn-add-tag">+ Add New Tag</div>
+        <div class="tag-modal card hide">
+          <form>
+            <p class="tag-error-message hide">All fields are required!!</p>
+            <!-- Tag Name Field -->
+            <div class="tag-field-wrapper">
+              <label for="tag-field-title">Tag Name</label>
+              <input type="text" name="tag-field-title" required>
+            </div>
+
+            <!-- Icon Picker Field -->
+            <div class="tag-field-wrapper tag-icon-wrapper">
+              <label>Icon</label>
+              <div class="tag-field-icon"></div>
+              <!-- <emoji-picker class="tag-emoji-picker hide"></emoji-picker> -->
+            </div>
+
+            <!-- Color Picker Field -->
+            <div class="tag-field-wrapper">
+              <label>Color</label>
+              <div class="color-picker">
+                <input type="radio" name="tag-color-picker" id="red-color" value="red" required>
+                <label for="red-color">
+                  <div class="color-picker-item red"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="orange-color" value="orange">
+                <label for="orange-color">
+                  <div class="color-picker-item orange"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="yellow-color" value="yellow">
+                <label for="yellow-color">
+                  <div class="color-picker-item yellow"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="green-color" value="green">
+                <label for="green-color">
+                  <div class="color-picker-item green"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="lightblue-color" value="lightblue">
+                <label for="lightblue-color">
+                  <div class="color-picker-item lightblue"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="blue-color" value="blue">
+                <label for="blue-color">
+                  <div class="color-picker-item blue"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="purple-color" value="purple">
+                <label for="purple-color">
+                  <div class="color-picker-item purple"></div>
+                </label>
+
+                <input type="radio" name="tag-color-picker" id="pink-color" value="pink">
+                <label for="pink-color">
+                  <div class="color-picker-item pink"></div>
+                </label>
+              </div>
+            </div>
+            <div class="btn btn-create-tag">Create Tag</div>
+            <div class="tag-btn-wrapper">
+                <div class="btn btn-update-tag">Update</div>
+                <div class="tag-delete-wrapper">
+                  <svg class="delete-icon" viewBox="0 0 137.583 164.571" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-42.333 -64.167)"><rect x="52.917" y="112.32" width="116.42" height="116.42" rx="10.583" ry="7.276" fill="#CFD8DC"/><rect  class="delete-icon-top" x="127" y="64.167" width="10.583" height="31.75" rx="4.914" ry="5.291" fill="#CFD8DC"/><g fill="#CFD8DC" class="delete-icon-top"><rect x="84.667" y="64.167" width="10.583" height="31.75" rx="5.291" ry="5.292"/><rect x="42.333" y="85.333" width="137.58" height="20.411" rx="10.583" ry="15.308"/><rect x="84.667" y="64.167" width="52.917" height="10.583" rx="10.583" ry="7.938"/></g><g fill="#B0BEC5"><rect transform="scale(1 -1)" x="105.83" y="-212.86" width="10.583" height="84.667" rx="10.583" ry="7.276"/><rect x="74.083" y="127.67" width="10.583" height="84.667" rx="10.583" ry="7.761"/><rect x="137.58" y="127.67" width="10.583" height="84.667" rx="10.583" ry="7.276"/></g></g></svg>
+                  <div class="delete-confirm hide">
+                    <p class="delete-confirm-title">Are you sure?</p>
+                    <p class="delete-confirm-desc">Deleting your tag will remove it from the calendar.</p>
+                    <div class="btn btn-cancel">Cancel</div>
+                    <div class="btn btn-delete">Delete</div>
+                  </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Calendar -->
+      <div class="calendar-wrapper">
+        <h1 class="curr-date"><span class="curr-month"></span><span class="curr-year"></span></h1>
+        <div class="calendar">
+          <div class="edit-day-modal card hide">
+            <p class="edit-day"></p>
+            <div class="checkbox-wrapper select-all">
+              <input type="checkbox" id="check-all">
+              <label for="check-all">
+                <div class="custom-checkbox"></div>
+                <div>Select All</div>
+              </label>
+            </div>
+            <div class="day-checkboxes"></div>
+            <svg class="delete-icon" viewBox="0 0 137.583 164.571" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-42.333 -64.167)"><rect x="52.917" y="112.32" width="116.42" height="116.42" rx="10.583" ry="7.276" fill="#CFD8DC"/><rect  class="delete-icon-top" x="127" y="64.167" width="10.583" height="31.75" rx="4.914" ry="5.291" fill="#CFD8DC"/><g fill="#CFD8DC" class="delete-icon-top"><rect x="84.667" y="64.167" width="10.583" height="31.75" rx="5.291" ry="5.292"/><rect x="42.333" y="85.333" width="137.58" height="20.411" rx="10.583" ry="15.308"/><rect x="84.667" y="64.167" width="52.917" height="10.583" rx="10.583" ry="7.938"/></g><g fill="#B0BEC5"><rect transform="scale(1 -1)" x="105.83" y="-212.86" width="10.583" height="84.667" rx="10.583" ry="7.276"/><rect x="74.083" y="127.67" width="10.583" height="84.667" rx="10.583" ry="7.761"/><rect x="137.58" y="127.67" width="10.583" height="84.667" rx="10.583" ry="7.276"/></g></g></svg>
+          </div>
+          <div class="cal-header">Sun</div>
+          <div class="cal-header">Mon</div>
+          <div class="cal-header">Tue</div>
+          <div class="cal-header">Wed</div>
+          <div class="cal-header">Thur</div>
+          <div class="cal-header">Fri</div>
+          <div class="cal-header">Sat</div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"><div class="day-tag green" data-day-tag-id="aa">🌱</div></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+          <div class="day"><span class="day-number"></span><div class="day-tags"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="/js/calendar.min.js"></script>
+  <script src="/js/index.min.js"></script>
+  
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+  <script src="/js/firebase.js"></script>
+</body>
+</html>
