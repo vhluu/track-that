@@ -4,7 +4,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: {
     index: './src/index.js',
-    calendar: './src/js/calendar.js'
+    calendar: './src/js/calendar.js',
+    popup: './src/js/popup.js'
   },
   resolve: {
       alias: {
@@ -15,12 +16,13 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin([
-      { from: 'src', to: '', ignore: 'index.js' },
+      { from: 'src', to: '', ignore: ['js/*', 'index.js'] },
+      { from: 'src/js/firebase.js', to: 'js' }
     ]),
   ],
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: 'js/[name].min.js',
+    chunkFilename: 'js/[name].min.js',
     path: path.resolve(__dirname, 'dist')
   },
   watch: true
