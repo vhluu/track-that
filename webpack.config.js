@@ -30,7 +30,7 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin([
-      { from: 'src', to: '', ignore: ['js/*', 'index.js'] },
+      { from: 'src', to: '', ignore: ['js/*', 'components/**/*', 'index.js'] },
       { from: 'src/js/firebase.js', to: 'js' }
     ]),
   ],
