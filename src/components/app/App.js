@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import Calendar from '../calendar/Calendar';
+import Calendar from '../Calendar/Calendar';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <Calendar/>
+      <div className="app">
+        <Calendar/>
+      </div>
     );
   }
 }
