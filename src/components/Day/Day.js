@@ -5,7 +5,11 @@ class Day extends Component {
     return (
       <div className="day">
         <span className="day-number">{this.props.date}</span>
-        <div className="day-tags"></div>
+        <div className="day-tags">
+          {this.props.date.map((tags) => (
+            <div className="day-tag green" data-day-tag-id="aa">🌱</div>
+          ))}
+        </div>
       </div>
     )
   }
