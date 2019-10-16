@@ -22,6 +22,10 @@ class Calendar extends Component {
   componentDidMount() {
     const { date } = this.state;
     this.setCalendar(date);
+
+    const { firebase } = this.props;
+    console.log(firebase);
+    firebase.dbGetTags("110920429500091189106").then((tags) => console.log(tags));
   }
 
   /* Sets the calendar to the given month and year */
@@ -32,22 +36,22 @@ class Calendar extends Component {
 
     // if current month doesn't start on Sunday, then get dates from last month
     if (dayOfWeek !== 0) {
-      const endOfLastMonth = (new Date(year, month - 1, 0)).getDate(); // last day of last month
+      const endOfLastMonth = (new Date(year, month, 0)).getDate(); // last day of last month
       for (let i = 0; i < dayOfWeek; i++) {
         days.push(endOfLastMonth - dayOfWeek + i);
       }
     }
 
-    currMonth.setDate(0); // sets date to last day of current month
-    const daysInCurrMonth = currMonth.getDate(); // gets days in current month
+    const daysInCurrMonth = (new Date(year, month + 1, 0)).getDate(); // gets days in current month
     for (let i = 0; i < daysInCurrMonth; i++) {
       days.push(i + 1);
     }
 
     // add days from next month if needed to fill up calendar
     if (days.length < 35) {
+      const daysLeft = 35 - days.length;
       // const nextMonth = new Date(year, month + 1, 1);
-      for (let i = 0; i < 35 - days.length; i++) {
+      for (let i = 0; i < daysLeft; i++) {
         days.push(i + 1);
       }
     }
@@ -58,8 +62,6 @@ class Calendar extends Component {
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { date, days } = this.state;
-    const { firebase } = this.props;
-    console.log(firebase);
 
     return (
       <div className="calendar-wrapper">
@@ -71,12 +73,6 @@ class Calendar extends Component {
           {daysOfWeek.map((day) => (
             <div className="cal-header">{ day }</div>
           ))}
-          <div className="day">
-            <span className="day-number" />
-            <div className="day-tags">
-              <div className="day-tag green" data-day-tag-id="aa">🌱</div>
-            </div>
-          </div>
           {days.map((day) => (
             <Day date={day} />
           ))}
