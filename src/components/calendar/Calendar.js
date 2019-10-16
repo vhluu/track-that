@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Day from '../Day/Day';
 import './Calendar.css';
-
 
 class Calendar extends Component {
   constructor(props) {
@@ -57,6 +57,8 @@ class Calendar extends Component {
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { date, days } = this.state;
+    const { firebase } = this.props;
+    console.log(firebase);
 
     return (
       <div className="calendar-wrapper">
@@ -82,5 +84,9 @@ class Calendar extends Component {
     );
   }
 }
+
+Calendar.propTypes = {
+  firebase: PropTypes.objectOf(PropTypes.object).isRequired,
+};
 
 export default Calendar;
