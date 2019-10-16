@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { firebaseHOC } from '../../util/Firebase';
 import Day from '../Day/Day';
 import './Calendar.css';
 
@@ -89,4 +90,4 @@ Calendar.propTypes = {
   firebase: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
-export default Calendar;
+export default firebaseHOC(Calendar);
