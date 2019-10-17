@@ -26,6 +26,7 @@ class Calendar extends Component {
     const { firebase } = this.props;
     console.log(firebase);
     firebase.dbGetTags("110920429500091189106").then((tags) => console.log(tags));
+    console.log(chrome.identity);
   }
 
   /* Sets the calendar to the given month and year */
