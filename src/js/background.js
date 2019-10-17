@@ -48,6 +48,33 @@ chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: true }, function
     var token_info = JSON.parse(this.response);
     refresh_token = token_info.refresh_token;
     access_token = token_info.access_token;
+    console.log(refresh_token);
+    console.log(access_token);
+
+    var xhr = new XMLHttpRequest();
+    var url = 'https://www.googleapis.com/oauth2/v3/userinfo';
+    xhr.open('get', url);
+    
+    xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+    xhr.onload = function() {
+      console.log(this.status);
+      if (this.status == 401) {
+        console.log('401 error');
+      } else {
+        if (this.status == 200) {
+          console.log(this.response);
+          var user_info = JSON.parse(this.response);
+          email = user_info.email;
+          user_id = user_info.sub;
+          console.log(email);
+          console.log(user_id);
+          
+        } else {
+          console.log("Error:");
+        }
+      }
+    }
+    xhr.send();
   }
 
   xhr.send(request_url.toString());
