@@ -6,6 +6,18 @@
   "browser_action": {
     "default_popup": "popup.html"
   },
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": false
+  },
   "manifest_version": 2,
-  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com; object-src 'self'"
+  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com; object-src 'self'",
+  "oauth2": {
+    "client_id": "<CLIENT-ID>",
+    "scopes": [
+      "openid", "email", "profile"
+    ]
+  },
+  "key": "<SECRET-KEY>"
 }
+
