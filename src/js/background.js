@@ -1,6 +1,6 @@
 var auth_url = 'https://accounts.google.com/o/oauth2/auth?';
-var client_id = '<CLIENT-ID>';  // must be Web Application type
-var redirect_url = chrome.identity.getRedirectURL(); // make sure to define Authorised redirect URIs in the Google Console such as https://<-your-extension-ID->.chromiumapp.org/
+var client_id = '<CLIENT-ID>';
+var redirect_url = chrome.identity.getRedirectURL();
 console.log(redirect_url);
 var auth_params = {
     client_id: client_id,
@@ -51,13 +51,14 @@ chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: true }, function
     console.log(refresh_token);
     console.log(access_token);
 
-    var xhr = new XMLHttpRequest();
+    var xhr2 = new XMLHttpRequest();
     var url = 'https://www.googleapis.com/oauth2/v3/userinfo';
-    xhr.open('get', url);
+    xhr2.open('get', url);
     
-    xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-    xhr.onload = function() {
+    xhr2.setRequestHeader('Authorization', 'Bearer ' + access_token);
+    xhr2.onload = function() {
       console.log(this.status);
+      // TODO: handling errors
       if (this.status == 401) {
         console.log('401 error');
       } else {
@@ -74,7 +75,7 @@ chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: true }, function
         }
       }
     }
-    xhr.send();
+    xhr2.send();
   }
 
   xhr.send(request_url.toString());
