@@ -74,7 +74,7 @@ function _getRefreshToken(responseUrl, callback) {
   xhr.send(request_url.toString());
 }
 
-function _getUserInfo(access_token, callback) {
+function _getUserInfo(access_token, callback, startLogin) {
   let xhr = new XMLHttpRequest();
   var url = 'https://www.googleapis.com/oauth2/v3/userinfo';
   xhr.open('get', url);
@@ -84,12 +84,15 @@ function _getUserInfo(access_token, callback) {
     console.log(this.status);
     if (this.status == 401) {
       // TODO: revoke auth token and request a new one
-      console.log('401 error');
+      console.log('Access Token expired');
       //retry = false;
       window.fetch(`https://accounts.google.com/o/oauth2/revoke?token=${access_token}`);
 
       chrome.identity.removeCachedAuthToken({token: access_token}, function (){
-        // TODO: request a new one using refresh token 
+        // TODO: request a new one using refresh token
+        if(startLogin) {
+
+        } 
       });
     } else {
       if (this.status == 200) {
@@ -129,8 +132,8 @@ chrome.runtime.onMessage.addListener(
       getFromStorage('tt-extension-a', function(value) {
         console.log('access is ' + value);
 
-        if (value) _getUserInfo(value, sendResponse); // checks access code
-        else _startAuthFlow(); // logs in user from beginning 
+        if (value) _getUserInfo(value, sendResponse, request.login); // checks access code
+        else if(request.login) _startAuthFlow(); // logs in user from beginning 
       });
     }
     if (request.greeting === 'hello from main page') sendResponse({ id: '123789' });
