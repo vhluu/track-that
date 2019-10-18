@@ -14,7 +14,7 @@ signinBtn.addEventListener('click', function() {
     if (response) {
       console.log(response);
       if(response.email) {
-        signinBtn.textContent = response.email;
+        signinBtn.style.display = "none";
       }
     } else {
       console.log("Couldn't get email address of profile user.");

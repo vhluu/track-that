@@ -10,7 +10,7 @@ var email;
 var user_id;
 
 
-function _startAuthFlow() {
+function _startAuthFlow(callback) {
   const auth_params = {
     client_id: client_id,
     redirect_uri: redirect_url,
@@ -25,10 +25,12 @@ function _startAuthFlow() {
   url.toString();
   auth_url += url;
 
-  chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: true }, _getRefreshToken);
+  chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: true }, function(responseUrl) {
+    _getRefreshToken(responseUrl, callback);
+  });
 }
 
-function _getRefreshToken(responseUrl) {
+function _getRefreshToken(responseUrl, callback) {
   console.log(responseUrl);
 
   var token_url = 'https://www.googleapis.com/oauth2/v4/token';
@@ -58,19 +60,21 @@ function _getRefreshToken(responseUrl) {
     access_token = token_info.access_token;
     console.log(refresh_token);
     console.log(access_token);
+    addToStorage('tt-extension-r', refresh_token);
+    addToStorage('tt-extension-a', access_token);
 
     // TODO: store refresh & access token
 
     // TODO: use refresh token to retrieve access token
 
     // use access token to receive info
-    _getUserInfo(access_token);
+    _getUserInfo(access_token, callback);
   }
 
   xhr.send(request_url.toString());
 }
 
-function _getUserInfo(access_token) {
+function _getUserInfo(access_token, callback) {
   let xhr = new XMLHttpRequest();
   var url = 'https://www.googleapis.com/oauth2/v3/userinfo';
   xhr.open('get', url);
@@ -79,10 +83,14 @@ function _getUserInfo(access_token) {
   xhr.onload = function() {
     console.log(this.status);
     if (this.status == 401) {
-      //retry = false;
-      //chrome.identity.removeCachedAuthToken({ token: access_token }, getToken);
       // TODO: revoke auth token and request a new one
       console.log('401 error');
+      //retry = false;
+      window.fetch(`https://accounts.google.com/o/oauth2/revoke?token=${access_token}`);
+
+      chrome.identity.removeCachedAuthToken({token: access_token}, function (){
+        // TODO: request a new one using refresh token 
+      });
     } else {
       if (this.status == 200) {
         console.log(this.response);
@@ -91,7 +99,14 @@ function _getUserInfo(access_token) {
         user_id = user_info.sub;
         console.log(email);
         console.log(user_id);
-        
+
+        // will do this if user is already logged in
+        if(callback) callback({ email: email });
+
+        // will do this if user is logging in 
+        else chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
+          // Tab opened.
+        });
       } else {
         console.log("Error:");
       }
@@ -100,7 +115,7 @@ function _getUserInfo(access_token) {
   xhr.send();
 }
 
-_startAuthFlow();
+// _startAuthFlow();
 
 
 /* Test: sending email to popup when requested */
@@ -109,6 +124,32 @@ chrome.runtime.onMessage.addListener(
     console.log(request);
     console.log(sender);
     console.log(sendResponse);
-    if (request.greeting == 'hello from popup') sendResponse({ email: 'test@gmail.com' })
+    if (request.greeting == 'hello from popup') {
+      // if the access token is valid, then we dont need to make the user login
+      getFromStorage('tt-extension-a', function(value) {
+        console.log('access is ' + value);
+
+        if (value) _getUserInfo(value, sendResponse); // checks access code
+        else _startAuthFlow(); // logs in user from beginning 
+      });
+    }
+    if (request.greeting === 'hello from main page') sendResponse({ id: '123789' });
+    return true;
   }
 );
+
+
+function addToStorage(key, value) {
+  chrome.storage.local.set({[key]: value}, function() {
+    console.log(key + ' is set to ' + value);
+  });
+}
+
+function getFromStorage(key, callback) {
+  chrome.storage.local.get([key], function(result) {
+    console.log(result[key]);
+    callback(result[key]);
+  });
+}
+
+
