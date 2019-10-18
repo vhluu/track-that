@@ -5,3 +5,23 @@ calendarBtn.addEventListener('click', function(tab) {
     // Tab opened.
   });
 });
+
+const signinBtn = document.querySelector('.google-signin');
+const signoutBtn = document.querySelector('.google-signout');
+
+signinBtn.addEventListener('click', function() {
+  chrome.extension.sendMessage({greeting: "hello from popup"}, function(response) {
+    if (response) {
+      console.log(response);
+      if(response.email) {
+        signinBtn.textContent = response.email;
+      }
+    } else {
+      console.log("Couldn't get email address of profile user.");
+    }
+  });
+});
+
+signoutBtn.addEventListener('click', function() {
+
+});

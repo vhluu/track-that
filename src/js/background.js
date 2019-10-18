@@ -101,3 +101,14 @@ function _getUserInfo(access_token) {
 }
 
 _startAuthFlow();
+
+
+/* Test: sending email to popup when requested */
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log(request);
+    console.log(sender);
+    console.log(sendResponse);
+    if (request.greeting == 'hello from popup') sendResponse({ email: 'test@gmail.com' })
+  }
+);
