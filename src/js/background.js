@@ -73,7 +73,7 @@ function _getRefreshToken(responseUrl, callback) {
     addToStorage('tt-extension-a', access_token);
 
     // use access token to receive info
-    _getUserInfo(access_token, callback);
+    _getUserInfo(access_token, callback, true, true);
   }
 
   xhr.send(request_url.toString());
@@ -107,7 +107,7 @@ function _getUserInfo(access_token, callback, startLogin, retry) {
         console.log(user_id);
 
         // will do this if user is already logged in
-        if(callback) callback({ email: email });
+        if(!startLogin) callback({ email: email });
 
         // will do this if user is logging in 
         else chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
@@ -177,8 +177,8 @@ chrome.runtime.onMessage.addListener(
       getFromStorage('tt-extension-a', function(value) {
         console.log('access is ' + value);
 
-        if (value) _getUserInfo(value, sendResponse, request.login, true); // checks access code
-        else if(request.login) _startAuthFlow(sendReponse, true); // logs in user from beginning 
+        if (value) _getUserInfo(value, sendResponse, false, true); // checks access code
+        else if(request.login) _startAuthFlow(sendResponse, true); // logs in user from beginning 
         else sendResponse({ email: '' });
       });
     }
