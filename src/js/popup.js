@@ -15,12 +15,12 @@ signinBtn.addEventListener('click', function() {
 });
 
 signoutBtn.addEventListener('click', function() {
-
+  _signoutUser();
 });
 
 function _retrieveLoginStatus(startLogin) {
   chrome.extension.sendMessage({ greeting: "hello from popup", login: startLogin }, function(response) {
-    if (response) {
+    if (response && response.email) {
       console.log(response);
       if(response.email) {
         signinBtn.style.display = "none";
@@ -28,6 +28,23 @@ function _retrieveLoginStatus(startLogin) {
       }
     } else {
       console.log("Couldn't get email address of profile user.");
+      signinBtn.style.display = "block";
+      signoutBtn.style.display = "none";
+    }
+  });
+}
+
+function _signoutUser() {
+  chrome.extension.sendMessage({ greeting: "sign me out" }, function(response) {
+    console.log(response);
+    if (response) {
+      console.log(response);
+      if(response['signed_out']) {
+        signinBtn.style.display = "block";
+        signoutBtn.style.display = "none";
+      }
+    } else {
+      console.log("Couldn't sign out. Please try again!");
       signinBtn.style.display = "block";
       signoutBtn.style.display = "none";
     }

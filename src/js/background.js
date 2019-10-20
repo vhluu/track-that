@@ -14,7 +14,7 @@ var user_id;
 /**
  * Starts the user authorization flow
  */
-function _startAuthFlow(callback) {
+function _startAuthFlow(callback, interactive) {
   const auth_params = {
     client_id: client_id,
     redirect_uri: redirect_url,
@@ -29,7 +29,7 @@ function _startAuthFlow(callback) {
   url.toString();
   auth_url += url;
 
-  chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: true }, function(responseUrl) {
+  chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: interactive }, function(responseUrl) {
     _getRefreshToken(responseUrl, callback);
   });
 }
@@ -151,6 +151,10 @@ function _refreshAccessToken(callback) {
 
           _getUserInfo(access_token, callback, false, false);
         }
+        else { // refresh token is expired
+          // revoke refresh token & generate a new one
+          _revokeToken(callback, true);
+        }
       }
 
       xhr.send(refresh_url_params.toString());
@@ -174,11 +178,12 @@ chrome.runtime.onMessage.addListener(
         console.log('access is ' + value);
 
         if (value) _getUserInfo(value, sendResponse, request.login, true); // checks access code
-        else if(request.login) _startAuthFlow(); // logs in user from beginning 
+        else if(request.login) _startAuthFlow(sendReponse, true); // logs in user from beginning 
+        else sendResponse({ email: '' });
       });
     }
     else if (request.greeting == 'hello from main page') sendResponse({ id: '123789' });
-    else if (request.greeting == 'sign me out') _revokeToken();
+    else if (request.greeting == 'sign me out') _revokeToken(sendResponse, false);
     return true;
   }
 );
@@ -198,13 +203,12 @@ function getFromStorage(key, callback) {
 }
 
 function removeFromStorage(keys) {
-  chrome.storage.local.remove(keys, function(response) {
-    console.log(response);
+  chrome.storage.local.remove(keys, function() {
     console.log('removed keys from storage');
   });
 }
 
-function _revokeToken() {
+function _revokeToken(callback, generateNew) {
   getFromStorage('tt-extension-a', function(value) {
     console.log('access is ' + value);
 
@@ -214,10 +218,12 @@ function _revokeToken() {
         if(response.status == 200) {
           console.log('successfully revoked token');
           removeFromStorage(['tt-extension-a', 'tt-extension-r']);
+
+          if (generateNew) _startAuthFlow(callback, false);
+          else callback({ signed_out: true });
         }
       });
     }
-    
   });
 
   
