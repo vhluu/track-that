@@ -1,232 +1,233 @@
-var auth_url = 'https://accounts.google.com/o/oauth2/auth?';
-const client_id = '<CLIENT-ID>';  // must be Web Application type
-const client_secret = '<CLIENT-SECRET>';
-const redirect_url = chrome.identity.getRedirectURL(); // make sure to define Authorised redirect URIs in the Google Console such as https://<-your-extension-ID->.chromiumapp.org/
-console.log(redirect_url);
+const clientId = '<CLIENT-ID>';
+const clientSecret = '<CLIENT-SECRET>';
+const redirectUrl = chrome.identity.getRedirectURL();
+console.log(redirectUrl);
 
-var access_token;
-var refresh_token;
-
-var email;
-var user_id;
+var accessToken;
+var refreshToken;
 
 
 /**
  * Starts the user authorization flow
  */
-function _startAuthFlow(callback, interactive) {
-  const auth_params = {
-    client_id: client_id,
-    redirect_uri: redirect_url,
+function startAuthFlow(callback, interactive) {
+  let authUrl = 'https://accounts.google.com/o/oauth2/auth?';
+  const authParams = {
+    client_id: clientId,
+    redirect_uri: redirectUrl,
     response_type: 'code',
     access_type: 'offline',
     approval_prompt: 'force',
     scope: 'email',
-    login_hint: '' // fake or non-existent won't work
+    login_hint: '',
   };
 
-  const url = new URLSearchParams(Object.entries(auth_params));
+  const url = new URLSearchParams(Object.entries(authParams));
   url.toString();
-  auth_url += url;
+  authUrl += url;
 
-  chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: interactive }, function(responseUrl) {
-    _getRefreshToken(responseUrl, callback);
+  chrome.identity.launchWebAuthFlow({ url: authUrl, interactive }, (responseUrl) => {
+    getRefreshToken(responseUrl, callback);
   });
 }
 
 /**
  * Gets a refresh token for the user
  */
-function _getRefreshToken(responseUrl, callback) {
+function getRefreshToken(responseUrl, callback) {
   console.log(responseUrl);
 
-  var token_url = 'https://www.googleapis.com/oauth2/v4/token';
-  const auth_code = responseUrl.split("&")[0].split("code=")[1]; // gets authorization code from reponse url
-  console.log(auth_code);
+  const tokenUrl = 'https://www.googleapis.com/oauth2/v4/token';
+  const authCode = responseUrl.split('&')[0].split('code=')[1]; // gets authorization code from reponse url
+  console.log(authCode);
 
-  var token_params = {
-    code: decodeURIComponent(auth_code),
-    client_id: client_id,
-    client_secret: client_secret,
-    redirect_uri: redirect_url,
-    grant_type: 'authorization_code'
-  }
+  const tokenParams = {
+    code: decodeURIComponent(authCode),
+    client_id: clientId,
+    client_secret: clientSecret,
+    redirect_uri: redirectUrl,
+    grant_type: 'authorization_code',
+  };
 
-  const request_url = new URLSearchParams(Object.entries(token_params));
+  const requestUrl = new URLSearchParams(Object.entries(tokenParams));
 
-  let xhr = new XMLHttpRequest();
-  xhr.open('post', token_url)
+  const xhr = new XMLHttpRequest();
+  xhr.open('post', tokenUrl);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
+  xhr.onload = function retrieveTokens() {
     console.log(this.status);
     console.log(this.response);
 
     // grab the access token and use that to get the email
-    var token_info = JSON.parse(this.response);
-    refresh_token = token_info.refresh_token;
-    access_token = token_info.access_token;
-    console.log(refresh_token);
-    console.log(access_token);
+    const tokenInfo = JSON.parse(this.response);
+    refreshToken = tokenInfo.refresh_token;
+    accessToken = tokenInfo.access_token;
+    console.log(refreshToken);
+    console.log(accessToken);
 
     // store refresh & access token
-    addToStorage('tt-extension-r', refresh_token);
-    addToStorage('tt-extension-a', access_token);
+    addToStorage('tt-extension-r', refreshToken);
+    addToStorage('tt-extension-a', accessToken);
 
     // use access token to receive info
-    _getUserInfo(access_token, callback, true, true);
-  }
+    getUserInfo(accessToken, callback, true, true);
+  };
 
-  xhr.send(request_url.toString());
+  xhr.send(requestUrl.toString());
 }
 
 
-function _getUserInfo(access_token, callback, startLogin, retry) {
-  let xhr = new XMLHttpRequest();
-  var url = 'https://www.googleapis.com/oauth2/v3/userinfo';
+/**
+ * Gets user information using access token
+ */
+function getUserInfo(accessTok, callback, startLogin, retry) {
+  const xhr = new XMLHttpRequest();
+  const url = 'https://www.googleapis.com/oauth2/v3/userinfo';
   xhr.open('get', url);
 
-  xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-  xhr.onload = function() {
+  xhr.setRequestHeader('Authorization', `Bearer ${accessTok}`);
+  xhr.onload = function retrieveInfo() {
     console.log(this.status);
-    if (this.status == 401 && retry) {
+    if (this.status === 401 && retry) { // access token is expired or revoked
       console.log('Access Token expired');
 
-      chrome.identity.removeCachedAuthToken({token: access_token}, function (response){
+      chrome.identity.removeCachedAuthToken({ token: accessTok }, (response) => {
         console.log('removed cached auth token');
-        console.log(reponse);
+        console.log(response);
 
-        _refreshAccessToken(callback);
+        refreshAccessToken(callback);
       });
-    } else {
-      if (this.status == 200) {
-        console.log(this.response);
-        var user_info = JSON.parse(this.response);
-        email = user_info.email;
-        user_id = user_info.sub;
-        console.log(email);
-        console.log(user_id);
+    } else if (this.status === 200) { // successfully retrieved user information
+      console.log(this.response);
+      const userInfo = JSON.parse(this.response);
+      const { email } = userInfo;
+      const userId = userInfo.sub;
+      console.log(email);
+      console.log(userId);
 
-        // will do this if user is already logged in
-        if(!startLogin) callback({ email: email });
-
-        // will do this if user is logging in 
-        else chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {
-          // Tab opened.
+      // if user is already logged in, send the email to script that requested it
+      if (!startLogin) callback({ email });
+      else { // user is relogging in so open the extension page
+        chrome.tabs.create({ url: chrome.extension.getURL('index.html') }, (tab) => {
+          console.log('tab opened');
         });
-      } else {
-        console.log("Error:");
       }
+    } else {
+      console.log(`Error: ${this.status}`);
     }
-  }
+  };
   xhr.send();
 }
 
-function _refreshAccessToken(callback) {
+/**
+ * Generates a new access token using refresh token
+ */
+function refreshAccessToken(callback) {
   console.log('refreshing access token');
-  // get the refresh token
-  getFromStorage('tt-extension-r', function(token) {
-    if(token) {
-      var refresh_url = 'https://www.googleapis.com/oauth2/v4/token';
+  // get the refresh token from storage
+  getFromStorage('tt-extension-r', (token) => {
+    if (token) {
+      const refreshUrl = 'https://www.googleapis.com/oauth2/v4/token';
 
-      var refresh_params = {
-        client_id: client_id,
-        client_secret: client_secret,
+      const refreshParams = {
+        client_id: clientId,
+        client_secret: clientSecret,
         refresh_token: token,
-        grant_type: 'refresh_token'
-      }
+        grant_type: 'refresh_token',
+      };
 
-      const refresh_url_params = new URLSearchParams(Object.entries(refresh_params));
+      const refreshUrlParams = new URLSearchParams(Object.entries(refreshParams));
 
-      let xhr = new XMLHttpRequest();
-      xhr.open('post', refresh_url)
+      const xhr = new XMLHttpRequest();
+      xhr.open('post', refreshUrl);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.onload = function() {
+      xhr.onload = function getAccess() {
         console.log(this.status);
         console.log(this.response);
-        if(this.status == 200) {
-           // grab the access token and use that to get the email
-          var token_info = JSON.parse(this.response);
-          access_token = token_info.access_token;
-          addToStorage('tt-extension-a', access_token);
+        if (this.status === 200) {
+          // grab the access token and use that to get the email
+          const tokenInfo = JSON.parse(this.response);
+          accessToken = tokenInfo.access_token;
+          addToStorage('tt-extension-a', accessToken);
 
-          _getUserInfo(access_token, callback, false, false);
-        }
-        else { // refresh token is expired
+          getUserInfo(accessToken, callback, false, false);
+        } else { // refresh token is expired
           // revoke refresh token & generate a new one
-          _revokeToken(callback, true);
+          revokeToken(callback, true);
         }
-      }
+      };
 
-      xhr.send(refresh_url_params.toString());
+      xhr.send(refreshUrlParams.toString());
     }
     // generate new fresh token
   });
 }
 
-// _startAuthFlow();
+// startAuthFlow();
 
 
-/* Test: sending email to popup when requested */
+/**
+ * Listens for messages from other scripts & calls appropriate auth methods
+ */
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
+  (request, sender, sendResponse) => {
     console.log(request);
     console.log(sender);
     console.log(sendResponse);
-    if (request.greeting == 'hello from popup') {
+    if (request.greeting === 'hello from popup') {
       // if the access token is valid, then we dont need to make the user login
-      getFromStorage('tt-extension-a', function(value) {
-        console.log('access is ' + value);
+      getFromStorage('tt-extension-a', (value) => {
+        console.log(`access is ${value}`);
 
-        if (value) _getUserInfo(value, sendResponse, false, true); // checks access code
-        else if(request.login) _startAuthFlow(sendResponse, true); // logs in user from beginning 
+        if (value) getUserInfo(value, sendResponse, false, true); // checks access code
+        else if (request.login) startAuthFlow(sendResponse, true); // logs in user from beginning 
         else sendResponse({ email: '' });
       });
     }
-    else if (request.greeting == 'hello from main page') sendResponse({ id: '123789' });
-    else if (request.greeting == 'sign me out') _revokeToken(sendResponse, false);
+    else if (request.greeting === 'hello from main page') sendResponse({ id: '123789' });
+    else if (request.greeting === 'sign me out') revokeToken(sendResponse, false);
     return true;
   }
 );
 
 
 function addToStorage(key, value) {
-  chrome.storage.local.set({[key]: value}, function() {
-    console.log(key + ' is set to ' + value);
+  chrome.storage.local.set({ [key]: value }, () => {
+    console.log(`${key} is set to ${value}`);
   });
 }
 
 function getFromStorage(key, callback) {
-  chrome.storage.local.get([key], function(result) {
+  chrome.storage.local.get([key], (result) => {
     console.log(result[key]);
     callback(result[key]);
   });
 }
 
 function removeFromStorage(keys) {
-  chrome.storage.local.remove(keys, function() {
+  chrome.storage.local.remove(keys, () => {
     console.log('removed keys from storage');
   });
 }
 
-function _revokeToken(callback, generateNew) {
-  getFromStorage('tt-extension-a', function(value) {
-    console.log('access is ' + value);
+/**
+ * Revokes tokens & starts authorization flow is 'generateNew' is true
+ */
+function revokeToken(callback, generateNew) {
+  getFromStorage('tt-extension-a', (value) => {
+    console.log(`access is ${value}`);
 
     if (value) {
       window.fetch(`https://accounts.google.com/o/oauth2/revoke?token=${value}`).then((response) => {
         console.log(response);
-        if(response.status == 200) {
+        if (response.status === 200) { // successfully revoked token
           console.log('successfully revoked token');
           removeFromStorage(['tt-extension-a', 'tt-extension-r']);
 
-          if (generateNew) _startAuthFlow(callback, false);
+          if (generateNew) startAuthFlow(callback, false);
           else callback({ signed_out: true });
         }
       });
     }
   });
-
-  
 }
-
-
