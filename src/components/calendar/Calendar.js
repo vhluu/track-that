@@ -25,8 +25,16 @@ class Calendar extends Component {
 
     const { firebase } = this.props;
     console.log(firebase);
-    firebase.dbGetTags("110920429500091189106").then((tags) => console.log(tags));
-    console.log(chrome.identity);
+    
+    // get authenticated user and get firebase data
+    chrome.extension.sendMessage({ greeting: 'hello from calendar' }, (response) => {
+      if (response && response.userId) {
+        console.log(response);
+        firebase.dbGetTags(response.userId).then((tags) => console.log(tags));
+      } else {
+        console.log("Couldn't get user");
+      }
+    });
   }
 
   /* Sets the calendar to the given month and year */

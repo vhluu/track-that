@@ -5,7 +5,8 @@ module.exports = {
   entry: {
     index: './src/index.js',
     calendar: './src/js/calendar.js',
-    popup: './src/js/popup.js'
+    popup: './src/js/popup.js',
+    background: './src/js/background.js'
   },
   module: {
     rules: [
