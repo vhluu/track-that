@@ -2,12 +2,13 @@
   "parser": "babel-eslint",
   "extends": ["airbnb"],
   "env": {
-    "browser": true
+    "browser": true,
+    "webextensions": true
   },
   "rules": {
     "jsx-a11y/accessible-emoji": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/jsx-props-no-spreading": { "custom": "ignore" },
+    "react/jsx-props-no-spreading": "off",
     "no-console": "off",
     "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
     "no-trailing-spaces": "off"
