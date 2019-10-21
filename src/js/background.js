@@ -106,7 +106,7 @@ function getUserInfo(accessTok, callback, startLogin, retry) {
       console.log(userId);
 
       // if user is already logged in, send the email to script that requested it
-      if (!startLogin) callback({ email });
+      if (!startLogin) callback({ email, userId });
       else { // user is relogging in so open the extension page
         chrome.tabs.create({ url: chrome.extension.getURL('index.html') }, (tab) => {
           console.log('tab opened');
@@ -174,7 +174,7 @@ chrome.runtime.onMessage.addListener(
     console.log(request);
     console.log(sender);
     console.log(sendResponse);
-    if (request.greeting === 'hello from popup') {
+    if (request.greeting === 'hello from popup' || request.greeting === 'hello from calendar') {
       // if the access token is valid, then we dont need to make the user login
       getFromStorage('tt-extension-a', (value) => {
         console.log(`access is ${value}`);
@@ -183,11 +183,10 @@ chrome.runtime.onMessage.addListener(
         else if (request.login) startAuthFlow(sendResponse, true); // logs in user from beginning 
         else sendResponse({ email: '' });
       });
-    }
-    else if (request.greeting === 'hello from main page') sendResponse({ id: '123789' });
+    } else if (request.greeting === 'hello from main page') sendResponse({ id: '123789' });
     else if (request.greeting === 'sign me out') revokeToken(sendResponse, false);
     return true;
-  }
+  },
 );
 
 
