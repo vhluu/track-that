@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Calendar from '../calendar/Calendar';
+import TagList from '../tag-list/TagList';
 import './App.css';
 
 class App extends Component {
@@ -24,7 +25,10 @@ class App extends Component {
   render() {
     const { uid } = this.state;
     return (
+      <div className="flex_t main-wrapper card">
+        <TagList uid={uid} />
         <Calendar uid={uid} />
+      </div>
     );
   }
 }

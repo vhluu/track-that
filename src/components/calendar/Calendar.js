@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { firebaseHOC } from '../../util/Firebase';
-import Day from '../Day/Day';
+import Day from '../day/Day';
 import './Calendar.css';
 
 class Calendar extends Component {
@@ -26,15 +26,16 @@ class Calendar extends Component {
     const { firebase, uid } = this.props;
     console.log(firebase);
     
-    if (uid) {
+    // TODO: change to getDayTags
+    /* if (uid) {
       this.getTags(uid);
-    }
+    } */
   }
 
   componentDidUpdate(prevProps) {
     const { uid } = this.props;
     if (prevProps.uid !== uid) {
-      this.getTags(uid);
+      // this.getTags(uid);
     }
   }
 
