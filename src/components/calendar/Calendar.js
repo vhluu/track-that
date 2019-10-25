@@ -23,18 +23,25 @@ class Calendar extends Component {
     const { date } = this.state;
     this.setCalendar(date);
 
-    const { firebase } = this.props;
+    const { firebase, uid } = this.props;
     console.log(firebase);
     
-    // get authenticated user and get firebase data
-    chrome.extension.sendMessage({ greeting: 'hello from calendar' }, (response) => {
-      if (response && response.userId) {
-        console.log(response);
-        firebase.dbGetTags(response.userId).then((tags) => console.log(tags));
-      } else {
-        console.log("Couldn't get user");
-      }
-    });
+    if (uid) {
+      this.getTags(uid);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { uid } = this.props;
+    if (prevProps.uid !== uid) {
+      this.getTags(uid);
+    }
+  }
+
+  /* Gets user data from firebase */
+  getTags(id) {
+    const { firebase } = this.props;
+    if (id) firebase.dbGetTags(id).then((tags) => console.log(tags));
   }
 
   /* Sets the calendar to the given month and year */
@@ -93,6 +100,7 @@ class Calendar extends Component {
 
 Calendar.propTypes = {
   firebase: PropTypes.objectOf(PropTypes.object).isRequired,
+  uid: PropTypes.string.isRequired,
 };
 
 export default firebaseHOC(Calendar);
