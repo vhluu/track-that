@@ -36,6 +36,11 @@ class Firebase {
     return this.db.ref(`users/${userId}/tags`).once('value').then((snapshot) => snapshot.val());
   }
 
+  // Gets tags set for each day in the given month/year (mm/yyyy)
+  dbGetDayTags(userId, month, year) {
+    return this.db.ref(`users/${userId}/tagged/${month}${year}`).once('value').then((snapshot) => snapshot.val());
+  }
+
   /* // Adds a tag to the user's tag list in the database
   dbCreateTag(userId, tag) {
     firebase.database().ref(`users/${userId}/tags/${tag.id}`).set({

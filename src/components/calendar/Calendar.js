@@ -5,46 +5,46 @@ import Day from '../day/Day';
 import './Calendar.css';
 
 class Calendar extends Component {
+  /* Formats the given number as two digits */
+  static formatDigit(num) {
+    return num < 10 ? `0${num}` : num;
+  }
+
   constructor(props) {
     super(props);
 
     const date = new Date();
     this.state = {
-      days: [],
       date: {
         full: date,
         month: date.getMonth(),
         year: date.getYear() + 1900,
       },
+      days: [],
     };
   }
 
   componentDidMount() {
-    const { date } = this.state;
+    const { date, date: { month, year } } = this.state;
     this.setCalendar(date);
 
-    const { firebase, uid } = this.props;
-    console.log(firebase);
+    const { uid } = this.props;
     
     // TODO: change to getDayTags
-    /* if (uid) {
-      this.getTags(uid);
-    } */
-  }
-
-  componentDidUpdate(prevProps) {
-    const { uid } = this.props;
-    if (prevProps.uid !== uid) {
-      // this.getTags(uid);
+    if (uid) {
+      this.getDayTags(uid, month, year);
     }
   }
 
-  /* Gets user data from firebase */
-  getTags(id) {
-    const { firebase } = this.props;
-    if (id) firebase.dbGetTags(id).then((tags) => console.log(tags));
+  componentDidUpdate(prevProps) {
+    const { date: { month, year } } = this.state;
+    const { uid } = this.props;
+    if (prevProps.uid !== uid) {
+      this.getDayTags(uid, month, year);
+    }
   }
 
+  // TODO: store generated dates so that we dont have to recalculate each time??
   /* Sets the calendar to the given month and year */
   setCalendar({ month, year }) {
     const days = [];
@@ -74,6 +74,36 @@ class Calendar extends Component {
     }
 
     this.setState({ days });
+  }
+
+  /* Gets user data from firebase */
+  getDayTags(id, month, year) {
+    const { firebase } = this.props;
+    if (id) {
+      firebase.dbGetDayTags(id, Calendar.formatDigit(month + 1), year).then((taggedDays) => {
+        console.log(taggedDays);
+        if (taggedDays) {
+          const tags = Object.keys(taggedDays); // lists of days that have tags
+          tags.forEach((tag) => {
+            const days = Object.keys(taggedDays[tag]);
+            days.forEach((day) => {
+              console.log(day);
+              // appendDayTag(document.querySelector(`[data-tag-day="${day}"]`), tag);
+            });
+          });
+        }
+      });
+    }
+  }
+
+  appendDayTag(target, tagId) {
+    let toAdd = document.createElement('div');
+    let tagFromList = tagsList.querySelector(`#${tagId}`);
+  
+    toAdd.className = `day-tag ${tagFromList.getAttribute('data-tag-color')}`;
+    toAdd.textContent = tagFromList.getAttribute('data-tag-icon');
+    toAdd.setAttribute('data-day-tag-id', tagId);
+    target.querySelector('.day-tags').appendChild(toAdd);
   }
 
   render() {
