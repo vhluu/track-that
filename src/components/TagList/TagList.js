@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { firebaseHOC } from '../../util/Firebase';
+import TagModal from './TagModal/TagModal';
 
 class TagList extends Component {
   constructor(props) {
@@ -7,7 +8,10 @@ class TagList extends Component {
 
     this.state = {
       tags: [],
+      showModal: false,
     };
+
+    this.toggleTagModal = this.toggleTagModal.bind(this);
   }
 
   componentDidMount() {
@@ -35,18 +39,24 @@ class TagList extends Component {
     }
   }
 
+  toggleTagModal() {
+    this.setState((prevState) => ({
+      showModal: !(prevState.showModal),
+    }));
+  }
+
   render() {
-    const { tags } = this.state;
+    const { tags, showModal } = this.state;
     return (
-      <div className="tags">
-        <h2>Tags</h2>
-        <p>Drag &amp; drop a tag to add it to the calendar!</p>
+      <div>
         <div className="tags-list">
           <div className="tag green" draggable="true" id="aa" data-tag-color="green" data-tag-icon="🌱" data-tag-title="Watered Plants">🌱 Watered Plants</div>
           {tags.map((tag, index) => (
             <div className={`tag ${tag.color}`} draggable="true" id={`t${index}`} data-tag-color={tag.color} data-tag-icon={tag.icon} data-tag-title={tag.title}>{tag.icon} {tag.title}</div>
           ))}
+          <div className="tag btn-add-tag" onClick={this.toggleTagModal}>+ Add New Tag</div>
         </div>
+        { showModal && <TagModal /> }
       </div>
     );
   }

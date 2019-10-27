@@ -27,8 +27,9 @@ class App extends Component {
     return (
       <div className="app flex_t main-wrapper card">
         <SideBar>
+          <h2>Tags</h2>
+          <p>Drag &amp; drop a tag to add it to the calendar!</p>
           <TagList uid={uid} />
-          <
         </SideBar>
         <Calendar uid={uid} />
       </div>

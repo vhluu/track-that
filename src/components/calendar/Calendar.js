@@ -22,7 +22,6 @@ class Calendar extends Component {
       },
       days: [],
       tags: {},
-      tagMapping: {},
     };
   }
 
