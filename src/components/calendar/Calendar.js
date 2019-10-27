@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { firebaseHOC } from '../../util/Firebase';
-import Day from '../day/Day';
+import Day from './Day/Day';
 import './Calendar.css';
 
 class Calendar extends Component {
@@ -22,6 +22,7 @@ class Calendar extends Component {
       },
       days: [],
       tags: {},
+      tagMapping: {},
     };
   }
 
@@ -29,8 +30,7 @@ class Calendar extends Component {
     const { date, date: { month, year } } = this.state;
     this.setCalendar(date);
 
-    const { uid } = this.props;
-    
+    const { uid } = this.props;    
     if (uid) {
       this.getDayTags(uid, month, year);
     }
@@ -110,7 +110,6 @@ class Calendar extends Component {
               } else {
                 newTags[dayKey] = [tag];
               }
-              // appendDayTag(document.querySelector(`[data-tag-day="${day}"]`), tag);
             });
           });
 
@@ -130,7 +129,7 @@ class Calendar extends Component {
       <div className="calendar-wrapper">
         <h1 className="curr-date">
           <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
-          <span className="curr-year">{ date.year }</span>
+          <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
         <div className="calendar">
           {daysOfWeek.map((day) => (

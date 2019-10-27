@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Calendar from '../calendar/Calendar';
-import TagList from '../tag-list/TagList';
-import './App.css';
+import Calendar from './components/Calendar/Calendar';
+import SideBar from './components/SideBar/SideBar';
+import TagList from './components/TagList/TagList';
 
 class App extends Component {
   constructor(props) {
@@ -25,8 +25,11 @@ class App extends Component {
   render() {
     const { uid } = this.state;
     return (
-      <div className="flex_t main-wrapper card">
-        <TagList uid={uid} />
+      <div className="app flex_t main-wrapper card">
+        <SideBar>
+          <TagList uid={uid} />
+          <
+        </SideBar>
         <Calendar uid={uid} />
       </div>
     );
