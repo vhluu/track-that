@@ -21,6 +21,7 @@ class Calendar extends Component {
         year: date.getYear() + 1900,
       },
       days: [],
+      tags: {},
     };
   }
 
@@ -30,7 +31,6 @@ class Calendar extends Component {
 
     const { uid } = this.props;
     
-    // TODO: change to getDayTags
     if (uid) {
       this.getDayTags(uid, month, year);
     }
@@ -50,32 +50,49 @@ class Calendar extends Component {
     const days = [];
     const currMonth = new Date(year, month, 1); // sets date to 1st day of current month
     const dayOfWeek = currMonth.getDay();
+    let currDate;
 
     // if current month doesn't start on Sunday, then get dates from last month
     if (dayOfWeek !== 0) {
-      const endOfLastMonth = (new Date(year, month, 0)).getDate(); // last day of last month
+      const lastMonth = new Date(year, month, 0);
+      const endOfLastMonth = lastMonth.getDate(); // last day of last month
+      
       for (let i = 0; i < dayOfWeek; i++) {
-        days.push(endOfLastMonth - dayOfWeek + i);
+        currDate = endOfLastMonth - dayOfWeek + i;
+        days.push({
+          full: `${Calendar.formatDigit(lastMonth.getMonth() + 1)}${Calendar.formatDigit(currDate)}`,
+          date: currDate,
+        });
       }
     }
 
-    const daysInCurrMonth = (new Date(year, month + 1, 0)).getDate(); // gets days in current month
+    // gets days in current month
+    const daysInCurrMonth = (new Date(year, month + 1, 0)).getDate(); 
     for (let i = 0; i < daysInCurrMonth; i++) {
-      days.push(i + 1);
+      currDate = i + 1;
+      days.push({
+        full: `${Calendar.formatDigit(month + 1)}${Calendar.formatDigit(currDate)}`,
+        date: currDate,
+      });
     }
 
     // add days from next month if needed to fill up calendar
-    if (days.length < 35) {
-      const daysLeft = 35 - days.length;
-      // const nextMonth = new Date(year, month + 1, 1);
+    const daysLeft = 35 - Object.keys(days).length;
+    if (daysLeft > 0) {
+      const nextMonth = new Date(year, month + 1, 1);
       for (let i = 0; i < daysLeft; i++) {
-        days.push(i + 1);
+        currDate = i + 1;
+        days.push({
+          full: `${Calendar.formatDigit(nextMonth.getMonth() + 1)}${Calendar.formatDigit(currDate)}`,
+          date: currDate,
+        });
       }
     }
 
     this.setState({ days });
   }
 
+  // TODO: change so that tags and days are in the same array
   /* Gets user data from firebase */
   getDayTags(id, month, year) {
     const { firebase } = this.props;
@@ -83,32 +100,31 @@ class Calendar extends Component {
       firebase.dbGetDayTags(id, Calendar.formatDigit(month + 1), year).then((taggedDays) => {
         console.log(taggedDays);
         if (taggedDays) {
+          const newTags = {};
           const tags = Object.keys(taggedDays); // lists of days that have tags
           tags.forEach((tag) => {
-            const days = Object.keys(taggedDays[tag]);
-            days.forEach((day) => {
-              console.log(day);
+            const dayKeys = Object.keys(taggedDays[tag]);
+            dayKeys.forEach((dayKey) => {
+              if (newTags[dayKey]) {
+                newTags[dayKey].push(tag);
+              } else {
+                newTags[dayKey] = [tag];
+              }
               // appendDayTag(document.querySelector(`[data-tag-day="${day}"]`), tag);
             });
+          });
+
+          this.setState({
+            tags: newTags,
           });
         }
       });
     }
   }
 
-  appendDayTag(target, tagId) {
-    let toAdd = document.createElement('div');
-    let tagFromList = tagsList.querySelector(`#${tagId}`);
-  
-    toAdd.className = `day-tag ${tagFromList.getAttribute('data-tag-color')}`;
-    toAdd.textContent = tagFromList.getAttribute('data-tag-icon');
-    toAdd.setAttribute('data-day-tag-id', tagId);
-    target.querySelector('.day-tags').appendChild(toAdd);
-  }
-
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
-    const { date, days } = this.state;
+    const { date, days, tags } = this.state;
 
     return (
       <div className="calendar-wrapper">
@@ -121,7 +137,7 @@ class Calendar extends Component {
             <div className="cal-header">{ day }</div>
           ))}
           {days.map((day) => (
-            <Day date={day} />
+            <Day full={day.full} date={day.date} tags={tags[day.full]} />
           ))}
         </div>
       </div>
