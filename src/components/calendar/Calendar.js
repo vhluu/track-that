@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { firebaseHOC } from '../../util/Firebase';
 import Day from './Day/Day';
+import DayModal from './DayModal/DayModal';
+
 import './Calendar.css';
 
 class Calendar extends Component {
@@ -21,6 +24,7 @@ class Calendar extends Component {
         year: date.getYear() + 1900,
       },
       days: [],
+      showDayModal: false,
       tags: {},
     };
   }
@@ -122,7 +126,7 @@ class Calendar extends Component {
 
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
-    const { date, days, tags } = this.state;
+    const { date, days, showDayModal, tags } = this.state;
 
     return (
       <div className="calendar-wrapper">
@@ -131,12 +135,14 @@ class Calendar extends Component {
           <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
         <div className="calendar">
-          {daysOfWeek.map((day) => (
+          { daysOfWeek.map((day) => (
             <div className="cal-header">{ day }</div>
-          ))}
-          {days.map((day) => (
+          )) }
+          { days.map((day) => (
             <Day full={day.full} date={day.date} tags={tags[day.full]} />
-          ))}
+          )) }
+
+          { showDayModal && <DayModal /> }
         </div>
       </div>
     );
