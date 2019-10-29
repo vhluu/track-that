@@ -27,6 +27,8 @@ class Calendar extends Component {
       showDayModal: false,
       tags: {},
     };
+
+    this.toggleDayModal = this.toggleDayModal.bind(this);
   }
 
   componentDidMount() {
@@ -124,6 +126,13 @@ class Calendar extends Component {
     }
   }
 
+  toggleDayModal() {
+    console.log('toggling');
+    this.setState((prevState) => ({
+      showDayModal: !(prevState.showDayModal),
+    }));
+  }
+
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { date, days, showDayModal, tags } = this.state;
@@ -137,10 +146,10 @@ class Calendar extends Component {
         <div className="calendar">
           { daysOfWeek.map((day) => (
             <div className="cal-header">{ day }</div>
-          )) }
+          ))}
           { days.map((day) => (
-            <Day full={day.full} date={day.date} tags={tags[day.full]} />
-          )) }
+            <Day full={day.full} date={day.date} tags={tags[day.full]} onClick={this.toggleDayModal} />
+          ))}
 
           { showDayModal && <DayModal /> }
         </div>
