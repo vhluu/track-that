@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { firebaseHOC } from '../../util/Firebase';
 import TagModal from './TagModal/TagModal';
 
@@ -7,11 +9,11 @@ class TagList extends Component {
     super(props);
 
     this.state = {
+      action: 'create',
+      selectedTag: null,
       tags: [],
       showModal: false,
     };
-
-    this.toggleTagModal = this.toggleTagModal.bind(this);
   }
 
   componentDidMount() {
@@ -39,28 +41,34 @@ class TagList extends Component {
     }
   }
 
-  toggleTagModal() {
+  toggleTagModal(tagId) {
     this.setState((prevState) => ({
-      showModal: !(prevState.showModal),
+      action: tagId ? 'update' : 'create',
+      selectedTag: tagId,
+      showModal: (prevState.selectedTag === tagId) ? !(prevState.showModal) : true,
     }));
   }
 
   render() {
-    const { tags, showModal } = this.state;
+    const { tags, showModal, action } = this.state;
     return (
       <div>
         <div className="tags-list">
           <div className="tag green" draggable="true" id="aa" data-tag-color="green" data-tag-icon="🌱" data-tag-title="Watered Plants">🌱 Watered Plants</div>
-          {tags.map((tag, index) => (
-            <div className={`tag ${tag.color}`} draggable="true" id={`t${index}`} data-tag-color={tag.color} data-tag-icon={tag.icon} data-tag-title={tag.title}>{tag.icon} {tag.title}</div>
+          {Object.keys(tags).map((id) => (
+            <div className={`tag ${tags[id].color}`} draggable="true" id={`t${id}`} data-tag-color={tags[id].color} data-tag-icon={tags[id].icon} data-tag-title={tags[id].title} onClick={this.toggleTagModal.bind(this, id)}>{tags[id].icon} {tags[id].title}</div>
           ))}
-          <div className="tag btn-add-tag" onClick={this.toggleTagModal}>+ Add New Tag</div>
+          <div className="tag btn-add-tag" onClick={this.toggleTagModal.bind(this, null)}>+ Add New Tag</div>
         </div>
-        { showModal && <TagModal /> }
+        { showModal && <TagModal action={action} /> }
       </div>
     );
   }
 }
 
+TagList.propTypes = {
+  firebase: PropTypes.objectOf(PropTypes.object).isRequired,
+  uid: PropTypes.string.isRequired,
+};
 
 export default firebaseHOC(TagList);
