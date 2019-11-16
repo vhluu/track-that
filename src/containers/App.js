@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Calendar from './components/Calendar/Calendar';
-import SideBar from './components/SideBar/SideBar';
-import TagList from './components/TagList/TagList';
+import TagsContainer from './TagsContainer';
+import CalendarContainer from './CalendarContainer';
 
 class App extends Component {
   constructor(props) {
@@ -26,12 +25,8 @@ class App extends Component {
     const { uid } = this.state;
     return (
       <div className="app flex_t main-wrapper card">
-        <SideBar>
-          <h2>Tags</h2>
-          <p>Drag &amp; drop a tag to add it to the calendar!</p>
-          <TagList uid={uid} />
-        </SideBar>
-        <Calendar uid={uid} />
+        <TagsContainer />
+        <CalendarContainer />
       </div>
     );
   }
