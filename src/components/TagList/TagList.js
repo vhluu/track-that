@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { firebaseHOC } from '../../util/Firebase';
 import TagModal from './TagModal/TagModal';
 
 class TagList extends Component {
@@ -71,4 +70,4 @@ TagList.propTypes = {
   uid: PropTypes.string.isRequired,
 };
 
-export default firebaseHOC(TagList);
+export default TagList;
