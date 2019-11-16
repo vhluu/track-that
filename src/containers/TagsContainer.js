@@ -9,35 +9,43 @@ class TagsContainer extends Component {
 
     this.state = {
       action: 'create',
+      selectedTag: null,
       showModal: false,
     };
   }
 
   toggleTagModal(tagId) {
+    console.log(tagId);
     this.setState((prevState) => ({
       action: tagId ? 'update' : 'create',
-      selectedTag: tagId,
-      showModal: (prevState.selectedTag === tagId) ? !(prevState.showModal) : true,
+      selectedTag: {
+        ...prevState.selectedTag,
+        id: tagId,
+      },
+      showModal: (prevState.selectedTag && (prevState.selectedTag.id === tagId)) ? !(prevState.showModal) : true,
     }));
   }
 
   render() {
-    const { showModal, action } = this.state;
+    const { showModal, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
 
+    // TODO: pass selected tag data to TagModal
     return (
       <div>
         <h2>Tags</h2>
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
-        <TagList 
-          tags={tags} 
-          onCreateTag={onCreateTag}
-          onDeleteTag={onDeleteTag}
-          onUpdateTag={onUpdateTag}
-          onClick={this.toggleTagModal} 
-        />
+        <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} />
         <div className="tag btn-add-tag" onClick={this.toggleTagModal.bind(this, null)}>+ Add New Tag</div>
-        { showModal && <TagModal action={action} /> }
+        { showModal && (
+          <TagModal
+            onCreateTag={onCreateTag} 
+            onDeleteTag={() => onDeleteTag(selectedTag.id)}
+            onUpdateTag={() => onUpdateTag(selectedTag.id)}
+            action={action}
+            tagData={selectedTag} 
+          />
+        ) }
       </div>
     );
   }
@@ -49,8 +57,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onCreateTag: () => dispatch({ type: 'CREATE_TAG' }),
-  onDeleteTag: () => dispatch({ type: 'DELETE_TAG' }),
-  onUpdateTag: () => dispatch({ type: 'UPDATE_TAG' }),
+  onDeleteTag: (id) => dispatch({ type: 'DELETE_TAG', tagId: id }),
+  onUpdateTag: (tagData) => dispatch({ type: 'UPDATE_TAG', value: tagData }),
 });
 
 
