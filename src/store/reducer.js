@@ -16,7 +16,17 @@ const reducer = (state = initialState, action) => {
         ...state,
       };
     case 'UPDATE_TAG':
-      console.log('updatin tag', action);
+      console.log('updating tag', action);
+      return {
+        ...state,
+      };
+    case 'SET_USER':
+      console.log('getting user', action);
+      return {
+        ...state,
+      };
+    case 'GET_USER_FAILED':
+      console.log('failed to get user', action);
       return {
         ...state,
       };
