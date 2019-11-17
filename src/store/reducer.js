@@ -26,6 +26,7 @@ const reducer = (state = initialState, action) => {
       console.log('setting tags', action);
       return {
         ...state,
+        tags: action.tags,
       };
     case actionTypes.SET_USER:
       console.log('getting user', action);

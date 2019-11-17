@@ -14,10 +14,10 @@ export const initUser = () => {
         console.log(response);
         dispatch(setUser(response));
         return db.ref(`users/${response.userId}/tags`).once('value').then((snapshot) => dispatch(setTags(snapshot.val())));
-      } else {
-        console.log("Couldn't get user");
-        dispatch(getUserFailed());
-      }
+      } 
+      
+      console.log("Couldn't get user");
+      dispatch(getUserFailed());
     });
   };
 };
