@@ -1,9 +1,11 @@
-import db from '../util/firebase';
+import db from '../../util/firebase';
+import * as actionTypes from './actionTypes';
 
-export const setUser = (userInfo) => ({ type: 'SET_USER', userInfo });
-export const setTags = (tags) => ({ type: 'SET_TAGS', tags });
+export const setUser = (userInfo) => ({ type: actionTypes.SET_USER, userInfo });
 
-export const getUserFailed = () => ({ type: 'GET_USER_FAILED' });
+export const setTags = (tags) => ({ type: actionTypes.SET_TAGS, tags });
+
+export const getUserFailed = () => ({ type: actionTypes.GET_USER_FAILED });
 
 export const initUser = () => {
   return (dispatch) => {

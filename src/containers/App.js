@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TagsContainer from './TagsContainer';
 import CalendarContainer from './CalendarContainer';
 
-import * as actions from '../store/actions';
+import * as actions from '../store/actions/index';
 
 class App extends Component {
   constructor(props) {

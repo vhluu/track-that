@@ -1,3 +1,5 @@
+import * as actionTypes from './actions/actionTypes';
+
 const initialState = {
   userId: null,
   tags: [],
@@ -5,32 +7,32 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'CREATE_TAG':
+    case actionTypes.CREATE_TAG:
       console.log('creating tag', action);
       return {
         ...state,
       };
-    case 'DELETE_TAG':
+    case actionTypes.DELETE_TAG:
       console.log('deleting tag', action);
       return {
         ...state,
       };
-    case 'UPDATE_TAG':
+    case actionTypes.UPDATE_TAG:
       console.log('updating tag', action);
       return {
         ...state,
       };
-    case 'SET_TAGS':
+    case actionTypes.SET_TAGS:
       console.log('setting tags', action);
       return {
         ...state,
       };
-    case 'SET_USER':
+    case actionTypes.SET_USER:
       console.log('getting user', action);
       return {
         ...state,
       };
-    case 'GET_USER_FAILED':
+    case actionTypes.GET_USER_FAILED:
       console.log('failed to get user', action);
       return {
         ...state,
