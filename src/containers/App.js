@@ -18,13 +18,6 @@ class App extends Component {
   componentDidMount() {
     const { onInitUser } = this.props;
     onInitUser();
-    /* chrome.extension.sendMessage({ greeting: 'hello from calendar' }, (response) => {
-      if (response && response.userId) {
-        this.setState({ uid: response.userId });
-      } else {
-        console.log("Couldn't get user");
-      }
-    }); */
   }
 
   render() {

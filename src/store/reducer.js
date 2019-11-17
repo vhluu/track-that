@@ -20,6 +20,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case 'SET_TAGS':
+      console.log('setting tags', action);
+      return {
+        ...state,
+      };
     case 'SET_USER':
       console.log('getting user', action);
       return {
