@@ -2,7 +2,7 @@ import app from 'firebase/app';
 import 'firebase/database';
 
 const config = {
-  apiKey: 'AIzaSyDLNyV5xvQ5zOAlcb04q11yr-0SrLo4XaM',
+  apiKey: '<FIREBASE-API-KEY>',
   authDomain: 'trackthat-9a3ff.firebaseapp.com',
   databaseURL: 'https://trackthat-9a3ff.firebaseio.com',
   projectId: 'trackthat-9a3ff',
