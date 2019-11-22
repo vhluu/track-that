@@ -32,6 +32,12 @@ const reducer = (state = initialState, action) => {
       console.log('getting user', action);
       return {
         ...state,
+        uid: action.userInfo.userId,
+      };
+    case actionTypes.CREATE_USER_SUCCESS:
+      console.log('creating user', action);
+      return {
+        ...state,
       };
     case actionTypes.GET_USER_FAILED:
       console.log('failed to get user', action);
