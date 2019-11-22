@@ -14,15 +14,11 @@ class TagsContainer extends Component {
     };
   }
 
-  toggleTagModal(tagId) {
-    console.log(tagId);
+  toggleTagModal(tag) {
     this.setState((prevState) => ({
-      action: tagId ? 'update' : 'create',
-      selectedTag: {
-        ...prevState.selectedTag,
-        id: tagId,
-      },
-      showModal: (prevState.selectedTag && (prevState.selectedTag.id === tagId)) ? !(prevState.showModal) : true,
+      action: tag ? 'update' : 'create',
+      selectedTag: tag,
+      showModal: (prevState.selectedTag && tag && (prevState.selectedTag.id === tag.id)) ? !(prevState.showModal) : true,
     }));
   }
 
@@ -43,7 +39,8 @@ class TagsContainer extends Component {
             onDeleteTag={() => onDeleteTag(selectedTag.id)}
             onUpdateTag={() => onUpdateTag(selectedTag.id)}
             action={action}
-            tagData={selectedTag} 
+            selectedTag={selectedTag} 
+            key={selectedTag ? selectedTag.id : 'tag-modal'}
           />
         ) }
       </div>

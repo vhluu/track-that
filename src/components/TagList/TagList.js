@@ -16,7 +16,7 @@ function TagList(props) {
             data-tag-color={tag.color}
             data-tag-icon={tag.icon} 
             data-tag-title={tag.title}
-            onClick={() => onClick(id)}
+            onClick={() => { tag.id = id; onClick(tag)}}
           >{tag.icon} {tag.title}</div>
         );
       })}

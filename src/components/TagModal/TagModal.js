@@ -11,6 +11,7 @@ class TagModal extends Component {
       selectedIcon: null,
       showErrorMsg: false,
       showConfirmation: false,
+      titleValue: props.selectedTag ? props.selectedTag.title : '',
     };
 
     this.titleInput = React.createRef();
@@ -19,6 +20,7 @@ class TagModal extends Component {
     this.deleteTag = this.deleteTag.bind(this);
     this.handleColorSelect = this.handleColorSelect.bind(this);
     this.handleIconSelect = this.handleIconSelect.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
     this.toggleConfirmation = this.toggleConfirmation.bind(this);
   }
 
@@ -48,6 +50,12 @@ class TagModal extends Component {
     this.toggleConfirmation();
   }
 
+  handleTitleChange(event) {
+    this.setState({
+      titleValue: event.target.value,
+    });
+  }
+
   handleColorSelect(event) {
     this.setState({
       selectedColor: event.target.value,
@@ -68,17 +76,18 @@ class TagModal extends Component {
 
   render() {
     const { action, onDeleteTag, onUpdateTag, selectedTag } = this.props;
-    const { showErrorMsg, showConfirmation } = this.state;
+    const { showErrorMsg, showConfirmation, titleValue } = this.state;
+    const { color, icon } = selectedTag || { color: false, icon: false };
     return (
       <div className="tag-modal card">
         <form>
           { showErrorMsg && <p className="tag-error-message">All fields are required!!</p> }
           <div className="tag-field-wrapper">
             <label htmlFor="tag-field-title">Tag Name</label>
-            <input type="text" name="tag-field-title" required ref={this.titleInput} />
+            <input type="text" name="tag-field-title" required ref={this.titleInput} value={titleValue || ''} onChange={this.handleTitleChange} />
           </div>
-          <ColorPicker onChange={this.handleColorSelect} />
-          <IconPicker onIconSelect={this.handleIconSelect} />
+          <ColorPicker onChange={this.handleColorSelect} defaultVal={color} />
+          <IconPicker onIconSelect={this.handleIconSelect} defaultVal={icon} />
           
           { action === 'create' && <div className="btn btn-create-tag" onClick={this.createTag} role="button" tabIndex={0}>Create Tag</div> }
           
