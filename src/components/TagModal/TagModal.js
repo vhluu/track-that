@@ -7,7 +7,7 @@ class TagModal extends Component {
     super(props);
 
     this.state = {
-      selectedColor: null,
+      selectedColor: props.selectedTag ? props.selectedTag.color : false,
       selectedIcon: null,
       showErrorMsg: false,
       showConfirmation: false,
@@ -57,6 +57,7 @@ class TagModal extends Component {
   }
 
   handleColorSelect(event) {
+    console.log('selecting color');
     this.setState({
       selectedColor: event.target.value,
     });
@@ -76,7 +77,7 @@ class TagModal extends Component {
 
   render() {
     const { action, onDeleteTag, onUpdateTag, selectedTag } = this.props;
-    const { showErrorMsg, showConfirmation, titleValue } = this.state;
+    const { showErrorMsg, showConfirmation, titleValue, selectedColor } = this.state;
     const { color, icon } = selectedTag || { color: false, icon: false };
     return (
       <div className="tag-modal card">
@@ -86,7 +87,7 @@ class TagModal extends Component {
             <label htmlFor="tag-field-title">Tag Name</label>
             <input type="text" name="tag-field-title" required ref={this.titleInput} value={titleValue || ''} onChange={this.handleTitleChange} />
           </div>
-          <ColorPicker onChange={this.handleColorSelect} defaultVal={color} />
+          <ColorPicker onChange={this.handleColorSelect} defaultVal={selectedColor} />
           <IconPicker onIconSelect={this.handleIconSelect} defaultVal={icon} />
           
           { action === 'create' && <div className="btn btn-create-tag" onClick={this.createTag} role="button" tabIndex={0}>Create Tag</div> }
