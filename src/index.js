@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Firebase, { FirebaseProvider } from './util/Firebase';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
+import App from './containers/App';
+import reducer from './store/reducer';
+
+
+const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
-  <FirebaseProvider value={new Firebase()}>
+  <Provider store={store}>
     <App />
-  </FirebaseProvider>, 
+  </Provider>, 
   document.getElementById('root'),
 );

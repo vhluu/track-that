@@ -9,7 +9,7 @@ class IconPicker extends Component {
 
     this.state = {
       showIconPicker: false,
-      selectedIcon: null,
+      selectedIcon: props.defaultVal,
     };
 
     this.setIcon = this.setIcon.bind(this);
