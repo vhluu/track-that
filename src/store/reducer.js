@@ -3,6 +3,7 @@ import * as actionTypes from './actions/actionTypes';
 const initialState = {
   userId: null,
   tags: [],
+  nextId: 1,
 };
 
 const reducer = (state = initialState, action) => {
@@ -11,7 +12,8 @@ const reducer = (state = initialState, action) => {
       console.log('adding tag', action);
       return {
         ...state,
-        tags: state.tags.concat(action.tag), 
+        tags: state.tags.concat(action.tag),
+        nextId: state.nextId + 1,
       };
     case actionTypes.DELETE_TAG:
       console.log('deleting tag', action);
@@ -23,12 +25,20 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    case actionTypes.SET_TAGS:
+    case actionTypes.SET_TAGS: {
       console.log('setting tags', action);
+      if (action.tags) {
+        const keys = Object.keys(state.tags);
+        return {
+          ...state,
+          tags: action.tags,
+          nextId: parseInt(keys[keys.length - 1]) + 1,
+        };
+      }
       return {
         ...state,
-        tags: action.tags,
       };
+    }
     case actionTypes.SET_USER:
       console.log('getting user', action);
       return {

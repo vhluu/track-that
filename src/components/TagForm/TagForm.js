@@ -20,7 +20,6 @@ class TagForm extends Component {
     this.titleInput = React.createRef();
 
     this.createTag = this.createTag.bind(this);
-    this.deleteTag = this.deleteTag.bind(this);
     this.handleColorSelect = this.handleColorSelect.bind(this);
     this.handleIconSelect = this.handleIconSelect.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -47,10 +46,6 @@ class TagForm extends Component {
       });
       this.props.onCreateTag(formValues);
     }
-  }
-
-  deleteTag() {
-    this.toggleConfirmation();
   }
 
   handleTitleChange(event) {

@@ -51,7 +51,7 @@ export const initUser = () => {
 export const createTag = (tag) => {
   return (dispatch, getState) => {
     // add tag to the database
-    db.ref(`users/${getState().uid}/tags/${tag.id}`).set({
+    db.ref(`users/${getState().uid}/tags/${getState().nextId}`).set({
       icon: tag.icon,
       title: tag.title,
       color: tag.color,
