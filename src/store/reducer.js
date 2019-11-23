@@ -7,10 +7,11 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.CREATE_TAG:
-      console.log('creating tag', action);
+    case actionTypes.ADD_TAG:
+      console.log('adding tag', action);
       return {
         ...state,
+        tags: state.tags.concat(action.tag), 
       };
     case actionTypes.DELETE_TAG:
       console.log('deleting tag', action);

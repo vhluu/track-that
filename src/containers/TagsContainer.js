@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import TagList from '../components/TagList/TagList';
 import TagModal from '../components/TagModal/TagModal';
+
+import * as actions from '../store/actions/index';
 
 class TagsContainer extends Component {
   constructor(props) {
@@ -35,9 +38,9 @@ class TagsContainer extends Component {
         <div className="tag btn-add-tag" onClick={this.toggleTagModal.bind(this, null)}>+ Add New Tag</div>
         { showModal && (
           <TagModal
-            onCreateTag={onCreateTag} 
+            onCreateTag={(tagData) => { this.toggleTagModal(); onCreateTag(tagData); }} 
             onDeleteTag={() => onDeleteTag(selectedTag.id)}
-            onUpdateTag={() => onUpdateTag(selectedTag.id)}
+            onUpdateTag={(tagData) => onUpdateTag(tagData)}
             action={action}
             selectedTag={selectedTag} 
             key={selectedTag ? selectedTag.id : 'tag-modal'}
@@ -53,9 +56,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCreateTag: () => dispatch({ type: 'CREATE_TAG' }),
-  onDeleteTag: (id) => dispatch({ type: 'DELETE_TAG', tagId: id }),
-  onUpdateTag: (tagData) => dispatch({ type: 'UPDATE_TAG', value: tagData }),
+  onCreateTag: (tagData) => dispatch(actions.createTag(tagData)),
+  onDeleteTag: (tagId) => dispatch(actions.deleteTag(tagId)),
+  onUpdateTag: (tagData) => dispatch(actions.updateTag(tagData)),
 });
 
 

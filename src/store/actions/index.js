@@ -5,6 +5,8 @@ export const setUser = (userInfo) => ({ type: actionTypes.SET_USER, userInfo });
 
 export const setTags = (tags) => ({ type: actionTypes.SET_TAGS, tags });
 
+export const addTag = (tag) => ({ type: actionTypes.ADD_TAG, tag });
+
 export const getUserFailed = () => ({ type: actionTypes.GET_USER_FAILED });
 
 export const createUserSuccess = () => ({ type: actionTypes.CREATE_USER_SUCCESS });
@@ -43,6 +45,18 @@ export const initUser = () => {
       console.log("Couldn't get user");
       dispatch(getUserFailed());
     });
+  };
+};
+
+export const createTag = (tag) => {
+  return (dispatch, getState) => {
+    // add tag to the database
+    db.ref(`users/${getState().uid}/tags/${tag.id}`).set({
+      icon: tag.icon,
+      title: tag.title,
+      color: tag.color,
+    });
+    dispatch(addTag(tag));
   };
 };
 
