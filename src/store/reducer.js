@@ -28,7 +28,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_TAGS: {
       console.log('setting tags', action);
       if (action.tags) {
-        const keys = Object.keys(state.tags);
+        const keys = Object.keys(action.tags);
         return {
           ...state,
           tags: action.tags,

@@ -20,11 +20,20 @@ class TagsContainer extends Component {
   }
 
   toggleTagModal(tag) {
-    this.setState((prevState) => ({
-      action: tag ? 'update' : 'create',
-      selectedTag: tag,
-      showModal: (prevState.selectedTag && tag && (prevState.selectedTag.id === tag.id)) ? !(prevState.showModal) : true,
-    }));
+    if (tag) {
+      this.setState((prevState) => ({
+        action: 'update',
+        selectedTag: tag,
+        showModal: (prevState.action === 'update' && (prevState.selectedTag.id === tag.id)) ? !(prevState.showModal) : true,
+      }));
+    } else {
+      this.setState((prevState) => ({
+        action: 'create',
+        selectedTag: null,
+        showModal: (prevState.action === 'create') ? !(prevState.showModal) : true,
+      }));
+    }
+    
   }
 
   render() {
