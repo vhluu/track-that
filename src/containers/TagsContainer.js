@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import TagList from '../components/TagList/TagList';
-import TagModal from '../components/TagModal/TagModal';
+import TagForm from '../components/TagForm/TagForm';
+import Modal from '../components/Modal/Modal';
 
 import * as actions from '../store/actions/index';
 
@@ -36,16 +37,16 @@ class TagsContainer extends Component {
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
         <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} />
         <div className="tag btn-add-tag" onClick={this.toggleTagModal.bind(this, null)}>+ Add New Tag</div>
-        { showModal && (
-          <TagModal
+        <Modal show={showModal}>
+          <TagForm
             onCreateTag={(tagData) => { this.toggleTagModal(); onCreateTag(tagData); }} 
             onDeleteTag={() => onDeleteTag(selectedTag.id)}
             onUpdateTag={(tagData) => onUpdateTag(tagData)}
             action={action}
             selectedTag={selectedTag} 
-            key={selectedTag ? selectedTag.id : 'tag-modal'}
+            key={selectedTag ? selectedTag.id : 'tag-form'}
           />
-        ) }
+        </Modal>
       </div>
     );
   }
