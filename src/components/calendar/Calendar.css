@@ -225,11 +225,14 @@ header {
   position: absolute;
   z-index: 20;
 }
-.btn-add-tag {
+.btn.btn-dashed {
   width: fit-content;
   margin-top: 10px;
+  background: transparent;
   color: #53cafb;
   border: 1px dashed #53cafb;
+  padding: 10px;
+  line-height: 16px;
 }
 .tag-field-wrapper {
   margin-bottom: 15px;
