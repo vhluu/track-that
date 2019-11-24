@@ -33,14 +33,12 @@ class TagsContainer extends Component {
         showModal: (prevState.action === 'create') ? !(prevState.showModal) : true,
       }));
     }
-    
   }
 
   render() {
     const { showModal, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
 
-    // TODO: pass selected tag data to TagModal
     return (
       <div>
         <h2>Tags</h2>
@@ -55,6 +53,7 @@ class TagsContainer extends Component {
             action={action}
             selectedTag={selectedTag} 
             key={selectedTag ? selectedTag.id : 'tag-form'}
+            toggleSelf={this.toggleTagModal.bind(this)}
           />
         </Modal>
       </div>

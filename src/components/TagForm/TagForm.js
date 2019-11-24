@@ -24,47 +24,62 @@ class TagForm extends Component {
     this.handleIconSelect = this.handleIconSelect.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.toggleConfirmation = this.toggleConfirmation.bind(this);
+    this.updateTag = this.updateTag.bind(this);
   }
 
-  // TODO: generate id
-  createTag() {
-    const formValues = {
+  getFormValues() {
+    return {
       title: this.titleInput.current.value,
-      color: this.state.selectedColor,
-      icon: this.state.selectedIcon,
+      color: (this.state.selectedColor) ? this.state.selectedColor : this.props.selectedTag.color,
+      icon: (this.state.selectedIcon) ? this.state.selectedIcon : this.props.selectedTag.icon,
     };
+  }
+
+  validateForm() {
+    const formValues = this.getFormValues();
+    console.log(formValues);
+    if (!formValues.title || !formValues.color || !formValues.icon) {
+      this.setState({ showErrorMsg: true });
+      return null;
+    } 
+    this.setState({ showErrorMsg: false });
+    return formValues;
+  }
+
+  createTag() {
+    const formValues = this.validateForm();
     console.log(formValues);
 
-    if (!formValues.title || !formValues.color || !formValues.icon) {
-      this.setState({
-        showErrorMsg: true,
-      });
-    } else {
-      // create tag
-      this.setState({
-        showErrorMsg: false,
-      });
-      this.props.onCreateTag(formValues);
+    if (formValues) this.props.onCreateTag(formValues);
+  }
+
+  updateTag() {
+    const { selectedTag, onUpdateTag, toggleSelf } = this.props;
+    const formValues = this.validateForm();
+    console.log(formValues);
+    const { title: sTitle, color: sColor, icon: sIcon, id } = selectedTag;
+
+    if (formValues) {
+      const { title, color, icon } = formValues;
+      // check that at least one value is updated
+      if (sTitle !== title || sColor !== color || sIcon !== icon) {
+        formValues.id = id;
+        onUpdateTag(formValues);
+        toggleSelf(selectedTag);
+      }
     }
   }
 
   handleTitleChange(event) {
-    this.setState({
-      titleValue: event.target.value,
-    });
+    this.setState({ titleValue: event.target.value });
   }
 
   handleColorSelect(event) {
-    console.log('selecting color');
-    this.setState({
-      selectedColor: event.target.value,
-    });
+    this.setState({ selectedColor: event.target.value });
   }
 
   handleIconSelect(icon) {
-    this.setState({
-      selectedIcon: icon,
-    });
+    this.setState({ selectedIcon: icon });
   }
 
   toggleConfirmation() {
@@ -92,7 +107,7 @@ class TagForm extends Component {
         
         { action === 'update' && (
           <div className="tag-btn-wrapper">
-            <Button btnType="btn-update-tag" clicked={onUpdateTag}>Update</Button>
+            <Button btnType="btn-update-tag" clicked={this.updateTag}>Update</Button>
             <div className="tag-delete-wrapper">
               <svg className="delete-icon" onClick={this.toggleConfirmation} viewBox="0 0 137.583 164.571" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-42.333 -64.167)"><rect x="52.917" y="112.32" width="116.42" height="116.42" rx="10.583" ry="7.276" fill="#CFD8DC"/><rect  className="delete-icon-top" x="127" y="64.167" width="10.583" height="31.75" rx="4.914" ry="5.291" fill="#CFD8DC"/><g fill="#CFD8DC" className="delete-icon-top"><rect x="84.667" y="64.167" width="10.583" height="31.75" rx="5.291" ry="5.292"/><rect x="42.333" y="85.333" width="137.58" height="20.411" rx="10.583" ry="15.308"/><rect x="84.667" y="64.167" width="52.917" height="10.583" rx="10.583" ry="7.938"/></g><g fill="#B0BEC5"><rect transform="scale(1 -1)" x="105.83" y="-212.86" width="10.583" height="84.667" rx="10.583" ry="7.276"/><rect x="74.083" y="127.67" width="10.583" height="84.667" rx="10.583" ry="7.761"/><rect x="137.58" y="127.67" width="10.583" height="84.667" rx="10.583" ry="7.276"/></g></g></svg>
               { showConfirmation && <DeleteConfirm cancel={this.toggleConfirmation} myDelete={onDeleteTag} /> }

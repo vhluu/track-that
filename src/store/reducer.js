@@ -12,7 +12,10 @@ const reducer = (state = initialState, action) => {
       console.log('adding tag', action);
       return {
         ...state,
-        tags: state.tags.concat(action.tag),
+        tags: {
+          ...state.tags,
+          [action.tag.id]: action.tag,
+        },
         nextId: state.nextId + 1,
       };
     case actionTypes.DELETE_TAG:
@@ -24,6 +27,10 @@ const reducer = (state = initialState, action) => {
       console.log('updating tag', action);
       return {
         ...state,
+        tags: {
+          ...state.tags,
+          [action.updatedTag.id]: action.updatedTag,
+        },
       };
     case actionTypes.SET_TAGS: {
       console.log('setting tags', action);

@@ -48,21 +48,27 @@ export const initUser = () => {
   };
 };
 
-export const createTag = (tag) => {
+export const createTag = (newTag) => {
   return (dispatch, getState) => {
     // add tag to the database
-    db.ref(`users/${getState().uid}/tags/${getState().nextId}`).set({
-      icon: tag.icon,
-      title: tag.title,
-      color: tag.color,
+    const { uid, nextId } = getState();
+    db.ref(`users/${uid}/tags/${nextId}`).set({
+      icon: newTag.icon,
+      title: newTag.title,
+      color: newTag.color,
     });
+    const tag = { ...newTag, id: nextId }; 
     dispatch(addTag(tag));
   };
 };
 
-
-/* 
-// Gets tags set for each day in the given month/year (mm/yyyy)
-dbGetDayTags(userId, month, year) {
-  return this.db.ref(`users/${userId}/tagged/${month}${year}`).once('value').then((snapshot) => snapshot.val());
-} */
+export const updateTag = (updatedTag) => {
+  return (dispatch, getState) => {
+    db.ref(`users/${getState().uid}/tags/${updatedTag.id}`).update({
+      icon: updatedTag.icon,
+      title: updatedTag.title,
+      color: updatedTag.color,
+    });
+    dispatch({ type: actionTypes.UPDATE_TAG, updatedTag });
+  };
+};
