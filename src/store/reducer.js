@@ -18,11 +18,14 @@ const reducer = (state = initialState, action) => {
         },
         nextId: state.nextId + 1,
       };
-    case actionTypes.DELETE_TAG:
+    case actionTypes.DELETE_TAG: {
       console.log('deleting tag', action);
+      const { [action.tagId]: deletedItem, ...updatedTags } = state.tags;
       return {
         ...state,
+        tags: updatedTags,
       };
+    }
     case actionTypes.UPDATE_TAG:
       console.log('updating tag', action);
       return {

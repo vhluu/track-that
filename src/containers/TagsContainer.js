@@ -48,7 +48,7 @@ class TagsContainer extends Component {
         <Modal show={showModal}>
           <TagForm
             onCreateTag={(tagData) => { this.toggleTagModal(); onCreateTag(tagData); }} 
-            onDeleteTag={() => onDeleteTag(selectedTag.id)}
+            onDeleteTag={() => { this.toggleTagModal(selectedTag); onDeleteTag(selectedTag.id); }}
             onUpdateTag={(tagData) => onUpdateTag(tagData)}
             action={action}
             selectedTag={selectedTag} 
