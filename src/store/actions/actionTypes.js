@@ -6,3 +6,8 @@ export const ADD_TAG = 'ADD_TAG';
 export const UPDATE_TAG = 'UPDATE_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
 export const SET_TAGS = 'SET_TAGS';
+
+export const ADD_DAY_TAG = 'ADD_DAY_TAG';
+export const UPDATE_DAY_TAG = 'UPDATE_DAY_TAG';
+export const DELETE_DAY_TAG = 'DELETE_DAY_TAG';
+export const SET_DAY_TAGS = 'SET_DAY_TAGS';

@@ -62,9 +62,9 @@ class TagForm extends Component {
     const { selectedTag, onUpdateTag, toggleSelf } = this.props;
     const formValues = this.validateForm();
     console.log(formValues);
-    const { title: sTitle, color: sColor, icon: sIcon, id } = selectedTag;
 
     if (formValues) {
+      const { title: sTitle, color: sColor, icon: sIcon, id } = selectedTag;
       const { title, color, icon } = formValues;
       // check that at least one value is updated
       if (sTitle !== title || sColor !== color || sIcon !== icon) {
