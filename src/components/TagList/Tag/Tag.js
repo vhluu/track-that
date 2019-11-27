@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 
 class Tag extends Component {
   onDragStart(e) {
+    const { id } = this.props;
     e.target.classList.add('dragged');
     e.dataTransfer.effectAllowed = 'copyLink';
-    e.dataTransfer.setData('text/plain', this.id);
+    e.dataTransfer.setData('text/plain', id);
   }
 
-  onDragEnd() {
-
+  onDragEnd(e) {
+    e.target.classList.remove('dragged');
   }
 
   onDrop() {
@@ -22,9 +23,9 @@ class Tag extends Component {
         className={`tag ${tagColor}`}
         draggable="true"
         onClick={() => onClick({ id, tagTitle, tagColor, tagIcon })}
-        onDragStart={this.onDragStart}
+        onDragStart={this.onDragStart.bind(this)}
         onDragEnd={this.onDragEnd}
-        onDragDrop={this.onDrop}
+        onDrop={this.onDrop}
       >{tagIcon} {tagTitle}</div>
     );
   }
