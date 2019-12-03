@@ -12,10 +12,6 @@ class Tag extends Component {
     e.target.classList.remove('dragged');
   }
 
-  onDrop() {
-
-  }
-
   render() {
     const { onClick, id, tagColor, tagIcon, tagTitle } = this.props;
     return (
@@ -25,7 +21,6 @@ class Tag extends Component {
         onClick={() => onClick({ id, tagTitle, tagColor, tagIcon })}
         onDragStart={this.onDragStart.bind(this)}
         onDragEnd={this.onDragEnd}
-        onDrop={this.onDrop}
       >{tagIcon} {tagTitle}</div>
     );
   }

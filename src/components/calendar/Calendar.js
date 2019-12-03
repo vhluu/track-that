@@ -24,6 +24,28 @@ class Calendar extends Component {
     }));
   }
 
+  onDragOver(e) {
+    if (e.preventDefault) e.preventDefault(); // allows drop to happen
+  }
+
+  onDragEnter(e) {
+    console.log('drag enter');
+    if (e.target.classList.contains('day')) e.target.classList.add('chosen-day'); // adds bg color to calendar day
+  }
+
+  onDragLeave(e) {
+    console.log('drag leave');
+    if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
+  }
+
+  onDrop(e) {
+    if (e.stopPropagation) { e.stopPropagation(); }
+
+    // creates tag elements
+    console.log('create tag element');
+    console.log(e.dataTransfer.getData('text/plain'));
+  }
+
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { showDayModal } = this.state;
@@ -35,7 +57,16 @@ class Calendar extends Component {
           <div className="cal-header">{ day }</div>
         ))}
         { days.map((day) => (
-          <Day full={day.full} date={day.date} tags={tags[day.full]} onClick={this.toggleDayModal} />
+          <Day 
+            full={day.full} 
+            date={day.date} 
+            tags={tags[day.full]} 
+            onClick={this.toggleDayModal} 
+            onDragOver={this.onDragOver}
+            onDragEnter={this.onDragEnter}
+            onDragLeave={this.onDragLeave}
+            onDrop={this.onDrop}
+          />
         ))}
 
         { showDayModal && <DayModal /> }
