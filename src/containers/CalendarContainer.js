@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Calendar from '../components/Calendar/Calendar';
+
+import * as actions from '../store/actions/index';
 
 class CalendarContainer extends Component {
   /* Formats the given number as two digits */
@@ -91,7 +93,8 @@ class CalendarContainer extends Component {
   }
 
   render() {
-    const { date, days, tags } = this.state;
+    const { onCreateDayTag, onDeleteDayTag } = this.props;
+    const { date, days, dayTags } = this.state;
 
     return (
       <div className="calendar-wrapper">
@@ -99,10 +102,19 @@ class CalendarContainer extends Component {
           <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
           <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
-        <Calendar days={days} tags={tags} />
+        <Calendar days={days} month={date.month + 1} year={date.year} tags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} />
       </div>
     );
   }
 }
 
-export default CalendarContainer;
+const mapStateToProps = (state) => ({
+  dayTags: state.dayTags,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCreateDayTag: (tagId, date) => dispatch(actions.createDayTag(tagId, date)),
+  onDeleteDayTag: (tagId, day) => dispatch(actions.deleteDayTag(tagId, day)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarContainer);

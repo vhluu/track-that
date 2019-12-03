@@ -15,6 +15,7 @@ class Calendar extends Component {
     };
 
     this.toggleDayModal = this.toggleDayModal.bind(this);
+    this.onDrop = this.onDrop.bind(this);
   }
 
   toggleDayModal() {
@@ -43,7 +44,9 @@ class Calendar extends Component {
 
     // creates tag elements
     console.log('create tag element');
-    console.log(e.dataTransfer.getData('text/plain'));
+    const { onCreateDayTag, month, year } = this.props;
+    onCreateDayTag(e.dataTransfer.getData('text/plain'), { date: e.target.getAttribute('data-date'), month, year });
+    if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
   }
 
   render() {
@@ -60,7 +63,7 @@ class Calendar extends Component {
           <Day 
             full={day.full} 
             date={day.date} 
-            tags={tags[day.full]} 
+            tags={tags ? tags[day.full] : null} 
             onClick={this.toggleDayModal} 
             onDragOver={this.onDragOver}
             onDragEnter={this.onDragEnter}

@@ -7,3 +7,9 @@ export {
   updateTag,
   deleteTag,
 } from './tag';
+
+export {
+  createDayTag,
+  updateDayTag,
+  deleteDayTag,
+} from './calendarDayTag';
