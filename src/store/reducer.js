@@ -4,6 +4,7 @@ const initialState = {
   userId: null,
   tags: [],
   nextId: 1,
+  dayTags: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -65,6 +66,25 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actionTypes.ADD_DAY_TAG:
+      return {
+        ...state,
+      };
+    case actionTypes.DELETE_DAY_TAG:
+      return {
+        ...state,
+      };
+    case actionTypes.UPDATE_DAY_TAG:
+      return {
+        ...state,
+      };
+    case actionTypes.SET_DAY_TAGS:
+      return {
+        ...state,
+        dayTags: action.dayTags,
+      };
+    
+
     default:
       return state;
   }
