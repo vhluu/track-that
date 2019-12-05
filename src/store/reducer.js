@@ -78,13 +78,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    case actionTypes.SET_DAY_TAGS:
+    case actionTypes.SET_DAY_TAGS: {
+      console.log(action.date);
+      console.log(action.tags);
+      const tempObject = {};
+      Object.keys(action.tags).map((tagId) => {
+        Object.keys(action.tags[tagId]).map((day) => {
+          if (tempObject[day]) tempObject[day].push(tagId);
+          else tempObject[day] = [tagId];
+        });
+      });
+      console.log(tempObject);
       return {
         ...state,
-        dayTags: action.dayTags,
+        dayTags: tempObject,
       };
-    
-
+    }
     default:
       return state;
   }
