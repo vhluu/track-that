@@ -22,7 +22,6 @@ class CalendarContainer extends Component {
         year: date.getYear() + 1900,
       },
       days: [],
-      tags: {},
     };
   }
 
@@ -30,17 +29,17 @@ class CalendarContainer extends Component {
     const { date, date: { month, year } } = this.state;
     this.setCalendar(date);
 
-    const { uid } = this.props;    
+    const { uid, onGetDayTags } = this.props;    
     if (uid) {
-      this.getDayTags(uid, month, year);
+      onGetDayTags(month, year);
     }
   }
 
   componentDidUpdate(prevProps) {
     const { date: { month, year } } = this.state;
-    const { uid } = this.props;
-    if (prevProps.uid !== uid) {
-      this.getDayTags(uid, month, year);
+    const { uid, onGetDayTags } = this.props;
+    if (!prevProps.uid && uid) {
+      onGetDayTags(month, year);
     }
   }
 
@@ -93,8 +92,8 @@ class CalendarContainer extends Component {
   }
 
   render() {
-    const { onCreateDayTag, onDeleteDayTag } = this.props;
-    const { date, days, dayTags } = this.state;
+    const { onCreateDayTag, onDeleteDayTag, dayTags } = this.props;
+    const { date, days } = this.state;
 
     return (
       <div className="calendar-wrapper">
@@ -102,7 +101,7 @@ class CalendarContainer extends Component {
           <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
           <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
-        <Calendar days={days} month={date.month + 1} year={date.year} tags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} />
+        <Calendar days={days} month={date.month} year={date.year} tags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} />
       </div>
     );
   }
@@ -115,6 +114,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onCreateDayTag: (tagId, date) => dispatch(actions.createDayTag(tagId, date)),
   onDeleteDayTag: (tagId, day) => dispatch(actions.deleteDayTag(tagId, day)),
+  onGetDayTags: (month, year) => dispatch(actions.getDayTags(month, year)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarContainer);

@@ -53,7 +53,7 @@ class Calendar extends Component {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { showDayModal } = this.state;
     const { days, tags } = this.props;
-
+    console.log(tags);
     return (
       <div className="calendar">
         { daysOfWeek.map((day) => (

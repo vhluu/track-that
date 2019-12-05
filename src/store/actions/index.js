@@ -12,4 +12,5 @@ export {
   createDayTag,
   updateDayTag,
   deleteDayTag,
-} from './calendarDayTag';
+  getDayTags,
+} from './dayTag';
