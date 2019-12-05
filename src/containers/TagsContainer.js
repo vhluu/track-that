@@ -61,10 +61,6 @@ class TagsContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  tags: state.tags,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   onCreateTag: (tagData) => dispatch(actions.createTag(tagData)),
   onDeleteTag: (tagId) => dispatch(actions.deleteTag(tagId)),
@@ -72,4 +68,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagsContainer);
+export default connect(mapDispatchToProps)(TagsContainer);
