@@ -68,4 +68,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapDispatchToProps)(TagsContainer);
+export default connect(null, mapDispatchToProps)(TagsContainer);
