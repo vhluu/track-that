@@ -15,6 +15,7 @@ class Calendar extends Component {
     };
 
     this.toggleDayModal = this.toggleDayModal.bind(this);
+    this.onDrop = this.onDrop.bind(this);
   }
 
   toggleDayModal() {
@@ -24,18 +25,53 @@ class Calendar extends Component {
     }));
   }
 
+  onDragOver(e) {
+    if (e.preventDefault) e.preventDefault(); // allows drop to happen
+  }
+
+  onDragEnter(e) {
+    console.log('drag enter');
+    if (e.target.classList.contains('day')) e.target.classList.add('chosen-day'); // adds bg color to calendar day
+  }
+
+  onDragLeave(e) {
+    console.log('drag leave');
+    if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
+  }
+
+  onDrop(e) {
+    if (e.stopPropagation) { e.stopPropagation(); }
+
+    // creates tag elements
+    console.log('create tag element');
+    const { onCreateDayTag, month, year } = this.props;
+    onCreateDayTag(e.dataTransfer.getData('text/plain'), { date: e.target.getAttribute('data-date'), month, year });
+    if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
+  }
+
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { showDayModal } = this.state;
-    const { days, tags } = this.props;
-
+    const { days, dayTags, getTagInfo, tagsReady } = this.props;
+    
     return (
       <div className="calendar">
         { daysOfWeek.map((day) => (
           <div className="cal-header">{ day }</div>
         ))}
         { days.map((day) => (
-          <Day full={day.full} date={day.date} tags={tags[day.full]} onClick={this.toggleDayModal} />
+          <Day 
+            full={day.full} 
+            date={day.date} 
+            tags={dayTags ? dayTags[day.full] : null} 
+            onClick={this.toggleDayModal} 
+            onDragOver={this.onDragOver}
+            onDragEnter={this.onDragEnter}
+            onDragLeave={this.onDragLeave}
+            onDrop={this.onDrop}
+            getTagInfo={getTagInfo}
+            tagsReady={tagsReady}
+          />
         ))}
 
         { showDayModal && <DayModal /> }

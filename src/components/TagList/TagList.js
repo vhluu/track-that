@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Tag from './Tag/Tag';
 
 function TagList(props) {
   const { tags, onClick } = props;
@@ -9,15 +10,13 @@ function TagList(props) {
       {Object.keys(tags).map((id) => {
         const tag = tags[id];
         return (
-          <div
-            className={`tag ${tag.color}`}
-            draggable="true"
+          <Tag
             id={`t${id}`}
-            data-tag-color={tag.color}
-            data-tag-icon={tag.icon} 
-            data-tag-title={tag.title}
-            onClick={() => { tag.id = id; onClick(tag)}}
-          >{tag.icon} {tag.title}</div>
+            tagColor={tag.color}
+            tagIcon={tag.icon} 
+            tagTitle={tag.title}
+            onClick={() => { tag.id = id; onClick(tag); }}
+          />
         );
       })}
     </div>

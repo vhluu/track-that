@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Calendar from '../components/Calendar/Calendar';
+
+import * as actions from '../store/actions/index';
 
 class CalendarContainer extends Component {
   /* Formats the given number as two digits */
@@ -20,25 +22,26 @@ class CalendarContainer extends Component {
         year: date.getYear() + 1900,
       },
       days: [],
-      tags: {},
     };
+
+    this.getTagInfo = this.getTagInfo.bind(this);
   }
 
   componentDidMount() {
     const { date, date: { month, year } } = this.state;
     this.setCalendar(date);
 
-    const { uid } = this.props;    
+    const { uid, onGetDayTags } = this.props;    
     if (uid) {
-      this.getDayTags(uid, month, year);
+      onGetDayTags(month, year);
     }
   }
 
   componentDidUpdate(prevProps) {
     const { date: { month, year } } = this.state;
-    const { uid } = this.props;
-    if (prevProps.uid !== uid) {
-      this.getDayTags(uid, month, year);
+    const { uid, onGetDayTags, tags } = this.props;
+    if (!prevProps.uid && uid) {
+      onGetDayTags(month, year);
     }
   }
 
@@ -90,19 +93,41 @@ class CalendarContainer extends Component {
     this.setState({ days });
   }
 
-  render() {
-    const { date, days, tags } = this.state;
+  getTagInfo(tagIds) {
+    const { tags } = this.props;
+    if (tagIds) {
+      return tagIds.map((tagId) => ({ 
+        id: tagId, 
+        icon: tags[tagId.substring(1)].icon, 
+        color: tags[tagId.substring(1)].color, 
+      }));
+    }
+    return null;
+  }
 
+  render() {
+    const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
+    const { date, days } = this.state;
     return (
       <div className="calendar-wrapper">
         <h1 className="curr-date">
           <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
           <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
-        <Calendar days={days} tags={tags} />
+        <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && tags.length > 0} />
       </div>
     );
   }
 }
 
-export default CalendarContainer;
+const mapStateToProps = (state) => ({
+  dayTags: state.dayTags,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCreateDayTag: (tagId, date) => dispatch(actions.createDayTag(tagId, date)),
+  onDeleteDayTag: (tagId, day) => dispatch(actions.deleteDayTag(tagId, day)),
+  onGetDayTags: (month, year) => dispatch(actions.getDayTags(month, year)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarContainer);

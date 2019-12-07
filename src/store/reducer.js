@@ -3,31 +3,53 @@ import * as actionTypes from './actions/actionTypes';
 const initialState = {
   userId: null,
   tags: [],
+  nextId: 1,
+  dayTags: null,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.CREATE_TAG:
-      console.log('creating tag', action);
+    case actionTypes.ADD_TAG:
+      console.log('adding tag', action);
       return {
         ...state,
+        tags: {
+          ...state.tags,
+          [action.tag.id]: action.tag,
+        },
+        nextId: state.nextId + 1,
       };
-    case actionTypes.DELETE_TAG:
+    case actionTypes.DELETE_TAG: {
       console.log('deleting tag', action);
+      const { [action.tagId]: deletedItem, ...updatedTags } = state.tags;
       return {
         ...state,
+        tags: updatedTags,
       };
+    }
     case actionTypes.UPDATE_TAG:
       console.log('updating tag', action);
       return {
         ...state,
+        tags: {
+          ...state.tags,
+          [action.updatedTag.id]: action.updatedTag,
+        },
       };
-    case actionTypes.SET_TAGS:
+    case actionTypes.SET_TAGS: {
       console.log('setting tags', action);
+      if (action.tags) {
+        const keys = Object.keys(action.tags);
+        return {
+          ...state,
+          tags: action.tags,
+          nextId: parseInt(keys[keys.length - 1]) + 1,
+        };
+      }
       return {
         ...state,
-        tags: action.tags,
       };
+    }
     case actionTypes.SET_USER:
       console.log('getting user', action);
       return {
@@ -44,6 +66,40 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actionTypes.ADD_DAY_TAG: {
+      const currentDT = state.dayTags[action.date];
+      return {
+        ...state,
+        dayTags: {
+          ...state.dayTags,
+          [action.date]: currentDT ? currentDT.concat(action.tagId) : [action.tagId],
+        },
+      };
+    }
+    case actionTypes.DELETE_DAY_TAG:
+      return {
+        ...state,
+      };
+    case actionTypes.UPDATE_DAY_TAG:
+      return {
+        ...state,
+      };
+    case actionTypes.SET_DAY_TAGS: {
+      console.log(action.date);
+      console.log(action.tags);
+      const tempObject = {};
+      Object.keys(action.tags).map((tagId) => {
+        Object.keys(action.tags[tagId]).map((day) => {
+          if (tempObject[day]) tempObject[day].push(tagId);
+          else tempObject[day] = [tagId];
+        });
+      });
+      console.log(tempObject);
+      return {
+        ...state,
+        dayTags: tempObject,
+      };
+    }
     default:
       return state;
   }

@@ -13,11 +13,11 @@ class App extends Component {
   }
 
   render() {
-    const { tags } = this.props;
+    const { tags, uid } = this.props;
     return (
       <div className="app flex_t main-wrapper card">
         <TagsContainer tags={tags} />
-        <CalendarContainer />
+        <CalendarContainer uid={uid} tags={tags} />
       </div>
     );
   }
@@ -26,6 +26,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     tags: state.tags,
+    uid: state.uid,
   };
 };
 
