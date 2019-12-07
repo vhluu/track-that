@@ -66,10 +66,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    case actionTypes.ADD_DAY_TAG:
+    case actionTypes.ADD_DAY_TAG: {
+      const currentDT = state.dayTags[action.date];
       return {
         ...state,
+        dayTags: {
+          ...state.dayTags,
+          [action.date]: currentDT ? currentDT.concat(action.tagId) : [action.tagId],
+        },
       };
+    }
     case actionTypes.DELETE_DAY_TAG:
       return {
         ...state,

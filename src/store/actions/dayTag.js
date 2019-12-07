@@ -18,7 +18,7 @@ export const createDayTag = (tagId, date) => {
     const { uid } = getState();
     db.ref(`users/${uid}/tagged/${(date.month + 1) % 13}${date.year}/${tagId}/${date.date}`).set(true);
     db.ref(`users/${uid}/tags/${(tagId).substring(1)}/months/${(date.month + 1) % 13}${date.year}`).set(true); // keeps track of months that include this tag
-    dispatch(addDayTag(tagId, date));
+    dispatch(addDayTag(tagId, date.date));
   };
 };
 

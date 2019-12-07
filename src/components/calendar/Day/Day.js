@@ -4,7 +4,6 @@ function Day(props) {
   const { date, full, onClick, tags, tagsReady, onDragOver, onDragEnter, onDragLeave, onDrop, getTagInfo } = props;
   
   let fullTags = null;
-  console.log(tagsReady);
   if (tagsReady && tags) fullTags = getTagInfo(tags);
 
   return (
