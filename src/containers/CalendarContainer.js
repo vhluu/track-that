@@ -108,13 +108,14 @@ class CalendarContainer extends Component {
   render() {
     const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
     const { date, days } = this.state;
+
     return (
       <div className="calendar-wrapper">
         <h1 className="curr-date">
           <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
           <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
-        <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && tags.length > 0} />
+        <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
       </div>
     );
   }
