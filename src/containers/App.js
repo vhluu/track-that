@@ -17,7 +17,7 @@ class App extends Component {
     return (
       <div className="app flex_t main-wrapper card">
         <TagsContainer tags={tags} />
-        <CalendarContainer uid={uid}/>
+        <CalendarContainer uid={uid} tags={tags} />
       </div>
     );
   }

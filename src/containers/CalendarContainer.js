@@ -23,6 +23,8 @@ class CalendarContainer extends Component {
       },
       days: [],
     };
+
+    this.getTagInfo = this.getTagInfo.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +39,7 @@ class CalendarContainer extends Component {
 
   componentDidUpdate(prevProps) {
     const { date: { month, year } } = this.state;
-    const { uid, onGetDayTags } = this.props;
+    const { uid, onGetDayTags, tags } = this.props;
     if (!prevProps.uid && uid) {
       onGetDayTags(month, year);
     }
@@ -91,17 +93,28 @@ class CalendarContainer extends Component {
     this.setState({ days });
   }
 
-  render() {
-    const { onCreateDayTag, onDeleteDayTag, dayTags } = this.props;
-    const { date, days } = this.state;
+  getTagInfo(tagIds) {
+    const { tags } = this.props;
+    if (tagIds) {
+      return tagIds.map((tagId) => ({ 
+        id: tagId, 
+        icon: tags[tagId.substring(1)].icon, 
+        color: tags[tagId.substring(1)].color, 
+      }));
+    }
+    return null;
+  }
 
+  render() {
+    const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
+    const { date, days } = this.state;
     return (
       <div className="calendar-wrapper">
         <h1 className="curr-date">
           <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
           <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
-        <Calendar days={days} month={date.month} year={date.year} tags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} />
+        <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && tags.length > 0} />
       </div>
     );
   }

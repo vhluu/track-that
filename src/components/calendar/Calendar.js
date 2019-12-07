@@ -52,8 +52,8 @@ class Calendar extends Component {
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { showDayModal } = this.state;
-    const { days, tags } = this.props;
-    console.log(tags);
+    const { days, dayTags, getTagInfo, tagsReady } = this.props;
+    
     return (
       <div className="calendar">
         { daysOfWeek.map((day) => (
@@ -63,12 +63,14 @@ class Calendar extends Component {
           <Day 
             full={day.full} 
             date={day.date} 
-            tags={tags ? tags[day.full] : null} 
+            tags={dayTags ? dayTags[day.full] : null} 
             onClick={this.toggleDayModal} 
             onDragOver={this.onDragOver}
             onDragEnter={this.onDragEnter}
             onDragLeave={this.onDragLeave}
             onDrop={this.onDrop}
+            getTagInfo={getTagInfo}
+            tagsReady={tagsReady}
           />
         ))}
 
