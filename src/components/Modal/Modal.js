@@ -1,10 +1,9 @@
 import React from 'react';
 
 function Modal(props) {
-  const { show, children } = props;
-  const modalClasses = show ? 'modal card' : 'modal card hide';
+  const { show, children, extraClasses } = props;
   return (
-    <div className={modalClasses}>
+    <div className={`modal card ${extraClasses}${show ? '' : ' hide'}`}>
       { children }
     </div>
   );
