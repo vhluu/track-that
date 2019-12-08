@@ -12,17 +12,11 @@ class Calendar extends Component {
 
     this.state = {
       showDayModal: false,
+      selectedDayTags: null,
     };
 
     this.toggleDayModal = this.toggleDayModal.bind(this);
     this.onDrop = this.onDrop.bind(this);
-  }
-
-  toggleDayModal() {
-    console.log('toggling');
-    this.setState((prevState) => ({
-      showDayModal: !(prevState.showDayModal),
-    }));
   }
 
   onDragOver(e) {
@@ -49,9 +43,18 @@ class Calendar extends Component {
     if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
   }
 
+  toggleDayModal(selectedDay) {
+    const { getTagInfo, dayTags } = this.props;
+
+    this.setState((prevState) => ({
+      showDayModal: !(prevState.showDayModal),
+      selectedDayTags: getTagInfo(dayTags[selectedDay]),
+    }));
+  }
+
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
-    const { showDayModal } = this.state;
+    const { showDayModal, selectedDayTags } = this.state;
     const { days, dayTags, getTagInfo, tagsReady } = this.props;
     
     return (
@@ -74,7 +77,7 @@ class Calendar extends Component {
           />
         ))}
 
-        { showDayModal && <DayModal /> }
+        { showDayModal && <DayModal tags={selectedDayTags} /> }
       </div>
     );
   }

@@ -7,6 +7,8 @@ class DayModal extends Component {
     this.state = {
       selectedAll: false,
     };
+
+    this.selectAll = this.selectAll.bind(this);
   }
 
   selectAll() {
@@ -32,12 +34,12 @@ class DayModal extends Component {
         </div>
 
         <div className="day-checkboxes">
-          { tags.map((tag) => (
+          {tags && Object.keys(tags).map((tagId) => (
             <div className="checkbox-wrapper">
-              <input type="checkbox" id={`check-${tag.id}`} className="day-checkbox" checked={selectedAll} />
-              <label htmlFor={`check-${tag.id}`}>
+              <input type="checkbox" id={`check-${tagId}`} className="day-checkbox" checked={selectedAll} />
+              <label htmlFor={`check-${tagId}`}>
                 <div className="custom-checkbox" />
-                <div className={`tag ${tag.color}`} draggable="true" id={`${tag.id}`} data-tag-color={tag.color} data-tag-icon={tag.icon} data-tag-title={tag.title}>{tag.icon} {tag.title}</div>
+                <div className={`tag ${tags[tagId].color}`} draggable="true" id={`${tagId}`} data-tag-color={tags[tagId].color} data-tag-icon={tags[tagId].icon} data-tag-title={tags[tagId].title}>{tags[tagId].icon} {tags[tagId].title}</div>
               </label>
             </div>
           ))}
