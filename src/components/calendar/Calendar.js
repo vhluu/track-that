@@ -24,12 +24,10 @@ class Calendar extends Component {
   }
 
   onDragEnter(e) {
-    console.log('drag enter');
     if (e.target.classList.contains('day')) e.target.classList.add('chosen-day'); // adds bg color to calendar day
   }
 
   onDragLeave(e) {
-    console.log('drag leave');
     if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
   }
 
@@ -37,7 +35,6 @@ class Calendar extends Component {
     if (e.stopPropagation) { e.stopPropagation(); }
 
     // creates tag elements
-    console.log('create tag element');
     const { onCreateDayTag, month, year } = this.props;
     onCreateDayTag(e.dataTransfer.getData('text/plain'), { date: e.target.getAttribute('data-date'), month, year });
     if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day

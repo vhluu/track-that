@@ -96,11 +96,15 @@ class CalendarContainer extends Component {
   getTagInfo(tagIds) {
     const { tags } = this.props;
     if (tagIds) {
-      return tagIds.map((tagId) => ({ 
-        id: tagId, 
-        icon: tags[tagId.substring(1)].icon, 
-        color: tags[tagId.substring(1)].color, 
-      }));
+      return tagIds.map((tagId) => {
+        const shortId = tagId.substring(1);
+        return { 
+          id: tagId, 
+          title: tags[shortId].title,
+          icon: tags[shortId].icon, 
+          color: tags[shortId].color, 
+        };
+      });
     }
     return null;
   }

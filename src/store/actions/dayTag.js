@@ -11,9 +11,6 @@ export const deleteDayTag = (tag) => ({ type: actionTypes.DELETE_DAY_TAG, tag })
 
 export const createDayTag = (tagId, date) => {
   return (dispatch, getState) => {
-    console.log('creating day tag');
-    console.log(tagId);
-    console.log(date);
     // add tag to the database
     const { uid } = getState();
     db.ref(`users/${uid}/tagged/${(date.month + 1) % 13}${date.year}/${tagId}/${date.date}`).set(true);
