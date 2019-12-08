@@ -22,9 +22,17 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DELETE_TAG: {
       console.log('deleting tag', action);
       const { [action.tagId]: deletedItem, ...updatedTags } = state.tags;
+      
+      // removing tag from day tags
+      const updatedDT = {};
+      Object.keys(state.dayTags).forEach((day) => {
+        const filtered = state.dayTags[day].filter((id) => id !== `t${action.tagId}`);
+        if (filtered.length > 0) updatedDT[day] = filtered;
+      });
       return {
         ...state,
         tags: updatedTags,
+        dayTags: updatedDT,
       };
     }
     case actionTypes.UPDATE_TAG:
