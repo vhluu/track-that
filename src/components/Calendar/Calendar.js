@@ -13,10 +13,14 @@ class Calendar extends Component {
     this.state = {
       showDayModal: false,
       selectedDayTags: null,
+      selectAll: false,
+      checkedItems: null,
     };
 
     this.toggleDayModal = this.toggleDayModal.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this.toggleSelectAll = this.toggleSelectAll.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
   onDragOver(e) {
@@ -42,18 +46,40 @@ class Calendar extends Component {
 
   toggleDayModal(selectedDay) {
     const { getTagInfo, dayTags } = this.props;
+    const currDayTags = dayTags[selectedDay];
+    const initialCheckedItems = new Array(currDayTags.length).fill(false);
 
     this.setState((prevState) => ({
       showDayModal: !(prevState.showDayModal),
-      selectedDayTags: getTagInfo(dayTags[selectedDay]),
+      selectedDayTags: getTagInfo(currDayTags),
+      checkedItems: initialCheckedItems,
+    }));
+  }
+
+  toggleSelectAll(e) {
+    const isChecked = e.target.checked;
+    
+    this.setState((prevState) => ({ 
+      checkedItems: new Array(prevState.checkedItems.length).fill(isChecked),
+      selectAll: isChecked,
+    }));
+  }
+
+  handleCheckboxChange(e) {
+    const checkboxIndex = e.target.getAttribute('data-index');
+    const isChecked = e.target.checked;
+
+    this.setState((prevState) => ({ 
+      checkedItems: prevState.checkedItems.map((item, index) => (index === parseInt(checkboxIndex) ? isChecked : item)),
+      selectAll: !isChecked ? false : prevState.selectAll,
     }));
   }
 
   render() {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
-    const { showDayModal, selectedDayTags } = this.state;
+    const { showDayModal, selectedDayTags, selectAll, checkedItems } = this.state;
     const { days, dayTags, getTagInfo, tagsReady } = this.props;
-    
+
     return (
       <div className="calendar">
         { daysOfWeek.map((day) => (
@@ -77,10 +103,10 @@ class Calendar extends Component {
         { showDayModal && (
           <Modal show={showDayModal} extraClasses="edit-day-modal">
             <p className="edit-day"></p>
-            <Checkbox id="check-select-all" extraClasses="select-all">Select All</Checkbox>
+            <Checkbox id="check-select-all" extraClasses="select-all" checked={selectAll} onChange={this.toggleSelectAll}>Select All</Checkbox>
             <div className="day-checkboxes">
-              {selectedDayTags && Object.keys(selectedDayTags).map((tagId) => (
-                <Checkbox id={`check-${tagId}`}>
+              {selectedDayTags && Object.keys(selectedDayTags).map((tagId, index) => (
+                <Checkbox id={`check-${tagId}`} index={index} checked={checkedItems[index]} onChange={this.handleCheckboxChange}>
                   <div className={`tag ${selectedDayTags[tagId].color}`} draggable="true" id={`${tagId}`} data-tag-color={selectedDayTags[tagId].color} data-tag-icon={selectedDayTags[tagId].icon} data-tag-title={selectedDayTags[tagId].title}>{selectedDayTags[tagId].icon} {selectedDayTags[tagId].title}</div>
                 </Checkbox>
               ))}
