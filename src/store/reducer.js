@@ -22,9 +22,17 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DELETE_TAG: {
       console.log('deleting tag', action);
       const { [action.tagId]: deletedItem, ...updatedTags } = state.tags;
+      
+      // removing tag from day tags
+      const updatedDT = {};
+      Object.keys(state.dayTags).forEach((day) => {
+        const filtered = state.dayTags[day].filter((id) => id !== `t${action.tagId}`);
+        if (filtered.length > 0) updatedDT[day] = filtered;
+      });
       return {
         ...state,
         tags: updatedTags,
+        dayTags: updatedDT,
       };
     }
     case actionTypes.UPDATE_TAG:
@@ -76,17 +84,26 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
-    case actionTypes.DELETE_DAY_TAG:
+    case actionTypes.DELETE_DAY_TAG: {
+      console.log('deleting day tags', action);
+      const { month, day } = action.date;
+
+      // removing tags from day tags
+      const updatedDT = state.dayTags[month + day].filter((id) => !action.tags.includes(id));
+      
       return {
         ...state,
+        dayTags: {
+          ...state.dayTags,
+          [month + day]: updatedDT,
+        },
       };
+    }
     case actionTypes.UPDATE_DAY_TAG:
       return {
         ...state,
       };
     case actionTypes.SET_DAY_TAGS: {
-      console.log(action.date);
-      console.log(action.tags);
       const tempObject = {};
       Object.keys(action.tags).map((tagId) => {
         Object.keys(action.tags[tagId]).map((day) => {

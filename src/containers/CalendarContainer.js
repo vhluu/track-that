@@ -96,11 +96,15 @@ class CalendarContainer extends Component {
   getTagInfo(tagIds) {
     const { tags } = this.props;
     if (tagIds) {
-      return tagIds.map((tagId) => ({ 
-        id: tagId, 
-        icon: tags[tagId.substring(1)].icon, 
-        color: tags[tagId.substring(1)].color, 
-      }));
+      return tagIds.map((tagId) => {
+        const shortId = tagId.substring(1);
+        return { 
+          id: tagId, 
+          title: tags[shortId].title,
+          icon: tags[shortId].icon, 
+          color: tags[shortId].color, 
+        };
+      });
     }
     return null;
   }
@@ -108,13 +112,14 @@ class CalendarContainer extends Component {
   render() {
     const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
     const { date, days } = this.state;
+
     return (
       <div className="calendar-wrapper">
         <h1 className="curr-date">
           <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
           <span className="curr-year">{ ` ${date.year}` }</span>
         </h1>
-        <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && tags.length > 0} />
+        <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
       </div>
     );
   }
@@ -126,7 +131,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onCreateDayTag: (tagId, date) => dispatch(actions.createDayTag(tagId, date)),
-  onDeleteDayTag: (tagId, day) => dispatch(actions.deleteDayTag(tagId, day)),
+  onDeleteDayTag: (tags, date) => dispatch(actions.deleteDayTag(tags, date)),
   onGetDayTags: (month, year) => dispatch(actions.getDayTags(month, year)),
 });
 

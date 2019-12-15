@@ -30,7 +30,7 @@ class TagForm extends Component {
   getFormValues() {
     const { selectedColor, selectedIcon } = this.state;
     const { selectedTag } = this.props;
-    console.log(this.state);
+
     return {
       title: this.titleInput.current.value,
       color: selectedColor || ((selectedTag) ? selectedTag.color : false),
@@ -42,7 +42,7 @@ class TagForm extends Component {
 
   validateForm() {
     const formValues = this.getFormValues();
-    console.log(formValues);
+
     if (!formValues.title || !formValues.color || !formValues.icon) {
       this.setState({ showErrorMsg: true });
       return null;
@@ -53,7 +53,6 @@ class TagForm extends Component {
 
   createTag() {
     const formValues = this.validateForm();
-    console.log(formValues);
 
     if (formValues) this.props.onCreateTag(formValues);
   }
@@ -61,7 +60,6 @@ class TagForm extends Component {
   updateTag() {
     const { selectedTag, onUpdateTag, toggleSelf } = this.props;
     const formValues = this.validateForm();
-    console.log(formValues);
 
     if (formValues) {
       const { title: sTitle, color: sColor, icon: sIcon, id } = selectedTag;
