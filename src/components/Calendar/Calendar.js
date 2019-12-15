@@ -51,20 +51,23 @@ class Calendar extends Component {
   toggleDayModal(selectedDay) {
     const { getTagInfo, dayTags } = this.props;
     const { showDayModal } = this.state;
+    const currDayTags = dayTags[selectedDay];
 
-    if (!showDayModal) { // if day modal isnt currently open, then populate content for modal
-      const currDayTags = dayTags[selectedDay];
-      const initialCheckedItems = new Array(currDayTags.length).fill(false);
-
+    // if day modal isnt currently open & the selected day has tags, then populate the content for modal
+    if (!showDayModal && currDayTags) {
+      const initialCheckedItems = new Array(currDayTags.length).fill(false); // makes sure checkboxes are initially unchecked
       this.setState((prevState) => ({
         showDayModal: !(prevState.showDayModal),
         selectedDay,
         selectedDayTags: getTagInfo(currDayTags),
+        selectAll: false,
         checkedItems: initialCheckedItems,
       }));
-    } else {
+    } else if (showDayModal) { // if day modal is currently open, then close it
       this.setState((prevState) => ({
         showDayModal: !(prevState.showDayModal),
+        selectedDayTags: null,
+        selectAll: false,
       }));
     }
   }
@@ -97,8 +100,11 @@ class Calendar extends Component {
 
     let tagsToRemove = selectedDayTags.filter((tag, index) => checkedItems[index]);
     if (tagsToRemove.length > 0) {
+      // removes day tags from database
       tagsToRemove = tagsToRemove.map((tag) => tag.id);
       onDeleteDayTag(tagsToRemove, { month, day: selectedDay.substring(2), year });
+      
+      this.toggleDayModal(selectedDay); // close day modal
     }
   }
 
