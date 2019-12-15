@@ -7,8 +7,6 @@ export const addDayTag = (tagId, date) => ({ type: actionTypes.ADD_DAY_TAG, tagI
 
 export const updateDayTag = (tag) => ({ type: actionTypes.UPDATE_DAY_TAG, tag });
 
-export const deleteDayTag = (tag) => ({ type: actionTypes.DELETE_DAY_TAG, tag });
-
 export const createDayTag = (tagId, date) => {
   return (dispatch, getState) => {
     // add tag to the database
@@ -26,3 +24,16 @@ export const getDayTags = (month, year) => {
     return db.ref(`users/${uid}/tagged/${fullDate}`).once('value').then((snapshot) => dispatch(setDayTags(fullDate, snapshot.val())));
   };
 }; 
+
+export const deleteDayTag = (tags, { month, day, year }) => {
+  return (dispatch, getState) => {
+    const { uid } = getState();
+
+    const updates = {};
+    tags.forEach((tag) => { updates[`users/${uid}/tagged/${(month + 1) % 13}${year}/${tag}/${(month + 1) % 13}${day}`] = null; });
+    db.ref().update(updates); // bulk remove through updates w/ value null
+    dispatch({ type: actionTypes.DELETE_DAY_TAG, month, day, year, tags });
+
+    // TODO: handle case where we removed all instances of that tag from that month
+  };
+};
