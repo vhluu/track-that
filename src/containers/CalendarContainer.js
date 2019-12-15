@@ -131,7 +131,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onCreateDayTag: (tagId, date) => dispatch(actions.createDayTag(tagId, date)),
-  onDeleteDayTag: (tagId, day) => dispatch(actions.deleteDayTag(tagId, day)),
+  onDeleteDayTag: (tags, date) => dispatch(actions.deleteDayTag(tags, date)),
   onGetDayTags: (month, year) => dispatch(actions.getDayTags(month, year)),
 });
 
