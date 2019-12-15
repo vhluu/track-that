@@ -84,10 +84,21 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
-    case actionTypes.DELETE_DAY_TAG:
+    case actionTypes.DELETE_DAY_TAG: {
+      console.log('deleting day tags', action);
+      const { month, day } = action.date;
+
+      // removing tags from day tags
+      const updatedDT = state.dayTags[month + day].filter((id) => !action.tags.includes(id));
+      
       return {
         ...state,
+        dayTags: {
+          ...state.dayTags,
+          [month + day]: updatedDT,
+        },
       };
+    }
     case actionTypes.UPDATE_DAY_TAG:
       return {
         ...state,

@@ -89,11 +89,7 @@ class Calendar extends Component {
 
     let tagsToRemove = selectedDayTags.filter((tag, index) => checkedItems[index]);
     tagsToRemove = tagsToRemove.map((tag) => tag.id);
-    console.log(selectedDayTags);
-    console.log(checkedItems);
-    console.log(tagsToRemove);
-    console.log(month);
-    console.log(selectedDay);
+
     onDeleteDayTag(tagsToRemove, { month, day: selectedDay.substring(2), year });
   }
 

@@ -32,7 +32,9 @@ export const deleteDayTag = (tags, { month, day, year }) => {
     const updates = {};
     tags.forEach((tag) => { updates[`users/${uid}/tagged/${(month + 1) % 13}${year}/${tag}/${(month + 1) % 13}${day}`] = null; });
     db.ref().update(updates); // bulk remove through updates w/ value null
-    dispatch({ type: actionTypes.DELETE_DAY_TAG, month, day, year, tags });
+
+    const date = { month: `${(month + 1) % 13}`, day, year };
+    dispatch({ type: actionTypes.DELETE_DAY_TAG, date, tags });
 
     // TODO: handle case where we removed all instances of that tag from that month
   };
