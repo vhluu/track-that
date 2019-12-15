@@ -50,15 +50,23 @@ class Calendar extends Component {
   /* Toggles day modal and populates it with tags for chosen day */
   toggleDayModal(selectedDay) {
     const { getTagInfo, dayTags } = this.props;
-    const currDayTags = dayTags[selectedDay];
-    const initialCheckedItems = new Array(currDayTags.length).fill(false);
+    const { showDayModal } = this.state;
 
-    this.setState((prevState) => ({
-      showDayModal: !(prevState.showDayModal),
-      selectedDay,
-      selectedDayTags: getTagInfo(currDayTags),
-      checkedItems: initialCheckedItems,
-    }));
+    if (!showDayModal) { // if day modal isnt currently open, then populate content for modal
+      const currDayTags = dayTags[selectedDay];
+      const initialCheckedItems = new Array(currDayTags.length).fill(false);
+
+      this.setState((prevState) => ({
+        showDayModal: !(prevState.showDayModal),
+        selectedDay,
+        selectedDayTags: getTagInfo(currDayTags),
+        checkedItems: initialCheckedItems,
+      }));
+    } else {
+      this.setState((prevState) => ({
+        showDayModal: !(prevState.showDayModal),
+      }));
+    }
   }
 
   /* Handles toggle of select all checkbox by toggling other checkboxes */
