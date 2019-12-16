@@ -94,6 +94,7 @@ class CalendarContainer extends Component {
     this.setState({ days });
   }
 
+  /* Takes an array of tag ids and returns an array of tags w/ all of their data (id, title, color, icon) */
   getTagInfo(tagIds) {
     const { tags } = this.props;
     if (tagIds) {
@@ -108,6 +109,10 @@ class CalendarContainer extends Component {
       });
     }
     return null;
+  }
+
+  prevMonth() {
+    //
   }
 
   render() {

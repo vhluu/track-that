@@ -19,6 +19,7 @@ class TagsContainer extends Component {
     };
   }
 
+  /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
   toggleTagModal(tag) {
     if (tag) {
       this.setState((prevState) => ({

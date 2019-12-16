@@ -16,6 +16,7 @@ class IconPicker extends Component {
     this.toggleIconPicker = this.toggleIconPicker.bind(this);
   }
 
+  /* Handles selection of an emoji */
   setIcon(emoji) {
     this.setState({
       selectedIcon: emoji.native,
@@ -26,6 +27,7 @@ class IconPicker extends Component {
     onIconSelect(emoji.native);
   }
 
+  /* Toggles the icon picker */
   toggleIconPicker() {
     this.setState((prevState) => ({
       showIconPicker: !(prevState.showIconPicker),
