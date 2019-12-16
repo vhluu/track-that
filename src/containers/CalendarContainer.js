@@ -39,13 +39,18 @@ class CalendarContainer extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { date: { month, year } } = this.state;
+  componentDidUpdate(prevProps, prevState) {
+    const { date, date: { month, year } } = this.state;
     const { uid, onGetDayTags, tags } = this.props;
 
     // if uid is being set for the first time, then get the calendar day tags
     if (!prevProps.uid && uid) {
       onGetDayTags(month, year);
+    }
+
+    // if the stored date has changed then update the calendar days & day tags
+    if (prevState.date && prevState.date !== date) {
+      this.setCalendar(date);
     }
   }
 
