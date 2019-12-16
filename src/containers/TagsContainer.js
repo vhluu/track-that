@@ -21,13 +21,13 @@ class TagsContainer extends Component {
 
   /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
   toggleTagModal(tag) {
-    if (tag) {
+    if (tag) { // if a tag was clicked on, show the 'update' tag modal
       this.setState((prevState) => ({
         action: 'update',
         selectedTag: tag,
         showModal: (prevState.action === 'update' && (prevState.selectedTag.id === tag.id)) ? !(prevState.showModal) : true,
       }));
-    } else {
+    } else { // if the add tag btn was clicked on, show the 'create' tag modal
       this.setState((prevState) => ({
         action: 'create',
         selectedTag: null,
