@@ -26,6 +26,7 @@ class CalendarContainer extends Component {
     };
 
     this.getTagInfo = this.getTagInfo.bind(this);
+    this.prevMonth = this.prevMonth.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +42,8 @@ class CalendarContainer extends Component {
   componentDidUpdate(prevProps) {
     const { date: { month, year } } = this.state;
     const { uid, onGetDayTags, tags } = this.props;
+
+    // if uid is being set for the first time, then get the calendar day tags
     if (!prevProps.uid && uid) {
       onGetDayTags(month, year);
     }
@@ -111,8 +114,21 @@ class CalendarContainer extends Component {
     return null;
   }
 
+  // Sets stored date to previous month
   prevMonth() {
-    //
+    console.log('going to previous month');
+    this.setState((prevState) => {
+      const { full, month } = prevState.date;
+      const date = new Date(full.valueOf());
+      date.setMonth(month - 1);
+      return ({
+        date: {
+          full: date,
+          month: date.getMonth(),
+          year: date.getYear() + 1900,
+        },
+      });
+    });
   }
 
   render() {
@@ -121,7 +137,7 @@ class CalendarContainer extends Component {
 
     return (
       <div className="calendar-wrapper">
-        <Pagination>
+        <Pagination prevClick={this.prevMonth}>
           <h1 className="curr-date">
             <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
             <span className="curr-year">{ ` ${date.year}` }</span>
