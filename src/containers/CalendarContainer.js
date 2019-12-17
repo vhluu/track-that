@@ -41,7 +41,7 @@ class CalendarContainer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { date, date: { month, year } } = this.state;
-    const { uid, onGetDayTags, tags } = this.props;
+    const { uid, onGetDayTags, dayTags, savedMonths } = this.props;
 
     // if uid is being set for the first time, then get the calendar day tags
     if (!prevProps.uid && uid) {
@@ -51,6 +51,9 @@ class CalendarContainer extends Component {
     // if the stored date has changed then update the calendar days & day tags
     if (prevState.date && prevState.date !== date) {
       this.setCalendar(date);
+
+      if (!savedMonths[`${(month + 1) % 13}${year}`]) onGetDayTags(month, year);
+      console.log(dayTags);
     }
   }
 
@@ -156,6 +159,7 @@ class CalendarContainer extends Component {
 
 const mapStateToProps = (state) => ({
   dayTags: state.dayTags,
+  savedMonths: state.savedMonths,
 });
 
 const mapDispatchToProps = (dispatch) => ({
