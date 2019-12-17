@@ -27,6 +27,7 @@ class TagForm extends Component {
     this.updateTag = this.updateTag.bind(this);
   }
 
+  /* Returns an object that has all of the values entered into the form */
   getFormValues() {
     const { selectedColor, selectedIcon } = this.state;
     const { selectedTag } = this.props;
@@ -38,8 +39,7 @@ class TagForm extends Component {
     };
   }
 
-  // TODO: write function for clearing form fields
-
+  /* Validates the form & returns the form values if valid */
   validateForm() {
     const formValues = this.getFormValues();
 
@@ -51,15 +51,17 @@ class TagForm extends Component {
     return formValues;
   }
 
+  /* Handles click of 'Create Tag' btn. Creates tag in store & database */
   createTag() {
-    const formValues = this.validateForm();
+    const formValues = this.validateForm(); // validate form & get form values
 
-    if (formValues) this.props.onCreateTag(formValues);
+    if (formValues) this.props.onCreateTag(formValues); // if form is valid, then create tag in store & database
   }
 
+  /* Handles click of 'Update Tag' btn. Updates tag in store & database */
   updateTag() {
     const { selectedTag, onUpdateTag, toggleSelf } = this.props;
-    const formValues = this.validateForm();
+    const formValues = this.validateForm(); // validate form & get form values
 
     if (formValues) {
       const { title: sTitle, color: sColor, icon: sIcon, id } = selectedTag;
@@ -67,24 +69,28 @@ class TagForm extends Component {
       // check that at least one value is updated
       if (sTitle !== title || sColor !== color || sIcon !== icon) {
         formValues.id = id;
-        onUpdateTag(formValues);
-        toggleSelf(selectedTag);
+        onUpdateTag(formValues); // update tag in database & store
+        toggleSelf(selectedTag); // toggle the modal
       }
     }
   }
 
+  /* Handles changes to the title input field */
   handleTitleChange(event) {
     this.setState({ titleValue: event.target.value });
   }
 
+  /* Handles color select for the color picker field */
   handleColorSelect(event) {
     this.setState({ selectedColor: event.target.value });
   }
 
+  /* Handles icon select for the icon picker field */
   handleIconSelect(icon) {
     this.setState({ selectedIcon: icon });
   }
 
+  /* Toggles the delete confirmation pop up */
   toggleConfirmation() {
     this.setState((prevState) => ({
       showConfirmation: !(prevState.showConfirmation),

@@ -120,6 +120,23 @@ header {
   background-image: linear-gradient(90deg, rgb(212, 253, 234),rgb(215, 251, 255));
   position: relative;
 }
+.pagination {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.pagination-arrow {
+  background-image: linear-gradient(125deg, rgb(172, 239, 208),rgb(182, 240, 247));
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  font-weight: 700;
+  font-size: 18px;
+  height: 22px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+}
 .day, .cal-header { 
   flex-basis: calc(100%/7); 
   max-width: calc(100%/7); 
@@ -179,7 +196,7 @@ header {
   border: 1px solid #80e5ff;
 }
 .curr-date {
-  margin-top: 0;
+  margin: 0 6px;
 }
 .curr-year {
   color: rgba(93,114,123,0.7);

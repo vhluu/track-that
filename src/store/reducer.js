@@ -5,6 +5,7 @@ const initialState = {
   tags: [],
   nextId: 1,
   dayTags: null,
+  savedMonths: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -105,16 +106,27 @@ const reducer = (state = initialState, action) => {
       };
     case actionTypes.SET_DAY_TAGS: {
       const tempObject = {};
-      Object.keys(action.tags).map((tagId) => {
-        Object.keys(action.tags[tagId]).map((day) => {
-          if (tempObject[day]) tempObject[day].push(tagId);
-          else tempObject[day] = [tagId];
+      if (action.tags) {
+        Object.keys(action.tags).forEach((tagId) => {
+          Object.keys(action.tags[tagId]).forEach((day) => {
+            if (tempObject[day]) tempObject[day].push(tagId);
+            else tempObject[day] = [tagId];
+          });
         });
-      });
-      console.log(tempObject);
+        console.log(tempObject);
+
+        return {
+          ...state,
+          dayTags: {
+            ...state.dayTags,
+            ...tempObject,
+          },
+          savedMonths: state.savedMonths.concat(action.date),
+        };
+      } 
       return {
         ...state,
-        dayTags: tempObject,
+        savedMonths: state.savedMonths.concat(action.date),
       };
     }
     default:
