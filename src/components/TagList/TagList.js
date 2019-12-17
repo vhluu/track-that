@@ -6,7 +6,6 @@ function TagList(props) {
   const { tags, onClick } = props;
   return (
     <div className="tags-list">
-      <div className="tag green" draggable="true" id="aa" data-tag-color="green" data-tag-icon="🌱" data-tag-title="Watered Plants">🌱 Watered Plants</div>
       {Object.keys(tags).map((id) => {
         const tag = tags[id];
         return (
