@@ -90,6 +90,7 @@ class CalendarContainer extends Component {
       days.push({
         full: `${CalendarContainer.formatDigit(month + 1)}${CalendarContainer.formatDigit(currDate)}`,
         date: currDate,
+        current: true,
       });
     }
 

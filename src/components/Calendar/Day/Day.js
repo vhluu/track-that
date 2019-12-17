@@ -1,14 +1,14 @@
 import React from 'react';
 
 function Day(props) {
-  const { date, full, onClick, tags, tagsReady, onDragOver, onDragEnter, onDragLeave, onDrop, getTagInfo } = props;
+  const { date, full, onClick, tags, tagsReady, onDragOver, onDragEnter, onDragLeave, onDrop, getTagInfo, current } = props;
   
   let fullTags = null;
   // if we have tags pulled from the database, then get the tag information (title, icon, color)
   if (tagsReady && tags) fullTags = getTagInfo(tags);
 
   return (
-    <div className="day" data-date={full} onClick={() => onClick(full)} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave} onDrop={onDrop}>
+    <div className={`day${current ? '' : ' not-current'}`} data-date={full} onClick={() => onClick(full)} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave} onDrop={onDrop}>
       <span className="day-number">{date}</span>
       <div className="day-tags">
         {fullTags && fullTags.map((tag) => (
