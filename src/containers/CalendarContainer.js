@@ -26,7 +26,9 @@ class CalendarContainer extends Component {
     };
 
     this.getTagInfo = this.getTagInfo.bind(this);
+    this.changeMonth = this.changeMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
+    this.nextMonth = this.nextMonth.bind(this);
   }
 
   componentDidMount() {
@@ -52,8 +54,10 @@ class CalendarContainer extends Component {
     if (prevState.date && prevState.date !== date) {
       this.setCalendar(date);
 
-      if (!savedMonths[`${(month + 1) % 13}${year}`]) onGetDayTags(month, year);
-      console.log(dayTags);
+      if (!savedMonths.includes(`${(month + 1) % 13}${year}`)) {
+        console.log('getting months from database');
+        onGetDayTags(month, year);
+      }
     }
   }
 
@@ -122,13 +126,13 @@ class CalendarContainer extends Component {
     return null;
   }
 
-  // Sets stored date to previous month
-  prevMonth() {
-    console.log('going to previous month');
+  // Sets stored date to previous or next month depending on isPrevious boolean parameter
+  changeMonth(isPrevious) {
     this.setState((prevState) => {
       const { full, month } = prevState.date;
       const date = new Date(full.valueOf());
-      date.setMonth(month - 1);
+      if (isPrevious) date.setMonth(month - 1);
+      else date.setMonth(month + 1);
       return ({
         date: {
           full: date,
@@ -139,13 +143,23 @@ class CalendarContainer extends Component {
     });
   }
 
+  /* Sets stored date to previous month */
+  prevMonth() {
+    this.changeMonth(true);
+  }
+
+  /* Sets stored date to next month */
+  nextMonth() {
+    this.changeMonth(false);
+  }
+
   render() {
     const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
     const { date, days } = this.state;
 
     return (
       <div className="calendar-wrapper">
-        <Pagination prevClick={this.prevMonth}>
+        <Pagination prevClick={this.prevMonth} nextClick={this.nextMonth}>
           <h1 className="curr-date">
             <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
             <span className="curr-year">{ ` ${date.year}` }</span>
