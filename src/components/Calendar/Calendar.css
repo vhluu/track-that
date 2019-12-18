@@ -8,7 +8,8 @@ body {
   font-family: 'Quicksand', sans-serif;
   margin: 0;
   min-height: 100vh;
-  background-image: linear-gradient(125deg, rgb(172, 239, 208),rgb(182, 240, 247));
+  /* background-image: linear-gradient(125deg, rgb(172, 239, 208),rgb(182, 240, 247)); */
+  background-image: linear-gradient(125deg, rgb(172, 239, 208),#adeffb);
   color:rgb(93, 114, 123);
   display: flex;
   justify-content: center;
@@ -56,7 +57,7 @@ h2 {
   position: relative;
 }
 .main-wrapper {
-  max-width: 80vw;
+  max-width: 90vw;
   margin-left: auto;
   margin-right: auto;
 }
@@ -103,15 +104,7 @@ header {
 
 /* ==== CALENDAR ==== */
 .calendar-wrapper {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-  padding: 20px 40px;
-  border-left: 1px solid rgb(0,0,0,0.05);
-  width: 90%;
+  user-select: none;
 }
 .calendar { 
   display: flex; 
@@ -126,7 +119,7 @@ header {
   margin-bottom: 16px;
 }
 .pagination-arrow {
-  background-image: linear-gradient(125deg, rgb(172, 239, 208),rgb(182, 240, 247));
+  background-image: linear-gradient(125deg, rgb(172, 239, 208),#adeffb);
   color: #fff;
   border-radius: 50%;
   width: 22px;
@@ -140,8 +133,7 @@ header {
 .day, .cal-header { 
   flex-basis: calc(100%/7); 
   max-width: calc(100%/7); 
-  padding: 5px;
-  box-shadow: -1px -1px rgb(116, 218, 170), inset -1px -1px 0 0 rgb(116, 218, 170);
+  box-shadow: -1px -1px rgb(178, 232, 205), inset -1px -1px 0 0 rgb(178, 232, 205)
 }
 .cal-header {
   text-transform: uppercase;
@@ -149,6 +141,7 @@ header {
   font-weight: 600;
   font-size: 12px;
   color: rgb(76, 193, 138);
+  padding: 7px;
 }
 .day {
   text-align: right;
@@ -159,7 +152,9 @@ header {
   position: relative;
   color: rgb(93, 114, 123);
   background: white;
-  height: calc((65vh/5));
+  height: 10vh;
+  min-height: 80px;
+  padding: 5px;
 }
 .day-number {
   position: absolute;
@@ -220,8 +215,23 @@ header {
 }
 
 /* ==== TAGS ==== */
+.tags-container {
+  margin-bottom: 30px;
+}
+.tags-container h2 {
+  margin: 0 0 5px 0;
+}
+.tags-container p {
+  display: none;
+}
+.tags-main-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
 .tags-list {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
 }
 .tag {
   cursor: move; /* fallback */
@@ -234,7 +244,7 @@ header {
   border-radius: 10px;
   font-weight: 500;
   width: fit-content;
-  margin-bottom: 5px;
+  margin: 5px 5px 0 5px;
 }
 
 /* ==== TAG MODAL ====*/
@@ -244,12 +254,10 @@ header {
 }
 .btn.btn-dashed {
   width: fit-content;
-  margin-top: 10px;
+  margin: 5px 0 0 5px;
   background: transparent;
   color: #53cafb;
   border: 1px dashed #53cafb;
-  padding: 10px;
-  line-height: 16px;
 }
 .tag-field-wrapper {
   margin-bottom: 15px;
@@ -449,13 +457,52 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
 @media only screen and (min-width: 768px) {
   /* ==== LAYOUT ==== */
   .flex_t { display: flex; }
-  .main-wrapper {
-    align-items: flex-start;
-  }
 
   /* ==== SIDE BAR ==== */
   .side-bar {
     margin-right: 25px;
     flex-grow: 0;
+  }
+}
+
+
+@media only screen and (min-width: 1024px) {
+  /* ==== LAYOUT ==== */
+  .flex_d { display: flex; }
+  .main-wrapper {
+    max-width: 80vw;
+    align-items: flex-start;
+  }
+
+  /* ==== CALENDAR ==== */
+  .calendar-wrapper {
+    padding: 20px 40px;
+    border-left: 1px solid rgb(0,0,0,0.05);
+    width: 90%;
+  }
+  .day {
+    height: calc((65vh/5));
+  }
+
+  /* ==== TAGS ==== */
+  .tags-container {
+    margin-bottom: 0;
+  }
+  .tags-container h2 {
+    margin: 18px 0;
+  }
+  .tags-container p,
+  .tags-main-wrapper,
+  .tags-list {
+    display: block;
+  }
+  .tag {
+    margin: 0 0 5px 0;
+  }
+  /* ==== TAG MODAL ====*/
+  .btn.btn-dashed {
+    margin: 10px 0 0 0;
+    padding: 10px;
+    line-height: 16px;
   }
 }
