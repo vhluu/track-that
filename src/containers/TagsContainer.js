@@ -41,11 +41,13 @@ class TagsContainer extends Component {
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
 
     return (
-      <div>
+      <div className="tags-container">
         <h2>Tags</h2>
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
-        <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} />
-        <Button btnType="btn-dashed" clicked={this.toggleTagModal.bind(this, null)}>+ Add New Tag</Button>
+        <div className="tags-main-wrapper">
+          <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} />
+          <Button btnType="btn-dashed" clicked={this.toggleTagModal.bind(this, null)}>+ Add New Tag</Button>
+        </div>
         <Modal show={showModal}>
           <TagForm
             onCreateTag={(tagData) => { this.toggleTagModal(); onCreateTag(tagData); }} 

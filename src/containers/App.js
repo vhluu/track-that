@@ -15,7 +15,7 @@ class App extends Component {
   render() {
     const { tags, uid } = this.props;
     return (
-      <div className="app flex_t main-wrapper card">
+      <div className="app flex_d main-wrapper card">
         <TagsContainer tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
       </div>

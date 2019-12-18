@@ -130,6 +130,7 @@ class Calendar extends Component {
             onDrop={this.onDrop}
             getTagInfo={getTagInfo}
             tagsReady={tagsReady}
+            current={day.current}
           />
         ))}
 
