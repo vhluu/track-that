@@ -69,7 +69,7 @@ h2 {
   text-align: center;
   font-size: 14px;
   padding: 8px 14px;
-  background: #66d1fd;
+  background: #84e4f5;
   color: #fff;
   display: inline-block;
 }
@@ -270,8 +270,9 @@ header {
   width: fit-content;
   margin: 5px 0 0 5px;
   background: transparent;
-  color: #53cafb;
-  border: 1px dashed #53cafb;
+  color: #62d1e4;
+  border: 1px dashed #62d1e4;
+  background: rgba(98, 209, 228, 0.1);
 }
 .tag-field-wrapper {
   margin-bottom: 15px;
@@ -379,13 +380,13 @@ emoji-picker {
 }
 .color-picker-item:hover {
   cursor: pointer;
-  border-color: #66d1fd;
+  border-color: #84e4f5;
 }
 .color-picker [type="radio"] {
   display: none;
 }
 .color-picker [type="radio"]:checked + label .color-picker-item {
-  border-color: #66d1fd;
+  border-color: #84e4f5;
 }
 
 /* ==== DAY MODAL ==== */
