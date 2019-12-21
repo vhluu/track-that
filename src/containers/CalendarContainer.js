@@ -73,9 +73,9 @@ class CalendarContainer extends Component {
     if (dayOfWeek !== 0) {
       const lastMonth = new Date(year, month, 0);
       const endOfLastMonth = lastMonth.getDate(); // last day of last month
-      
+
       for (let i = 0; i < dayOfWeek; i++) {
-        currDate = endOfLastMonth - dayOfWeek + i;
+        currDate = endOfLastMonth - dayOfWeek + i + 1;
         days.push({
           full: `${CalendarContainer.formatDigit(lastMonth.getMonth() + 1)}${CalendarContainer.formatDigit(currDate)}`,
           date: currDate,
@@ -88,7 +88,8 @@ class CalendarContainer extends Component {
     const current = new Date(); 
     const currentDate = current.getDate();
     const currentMonth = current.getMonth();
-    for (let i = 0; i < daysInCurrMonth; i++) {
+    let daysLeft = 35 - Object.keys(days).length;
+    for (let i = 0; i < Math.min(daysInCurrMonth, daysLeft); i++) {
       currDate = i + 1;
       const dayObj = {
         full: `${CalendarContainer.formatDigit(month + 1)}${CalendarContainer.formatDigit(currDate)}`,
@@ -103,7 +104,7 @@ class CalendarContainer extends Component {
     }
 
     // add days from next month if needed to fill up calendar
-    const daysLeft = 35 - Object.keys(days).length;
+    daysLeft = 35 - Object.keys(days).length;
     if (daysLeft > 0) {
       const nextMonth = new Date(year, month + 1, 1);
       for (let i = 0; i < daysLeft; i++) {
