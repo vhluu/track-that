@@ -176,6 +176,18 @@ header {
   margin-bottom: 5px;
   /* pointer-events: auto; */
 }
+.current-day .bar {
+  position: absolute;
+  top: 0;
+  height: 3px;
+  width: 100%;
+  left: 0;
+  background-color: #80e9fb;
+}
+.current-day .day-number {
+  color: #67cbdc;
+}
+
 .not-current {
   background: transparent;
   color: rgb(131, 208, 172);
