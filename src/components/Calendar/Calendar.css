@@ -69,7 +69,7 @@ h2 {
   text-align: center;
   font-size: 14px;
   padding: 8px 14px;
-  background: #66d1fd;
+  background: #84e4f5;
   color: #fff;
   display: inline-block;
 }
@@ -155,6 +155,7 @@ header {
   height: 10vh;
   min-height: 80px;
   padding: 5px;
+  overflow: scroll;
 }
 .day-number {
   position: absolute;
@@ -175,6 +176,18 @@ header {
   margin-bottom: 5px;
   /* pointer-events: auto; */
 }
+.current-day .bar {
+  position: absolute;
+  top: 0;
+  height: 3px;
+  width: 100%;
+  left: 0;
+  background-color: #80e9fb;
+}
+.current-day .day-number {
+  color: #67cbdc;
+}
+
 .not-current {
   background: transparent;
   color: rgb(131, 208, 172);
@@ -231,7 +244,7 @@ header {
 .tags-list {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
+  overflow: scroll;
 }
 .tag {
   cursor: move; /* fallback */
@@ -245,6 +258,7 @@ header {
   font-weight: 500;
   width: fit-content;
   margin: 5px 5px 0 5px;
+  white-space: nowrap;
 }
 
 /* ==== TAG MODAL ====*/
@@ -256,8 +270,9 @@ header {
   width: fit-content;
   margin: 5px 0 0 5px;
   background: transparent;
-  color: #53cafb;
-  border: 1px dashed #53cafb;
+  color: #62d1e4;
+  border: 1px dashed #62d1e4;
+  background: rgba(98, 209, 228, 0.1);
 }
 .tag-field-wrapper {
   margin-bottom: 15px;
@@ -365,13 +380,13 @@ emoji-picker {
 }
 .color-picker-item:hover {
   cursor: pointer;
-  border-color: #66d1fd;
+  border-color: #84e4f5;
 }
 .color-picker [type="radio"] {
   display: none;
 }
 .color-picker [type="radio"]:checked + label .color-picker-item {
-  border-color: #66d1fd;
+  border-color: #84e4f5;
 }
 
 /* ==== DAY MODAL ==== */
@@ -495,6 +510,9 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .tags-main-wrapper,
   .tags-list {
     display: block;
+  }
+  .tags-list {
+    max-height: 55vh;
   }
   .tag {
     margin: 0 0 5px 0;
