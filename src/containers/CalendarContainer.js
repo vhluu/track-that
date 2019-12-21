@@ -84,14 +84,22 @@ class CalendarContainer extends Component {
     }
 
     // gets days in current month
-    const daysInCurrMonth = (new Date(year, month + 1, 0)).getDate(); 
+    const daysInCurrMonth = (new Date(year, month + 1, 0)).getDate();
+    const current = new Date(); 
+    const currentDate = current.getDate();
+    const currentMonth = current.getMonth();
     for (let i = 0; i < daysInCurrMonth; i++) {
       currDate = i + 1;
-      days.push({
+      const dayObj = {
         full: `${CalendarContainer.formatDigit(month + 1)}${CalendarContainer.formatDigit(currDate)}`,
         date: currDate,
-        current: true,
-      });
+        currentMonth: true,
+      };
+
+      if (currentMonth === month) {
+        dayObj.current = (currDate === currentDate);
+      } 
+      days.push(dayObj);
     }
 
     // add days from next month if needed to fill up calendar
