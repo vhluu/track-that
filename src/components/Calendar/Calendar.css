@@ -231,7 +231,7 @@ header {
 .tags-list {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
+  overflow: scroll;
 }
 .tag {
   cursor: move; /* fallback */
@@ -245,6 +245,7 @@ header {
   font-weight: 500;
   width: fit-content;
   margin: 5px 5px 0 5px;
+  white-space: nowrap;
 }
 
 /* ==== TAG MODAL ====*/
@@ -495,6 +496,10 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .tags-main-wrapper,
   .tags-list {
     display: block;
+  }
+  .tags-list {
+    max-height: 55vh;
+    min-height: 340px;
   }
   .tag {
     margin: 0 0 5px 0;
