@@ -205,6 +205,7 @@ header {
 }
 .curr-date {
   margin: 0 6px;
+  width: 193px;
 }
 .curr-year {
   color: rgba(93,114,123,0.7);
@@ -526,7 +527,7 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .tags-container .modal {
     top: 50%;
     transform: translate(0,-50%);
-    left: 200px;
+    left: 150px;
   }
   .btn.btn-dashed {
     margin: 10px 0 0 0;
