@@ -490,14 +490,13 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   /* ==== LAYOUT ==== */
   .flex_d { display: flex; }
   .main-wrapper {
-    max-width: 80vw;
     align-items: flex-start;
     position: relative;
   }
 
   /* ==== CALENDAR ==== */
   .calendar-wrapper {
-    padding: 20px 40px;
+    padding: 20px 0 20px 30px;
     border-left: 1px solid rgb(0,0,0,0.05);
     width: 90%;
   }
@@ -533,5 +532,18 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
     margin: 10px 0 0 0;
     padding: 10px;
     line-height: 16px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  /* ==== LAYOUT ==== */
+  .main-wrapper {
+    max-width: 80vw;
+    padding: 30px 40px;
+  }
+
+  /* ==== CALENDAR ==== */
+  .calendar-wrapper {
+    padding-left: 40px;
   }
 }
