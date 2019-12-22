@@ -2,15 +2,39 @@
 <html>
   <head>
     <style>
-      button {
-        outline: none;
+      @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap');
+
+      body {
+        font-family: 'Quicksand', sans-serif;
+      }
+      
+      .btn {
+        border-radius: 10px;
+        font-weight: 500;
+        text-align: center;
+        font-size: 14px;
+        padding: 8px 14px;
+        background: #84e4f5;
+        color: #fff;
+        display: inline-block;
+        white-space: nowrap;
+      }
+      .btn:hover {
+        cursor: pointer;
+      }
+      .btn + .btn {
+        margin-top: 5px;
+      }
+      .btn-light {
+        background: #d4f4f9;
+        color: #5ad3e8;
       }
     </style>
   </head>
   <body>
-    <button class="google-signin" style="display: none">Sign in with Google</button>
-    <button class="view-cal btn">View Calendar</button>
-    <button class="google-signout" style="display: none">Sign out</button>
+    <div class="google-signin btn btn-light" style="display: none">Sign in with Google</div>
+    <div class="view-cal btn">View Calendar</div>
+    <div class="google-signout btn btn-light" style="display: none">Sign out</div>
     <script src="/js/popup.min.js"></script>
   </body>
 </html>
