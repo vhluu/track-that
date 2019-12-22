@@ -19,6 +19,7 @@ class Calendar extends Component {
     };
 
     this.toggleDayModal = this.toggleDayModal.bind(this);
+    this.closeDayModal = this.closeDayModal.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.toggleSelectAll = this.toggleSelectAll.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
@@ -69,6 +70,14 @@ class Calendar extends Component {
         selectedDayTags: null,
         selectAll: false,
       }));
+    }
+  }
+
+  closeDayModal(e) {
+    if (!e.target.classList.contains('day')) {
+      this.setState({
+        showDayModal: false,
+      });
     }
   }
 
@@ -136,7 +145,7 @@ class Calendar extends Component {
         ))}
 
         { showDayModal && (
-          <Modal show={showDayModal} extraClasses="edit-day-modal">
+          <Modal show={showDayModal} extraClasses="edit-day-modal" closeSelf={this.closeDayModal}>
             <p className="edit-day"></p>
             <Checkbox id="check-select-all" extraClasses="select-all" checked={selectAll} onChange={this.toggleSelectAll}>Select All</Checkbox>
             <div className="day-checkboxes">
