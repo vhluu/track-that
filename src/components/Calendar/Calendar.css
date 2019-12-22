@@ -133,7 +133,8 @@ header {
 .day, .cal-header { 
   flex-basis: calc(100%/7); 
   max-width: calc(100%/7); 
-  box-shadow: -1px -1px rgb(178, 232, 205), inset -1px -1px 0 0 rgb(178, 232, 205)
+  box-shadow: -1px -1px rgb(178, 232, 205), inset -1px -1px 0 0 rgb(178, 232, 205);
+  width: 106px;
 }
 .cal-header {
   text-transform: uppercase;
@@ -205,6 +206,8 @@ header {
 }
 .curr-date {
   margin: 0 6px;
+  width: 193px;
+  text-align: center;
 }
 .curr-year {
   color: rgba(93,114,123,0.7);
@@ -266,6 +269,10 @@ header {
   position: absolute;
   z-index: 20;
 }
+.tags-container .modal {
+  left: 50%;
+  transform: translateX(-50%);
+}
 .btn.btn-dashed {
   width: fit-content;
   margin: 5px 0 0 5px;
@@ -276,7 +283,6 @@ header {
 }
 .tag-field-wrapper {
   margin-bottom: 15px;
-  position: relative;
 }
 .tag-field-icon {
   width: 30px;
@@ -288,6 +294,12 @@ header {
   align-items: center;
   text-align: center;
   border-radius: 6px;
+}
+.tag-emoji-picker {
+  position: absolute;
+  top: -30px;
+  left: 70px;
+  z-index: 10;
 }
 .tag-btn-wrapper {
   display: flex;
@@ -485,14 +497,13 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   /* ==== LAYOUT ==== */
   .flex_d { display: flex; }
   .main-wrapper {
-    max-width: 80vw;
     align-items: flex-start;
     position: relative;
   }
 
   /* ==== CALENDAR ==== */
   .calendar-wrapper {
-    padding: 20px 40px;
+    padding: 20px 0 20px 30px;
     border-left: 1px solid rgb(0,0,0,0.05);
     width: 90%;
   }
@@ -521,12 +532,25 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   /* ==== TAG MODAL ====*/
   .tags-container .modal {
     top: 50%;
-    transform: translate(0,-50%);
-    left: 200px;
+    transform: translateY(-50%);
+    left: 150px;
   }
   .btn.btn-dashed {
     margin: 10px 0 0 0;
     padding: 10px;
     line-height: 16px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  /* ==== LAYOUT ==== */
+  .main-wrapper {
+    max-width: 80vw;
+    padding: 30px 40px;
+  }
+
+  /* ==== CALENDAR ==== */
+  .calendar-wrapper {
+    padding-left: 40px;
   }
 }
