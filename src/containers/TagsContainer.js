@@ -17,6 +17,8 @@ class TagsContainer extends Component {
       selectedTag: null,
       showModal: false,
     };
+
+    this.closeTagModal = this.closeTagModal.bind(this);
   }
 
   /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
@@ -36,6 +38,14 @@ class TagsContainer extends Component {
     }
   }
 
+  closeTagModal(e) {
+    if (!e.target.classList.contains('tag')) {
+      this.setState({
+        showModal: false,
+      });
+    }
+  }
+
   render() {
     const { showModal, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
@@ -48,7 +58,7 @@ class TagsContainer extends Component {
           <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} />
           <Button btnType="btn-dashed" clicked={this.toggleTagModal.bind(this, null)}>+ Add New Tag</Button>
         </div>
-        <Modal show={showModal}>
+        <Modal show={showModal} closeSelf={this.closeTagModal}>
           <TagForm
             onCreateTag={(tagData) => { this.toggleTagModal(); onCreateTag(tagData); }} 
             onDeleteTag={() => { this.toggleTagModal(selectedTag); onDeleteTag(selectedTag.id); }}
