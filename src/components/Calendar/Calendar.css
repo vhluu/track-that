@@ -487,6 +487,7 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .main-wrapper {
     max-width: 80vw;
     align-items: flex-start;
+    position: relative;
   }
 
   /* ==== CALENDAR ==== */
@@ -518,6 +519,11 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
     margin: 0 0 5px 0;
   }
   /* ==== TAG MODAL ====*/
+  .tags-container .modal {
+    top: 50%;
+    transform: translate(0,-50%);
+    left: 200px;
+  }
   .btn.btn-dashed {
     margin: 10px 0 0 0;
     padding: 10px;
