@@ -267,6 +267,10 @@ header {
   position: absolute;
   z-index: 20;
 }
+.tags-container .modal {
+  left: 50%;
+  transform: translateX(-50%);
+}
 .btn.btn-dashed {
   width: fit-content;
   margin: 5px 0 0 5px;
@@ -526,7 +530,7 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   /* ==== TAG MODAL ====*/
   .tags-container .modal {
     top: 50%;
-    transform: translate(0,-50%);
+    transform: translateY(-50%);
     left: 150px;
   }
   .btn.btn-dashed {
