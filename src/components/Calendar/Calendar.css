@@ -133,7 +133,8 @@ header {
 .day, .cal-header { 
   flex-basis: calc(100%/7); 
   max-width: calc(100%/7); 
-  box-shadow: -1px -1px rgb(178, 232, 205), inset -1px -1px 0 0 rgb(178, 232, 205)
+  box-shadow: -1px -1px rgb(178, 232, 205), inset -1px -1px 0 0 rgb(178, 232, 205);
+  width: 106px;
 }
 .cal-header {
   text-transform: uppercase;
@@ -206,6 +207,7 @@ header {
 .curr-date {
   margin: 0 6px;
   width: 193px;
+  text-align: center;
 }
 .curr-year {
   color: rgba(93,114,123,0.7);
