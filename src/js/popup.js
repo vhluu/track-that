@@ -1,3 +1,5 @@
+import db from '../util/firebase';
+
 const calendarBtn = document.querySelector('.view-cal');
 console.log(calendarBtn);
 calendarBtn.addEventListener('click', () => {
@@ -27,6 +29,36 @@ function retrieveLoginStatus(startLogin) {
         // TODO: change to add hide class
         signinBtn.style.display = 'none';
         signoutBtn.style.display = 'block';
+
+        console.log(db);
+        const date = new Date();
+        const fullDate = `${(date.getMonth() + 1) % 13}${date.getYear() + 1900}`;
+        const formattedDay = date.getDate() < 10 ? `0${date}` : date.getDate();
+        const currDate = `${(date.getMonth() + 1) % 13}${formattedDay}`;
+
+        // TODO: try getting day tags from storage, if none, then grab from firebase
+        const currDayTags = [];
+        db.ref(`users/${response.userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
+          const dayTags = snapshot.val();
+          if (dayTags) {
+            Object.keys(dayTags).forEach((tagId) => {
+              Object.keys(dayTags[tagId]).forEach((day) => {
+                if (day === currDate) {
+                  currDayTags.push(tagId);
+                }
+              });
+            });
+          }
+
+          console.log(currDayTags);
+          const tagWrapper = document.querySelector('.day-tags');
+          currDayTags.forEach((tagId) => {
+            const tag = document.createElement('div');
+            tag.textContent = tagId;
+            tag.className = 'day-tag';
+            tagWrapper.appendChild(tag);
+          });
+        });
       }
     } else {
       console.log("Couldn't get email address of profile user.");
