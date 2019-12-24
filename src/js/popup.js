@@ -59,6 +59,14 @@ function retrieveLoginStatus(startLogin) {
             tagWrapper.appendChild(tag);
           });
         });
+
+        const dayOfWeek = document.querySelector('.day-of-week');
+        const dayNum = document.querySelector('.day-number');
+        const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
+
+        // sets date in popup template
+        dayOfWeek.textContent = daysOfWeek[date.getDay()];
+        dayNum.textContent = date.getDate();
       }
     } else {
       console.log("Couldn't get email address of profile user.");
