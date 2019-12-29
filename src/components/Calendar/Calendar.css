@@ -261,6 +261,8 @@ header {
   width: fit-content;
   margin: 5px 5px 0 5px;
   white-space: nowrap;
+  max-width: 200px;
+	overflow-y: auto;
 }
 
 /* ==== TAG MODAL ====*/
