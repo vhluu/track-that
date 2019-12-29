@@ -21,7 +21,7 @@ signoutBtn.addEventListener('click', () => {
   signoutUser();
 });
 
-function retrieveLoginStatus(startLogin) {
+const retrieveLoginStatus = (startLogin) => {
   chrome.extension.sendMessage({ greeting: 'hello from popup', login: startLogin }, (response) => {
     if (response && response.email) {
       console.log(response);
@@ -93,10 +93,10 @@ function retrieveLoginStatus(startLogin) {
       signoutBtn.style.display = 'none';
     }
   });
-}
+};
 
 // Create add tag button which will open the calendar page on click
-function createAddBtn() {
+const createAddBtn = () => {
   const tagWrapper = document.querySelector('.day-tags');
   const addBtn = document.createElement('div');
   addBtn.className = 'add-btn';
@@ -106,9 +106,9 @@ function createAddBtn() {
   addBtn.addEventListener('click', () => {
     chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
   });
-}
+};
 
-function signoutUser() {
+const signoutUser = () => {
   chrome.extension.sendMessage({ greeting: 'sign me out' }, (response) => {
     console.log(response);
     if (response) {
@@ -123,6 +123,6 @@ function signoutUser() {
       signoutBtn.style.display = 'none';
     }
   });
-}
+};
 
 retrieveLoginStatus(false);
