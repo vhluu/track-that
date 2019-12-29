@@ -262,7 +262,7 @@ header {
   margin: 5px 5px 0 5px;
   white-space: nowrap;
   max-width: 200px;
-	overflow-y: auto;
+	overflow-x: auto;
 }
 
 /* ==== TAG MODAL ====*/
@@ -417,6 +417,10 @@ emoji-picker {
   font-weight: 600;
   text-align: right;
   margin-bottom: 0;
+}
+.day-checkboxes {
+  max-height: 250px;
+  overflow-y: auto;
 }
 .checkbox-wrapper {
   margin-bottom: 8px;
