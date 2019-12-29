@@ -51,12 +51,23 @@ function retrieveLoginStatus(startLogin) {
           }
 
           console.log(currDayTags);
+          // create the tags and append to popup template
           const tagWrapper = document.querySelector('.day-tags');
           currDayTags.forEach((tagId) => {
             const tag = document.createElement('div');
             tag.textContent = tagId;
             tag.className = 'day-tag';
             tagWrapper.appendChild(tag);
+          });
+
+          // create add tag button which will open the calendar page on click
+          const addBtn = document.createElement('div');
+          addBtn.className = 'add-btn';
+          addBtn.textContent = '+';
+          tagWrapper.appendChild(addBtn);
+
+          addBtn.addEventListener('click', () => {
+            chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
           });
         });
 
