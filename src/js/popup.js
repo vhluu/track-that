@@ -30,45 +30,52 @@ function retrieveLoginStatus(startLogin) {
         signinBtn.style.display = 'none';
         signoutBtn.style.display = 'block';
 
-        console.log(db);
+        // set the date in the popup template
         const date = new Date();
         const fullDate = `${(date.getMonth() + 1) % 13}${date.getYear() + 1900}`;
         const formattedDay = date.getDate() < 10 ? `0${date}` : date.getDate();
         const currDate = `${(date.getMonth() + 1) % 13}${formattedDay}`;
 
-        // TODO: try getting day tags from storage, if none, then grab from firebase
         const currDayTags = [];
+        const tagWrapper = document.querySelector('.day-tags');
+
+        // get the tags for the current month
+        // TODO: try getting day tags from storage, if none, then grab from firebase
         db.ref(`users/${response.userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
           const dayTags = snapshot.val();
-          if (dayTags) {
+          if (dayTags) { // get the tag ids for the current day
             Object.keys(dayTags).forEach((tagId) => {
               Object.keys(dayTags[tagId]).forEach((day) => {
                 if (day === currDate) {
-                  currDayTags.push(tagId);
+                  currDayTags.push(tagId.substring(1));
                 }
               });
             });
+
+            // use the tag ids to grab the rest of the tag info from the database
+            if (currDayTags.length > 0) {
+              db.ref(`users/${response.userId}/tags`).once('value').then((snapshot1) => {
+                const tags = snapshot1.val();
+                if (tags) {
+                  const tagData = currDayTags.map((tagId) => tags[tagId]);
+
+                  // create the tags and append to popup template
+                  tagData.forEach((tag) => {
+                    const tagElem = document.createElement('div');
+                    tagElem.textContent = tag.icon;
+                    tagElem.className = `day-tag ${tag.color}`;
+                    tagWrapper.appendChild(tagElem);
+                  });
+
+                  createAddBtn();
+                }
+              });
+            } else {
+              createAddBtn();
+            }
+          } else {
+            createAddBtn();
           }
-
-          console.log(currDayTags);
-          // create the tags and append to popup template
-          const tagWrapper = document.querySelector('.day-tags');
-          currDayTags.forEach((tagId) => {
-            const tag = document.createElement('div');
-            tag.textContent = tagId;
-            tag.className = 'day-tag';
-            tagWrapper.appendChild(tag);
-          });
-
-          // create add tag button which will open the calendar page on click
-          const addBtn = document.createElement('div');
-          addBtn.className = 'add-btn';
-          addBtn.textContent = '+';
-          tagWrapper.appendChild(addBtn);
-
-          addBtn.addEventListener('click', () => {
-            chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
-          });
         });
 
         const dayOfWeek = document.querySelector('.day-of-week');
@@ -85,6 +92,19 @@ function retrieveLoginStatus(startLogin) {
       signinBtn.style.display = 'block';
       signoutBtn.style.display = 'none';
     }
+  });
+}
+
+// Create add tag button which will open the calendar page on click
+function createAddBtn() {
+  const tagWrapper = document.querySelector('.day-tags');
+  const addBtn = document.createElement('div');
+  addBtn.className = 'add-btn';
+  addBtn.textContent = '+';
+  tagWrapper.appendChild(addBtn);
+
+  addBtn.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
   });
 }
 
