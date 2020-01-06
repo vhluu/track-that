@@ -236,7 +236,7 @@ header {
 .tags-container h2 {
   margin: 0 0 5px 0;
 }
-.tags-container p {
+.tags-container > p {
   display: none;
 }
 .tags-main-wrapper {
@@ -523,7 +523,7 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .tags-container h2 {
     margin: 18px 0;
   }
-  .tags-container p,
+  .tags-container > p,
   .tags-main-wrapper,
   .tags-list {
     display: block;
