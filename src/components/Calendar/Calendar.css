@@ -146,7 +146,6 @@ header {
 }
 .day {
   text-align: right;
-  height: 100px;
   padding: 10px;
   font-size: 14px; 
   font-weight: 600;
@@ -155,12 +154,12 @@ header {
   background: white;
   height: 10vh;
   min-height: 80px;
-  padding: 5px;
+  padding: 6px 5px;
   overflow: scroll;
 }
 .day-number {
   position: absolute;
-  right: 10px;
+  right: 8px;
   pointer-events: none;
 }
 .day-tags {
@@ -237,7 +236,7 @@ header {
 .tags-container h2 {
   margin: 0 0 5px 0;
 }
-.tags-container p {
+.tags-container > p {
   display: none;
 }
 .tags-main-wrapper {
@@ -262,6 +261,8 @@ header {
   width: fit-content;
   margin: 5px 5px 0 5px;
   white-space: nowrap;
+  max-width: 200px;
+	overflow-x: auto;
 }
 
 /* ==== TAG MODAL ====*/
@@ -279,7 +280,7 @@ header {
   background: transparent;
   color: #62d1e4;
   border: 1px dashed #62d1e4;
-  background: rgba(98, 209, 228, 0.1);
+  background: rgba(92,231,255,0.1);
 }
 .tag-field-wrapper {
   margin-bottom: 15px;
@@ -417,6 +418,10 @@ emoji-picker {
   text-align: right;
   margin-bottom: 0;
 }
+.day-checkboxes {
+  max-height: 250px;
+  overflow-y: auto;
+}
 .checkbox-wrapper {
   margin-bottom: 8px;
 }
@@ -518,7 +523,7 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .tags-container h2 {
     margin: 18px 0;
   }
-  .tags-container p,
+  .tags-container > p,
   .tags-main-wrapper,
   .tags-list {
     display: block;
