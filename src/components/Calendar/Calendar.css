@@ -76,6 +76,15 @@ h2 {
 .btn:hover {
   cursor: pointer;
 }
+.btn-dashed {
+  width: fit-content;
+  color: #62d1e4;
+  border: 1px dashed #62d1e4;
+  background: rgba(92,231,255,0.1);
+}
+.btn-smaller {
+  padding: 6px 12px;
+}
 
 /* ==== HELPER CLASSES ==== */
 .hide {
@@ -116,7 +125,7 @@ header {
 .pagination {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-right: 20px;
 }
 .pagination-arrow {
   background-image: linear-gradient(125deg, rgb(172, 239, 208),#adeffb);
@@ -130,6 +139,12 @@ header {
   text-align: center;
   cursor: pointer;
 }
+.calendar-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
 .day, .cal-header { 
   flex-basis: calc(100%/7); 
   max-width: calc(100%/7); 
@@ -265,6 +280,9 @@ header {
   max-width: 200px;
 	overflow-x: auto;
 }
+.tags-container .btn-dashed {
+  margin: 5px 0 0 5px;
+}
 
 /* ==== TAG MODAL ====*/
 .modal {
@@ -274,14 +292,6 @@ header {
 .tags-container .modal {
   left: 50%;
   transform: translateX(-50%);
-}
-.btn.btn-dashed {
-  width: fit-content;
-  margin: 5px 0 0 5px;
-  background: transparent;
-  color: #62d1e4;
-  border: 1px dashed #62d1e4;
-  background: rgba(92,231,255,0.1);
 }
 .tag-field-wrapper {
   margin-bottom: 15px;
@@ -543,16 +553,17 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .tag {
     margin: 0 0 5px 0;
   }
+  .tags-container .btn-dashed {
+    margin: 10px 0 0 0;
+    padding: 10px;
+    line-height: 16px;
+  }
+
   /* ==== TAG MODAL ====*/
   .tags-container .modal {
     top: 50%;
     transform: translateY(-50%);
     left: 150px;
-  }
-  .btn.btn-dashed {
-    margin: 10px 0 0 0;
-    padding: 10px;
-    line-height: 16px;
   }
 }
 
@@ -619,8 +630,11 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .btn {
     font-size: 16px;
   }
-  .btn.btn-dashed {
+  .btn-dashed {
     padding: 12px;
+  }
+  .btn-smaller {
+    font-size: 15px;
   }
 
   /* ==== CALENDAR ==== */
