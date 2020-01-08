@@ -30,6 +30,7 @@ class CalendarContainer extends Component {
     this.changeMonth = this.changeMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
+    this.currentMonth = this.currentMonth.bind(this);
   }
 
   componentDidMount() {
@@ -164,9 +165,24 @@ class CalendarContainer extends Component {
     this.changeMonth(false);
   }
 
+  /* Sets calendar to current month */
+  currentMonth() {
+    const date = new Date();
+    this.setState({
+      date: {
+        full: date,
+        month: date.getMonth(),
+        year: date.getYear() + 1900,
+      },
+    });
+  }
+
   render() {
     const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
     const { date, days } = this.state;
+    
+    const currentDay = new Date();
+    const showTodayBtn = (currentDay.getMonth() !== date.month) || (currentDay.getYear() + 1900 !== date.year);
 
     return (
       <div className="calendar-wrapper">
@@ -177,7 +193,7 @@ class CalendarContainer extends Component {
               <span className="curr-year">{ ` ${date.year}` }</span>
             </h1>
           </Pagination>
-          <Button btnType="btn-smaller">Today</Button>
+          {showTodayBtn && <Button btnType="btn-smaller" clicked={this.currentMonth}>Today</Button>}
         </div>
 
         <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
