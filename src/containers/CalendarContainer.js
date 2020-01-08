@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Calendar from '../components/Calendar/Calendar';
 import Pagination from '../components/Pagination/Pagination';
+import Button from '../components/Button/Button';
 
 import * as actions from '../store/actions/index';
 
@@ -169,12 +170,16 @@ class CalendarContainer extends Component {
 
     return (
       <div className="calendar-wrapper">
-        <Pagination prevClick={this.prevMonth} nextClick={this.nextMonth}>
-          <h1 className="curr-date">
-            <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
-            <span className="curr-year">{ ` ${date.year}` }</span>
-          </h1>
-        </Pagination>
+        <div className="calendar-top">
+          <Pagination prevClick={this.prevMonth} nextClick={this.nextMonth}>
+            <h1 className="curr-date">
+              <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
+              <span className="curr-year">{ ` ${date.year}` }</span>
+            </h1>
+          </Pagination>
+          <Button btnType="btn-smaller">Today</Button>
+        </div>
+
         <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
       </div>
     );
