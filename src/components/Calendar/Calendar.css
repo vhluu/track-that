@@ -175,6 +175,7 @@ header {
   margin-right: 5px;
   margin-bottom: 5px;
   /* pointer-events: auto; */
+  text-align: center;
 }
 .current-day .bar {
   position: absolute;
@@ -484,6 +485,14 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
 }
 .chosen-day {
   background: #ddf7ff;
+}
+
+/* Retina-specific stuff here */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+  /* ==== CALENDAR ==== */
+  .day-tag {
+    text-align: right;
+  }
 }
 
 @media only screen and (min-width: 768px) {
