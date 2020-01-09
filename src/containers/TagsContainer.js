@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '../components/Button/Button';
+import FadeOut from '../components/FadeOut/FadeOut';
 import Modal from '../components/Modal/Modal';
 import TagForm from '../components/TagForm/TagForm';
 import TagList from '../components/TagList/TagList';
@@ -56,6 +57,7 @@ class TagsContainer extends Component {
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
         <div className="tags-main-wrapper">
           <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} />
+          <FadeOut />
           <Button btnType="btn-dashed" clicked={this.toggleTagModal.bind(this, null)}>+ Add New Tag</Button>
         </div>
         <Modal show={showModal} closeSelf={this.closeTagModal}>
