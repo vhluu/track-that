@@ -126,9 +126,12 @@ signinBtn.addEventListener('click', () => {
 signoutBtn.addEventListener('click', () => {
   // communicate to background script that user wants to sign out
   chrome.extension.sendMessage({ greeting: 'sign me out' }, (response) => {
-    // if the background script succeeds in signing out the user
-    if (response && response.signed_out) {
-      showSignIn();
+    if (response && response.signed_out) { // if the background script succeeds in signing out the user
+      // remove tags from popup template
+      const tagWrapper = document.querySelector('.day-tags'); 
+      tagWrapper.innerHTML = '';
+
+      showSignIn(); // show sign in button
 
       // if calendar is open, then remove user data from there
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
