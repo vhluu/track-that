@@ -76,6 +76,7 @@
         height: 25px;
         margin-right: 5px;
         margin-bottom: 6px;
+        text-align: center;
       }
 
       .red { background-color: #ffdfdf; }
@@ -103,6 +104,12 @@
       .add-btn:hover {
         cursor: pointer;
         background-color: rgba(92, 231, 255, 0.3);
+      }
+
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .day-tag {
+          text-align: right;
+        }
       }
     </style>
   </head>
