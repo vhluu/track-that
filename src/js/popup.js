@@ -48,7 +48,9 @@ const setDate = () => {
 const setTags = (userId) => {
   // generate the dates needed
   const date = new Date();
-  const month = (date.getMonth() + 1) % 13;
+  let month = (date.getMonth() + 1) % 13;
+  if (month < 10) month = `0${month}`;
+
   const day = date.getDate();
   const fullDate = `${month}${date.getYear() + 1900}`;
   const formattedDay = day < 10 ? `0${day}` : day;
