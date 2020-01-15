@@ -50,7 +50,7 @@ const setTags = (userId) => {
   const date = new Date();
   let month = (date.getMonth() + 1) % 13;
   if (month < 10) month = `0${month}`;
-
+  
   const day = date.getDate();
   const fullDate = `${month}${date.getYear() + 1900}`;
   const formattedDay = day < 10 ? `0${day}` : day;
@@ -128,7 +128,15 @@ signoutBtn.addEventListener('click', () => {
   chrome.extension.sendMessage({ greeting: 'sign me out' }, (response) => {
     // if the background script succeeds in signing out the user
     if (response && response.signed_out) {
-      showSignOut();
+      showSignIn();
+
+      // if calendar is open, then remove user data from there
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        console.log(tabs);
+        chrome.tabs.sendMessage(tabs[0].id, { greeting: 'sign out app' }, (response1) => {
+          console.log(response1);
+        });
+      });
     }
   });
 });

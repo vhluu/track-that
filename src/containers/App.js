@@ -10,6 +10,16 @@ class App extends Component {
   componentDidMount() {
     const { onInitUser } = this.props;
     onInitUser();
+
+    chrome.runtime.onMessage.addListener(
+      (request, sender, sendResponse) => {
+        console.log(request);
+        if (request.greeting === 'sign out app') {
+          sendResponse({ email: '' });
+        }
+        return true;
+      },
+    );
   }
 
   render() {
