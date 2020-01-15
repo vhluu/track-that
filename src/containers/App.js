@@ -8,8 +8,18 @@ import * as actions from '../store/actions/index';
 
 class App extends Component {
   componentDidMount() {
-    const { onInitUser } = this.props;
+    const { onInitUser, onSignOutUser } = this.props;
     onInitUser();
+
+    chrome.runtime.onMessage.addListener(
+      (request, sender, sendResponse) => {
+        console.log(request);
+        if (request.greeting === 'sign out app') {
+          onSignOutUser();
+        }
+        return true;
+      },
+    );
   }
 
   render() {
@@ -33,6 +43,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onInitUser: () => dispatch(actions.initUser()),
+    onSignOutUser: () => dispatch(actions.signOutUser()),
   };
 };
 

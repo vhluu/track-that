@@ -1,6 +1,7 @@
 export const SET_USER = 'SET_USER';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
+export const SIGN_OUT_USER = 'SIGN_OUT_USER';
 
 export const ADD_TAG = 'ADD_TAG';
 export const UPDATE_TAG = 'UPDATE_TAG';
