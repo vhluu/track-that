@@ -75,6 +75,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actionTypes.SIGN_OUT_USER:
+      console.log('signing out user', action);
+      return {
+        ...state,
+        userId: null,
+        tags: [],
+        nextId: 1,
+        dayTags: null,
+        savedMonths: [],
+      };
     case actionTypes.ADD_DAY_TAG: {
       const currentDT = state.dayTags[action.date];
       return {

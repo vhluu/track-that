@@ -1,5 +1,6 @@
 export {
   initUser,
+  signOutUser,
 } from './user';
 
 export {

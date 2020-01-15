@@ -8,6 +8,8 @@ export const getUserFailed = () => ({ type: actionTypes.GET_USER_FAILED });
 
 export const createUserSuccess = () => ({ type: actionTypes.CREATE_USER_SUCCESS });
 
+export const signOutUser = () => ({ type: actionTypes.SIGN_OUT_USER });
+
 const createUser = (dispatch, userInfo) => {
   console.log(userInfo);
   // checks if user is in the database, if not, then add them

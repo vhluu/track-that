@@ -133,9 +133,7 @@ signoutBtn.addEventListener('click', () => {
       // if calendar is open, then remove user data from there
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         console.log(tabs);
-        chrome.tabs.sendMessage(tabs[0].id, { greeting: 'sign out app' }, (response1) => {
-          console.log(response1);
-        });
+        chrome.tabs.sendMessage(tabs[0].id, { greeting: 'sign out app' });
       });
     }
   });
