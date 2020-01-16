@@ -14,6 +14,16 @@ class IconPicker extends Component {
 
     this.setIcon = this.setIcon.bind(this);
     this.toggleIconPicker = this.toggleIconPicker.bind(this);
+    this.setPickerRef = this.setPickerRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   /* Handles selection of an emoji */
@@ -27,6 +37,10 @@ class IconPicker extends Component {
     onIconSelect(emoji.native);
   }
 
+  setPickerRef(node) {
+    this.PickerRef = node;
+  }
+
   /* Toggles the icon picker */
   toggleIconPicker() {
     this.setState((prevState) => ({
@@ -34,10 +48,19 @@ class IconPicker extends Component {
     }));
   }
 
+  /* Closes the icon picker when clicking outside of it */
+  handleClickOutside(event) {
+    const { showIconPicker } = this.state;
+
+    if (showIconPicker && this.PickerRef && !this.PickerRef.contains(event.target)) {
+      this.toggleIconPicker();
+    }
+  }
+
   render() {
     const { showIconPicker, selectedIcon } = this.state;
     return (
-      <div className="tag-field-wrapper tag-icon-wrapper">
+      <div className="tag-field-wrapper tag-icon-wrapper" ref={this.setPickerRef}>
         <label>Icon</label>
         <div className="tag-field-icon" onClick={this.toggleIconPicker} role="button" tabIndex={0}>{selectedIcon}</div>
         { showIconPicker && (
