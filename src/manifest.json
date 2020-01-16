@@ -18,5 +18,8 @@
       "openid", "email", "profile"
     ]
   },
-  "key": "<CLIENT-KEY>"
+  "key": "<CLIENT-KEY>",
+  "icons": {
+    "128": "favicon-128.png"
+  }
 }
