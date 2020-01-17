@@ -19,6 +19,7 @@ class TagsContainer extends Component {
     };
 
     this.closeTagModal = this.closeTagModal.bind(this);
+    this.signIn = this.signIn.bind(this);
   }
 
   /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
@@ -46,6 +47,11 @@ class TagsContainer extends Component {
     }
   }
 
+  signIn() {
+    const { onInitUser } = this.props;
+    onInitUser('sign in from app', true);
+  }
+
   render() {
     const { showModal, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
@@ -69,6 +75,10 @@ class TagsContainer extends Component {
             toggleSelf={this.toggleTagModal.bind(this)}
           />
         </Modal>
+        <Modal show={true}>
+          <p>Please sign in to save your data!</p>
+          <Button clicked={this.signIn}>Sign in w/ Google</Button>
+        </Modal>
       </div>
     );
   }
@@ -78,6 +88,7 @@ const mapDispatchToProps = (dispatch) => ({
   onCreateTag: (tagData) => dispatch(actions.createTag(tagData)),
   onDeleteTag: (tagId) => dispatch(actions.deleteTag(tagId)),
   onUpdateTag: (tagData) => dispatch(actions.updateTag(tagData)),
+  onInitUser: (msg, login) => dispatch(actions.initUser(msg, login)),
 });
 
 
