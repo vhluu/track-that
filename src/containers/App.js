@@ -9,7 +9,7 @@ import * as actions from '../store/actions/index';
 class App extends Component {
   componentDidMount() {
     const { onInitUser, onSignOutUser } = this.props;
-    onInitUser();
+    onInitUser('hello from calendar');
 
     chrome.runtime.onMessage.addListener(
       (request, sender, sendResponse) => {
@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onInitUser: () => dispatch(actions.initUser()),
+    onInitUser: (msg) => dispatch(actions.initUser(msg)),
     onSignOutUser: () => dispatch(actions.signOutUser()),
   };
 };
