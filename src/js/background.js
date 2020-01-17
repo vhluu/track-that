@@ -10,7 +10,7 @@ var refreshToken;
 /**
  * Starts the user authorization flow
  */
-function startAuthFlow(callback, interactive) {
+function startAuthFlow(callback, interactive, message) {
   let authUrl = 'https://accounts.google.com/o/oauth2/auth?';
   const authParams = {
     client_id: clientId,
@@ -27,14 +27,14 @@ function startAuthFlow(callback, interactive) {
   authUrl += url;
 
   chrome.identity.launchWebAuthFlow({ url: authUrl, interactive }, (responseUrl) => {
-    getRefreshToken(responseUrl, callback);
+    getRefreshToken(responseUrl, callback, message);
   });
 }
 
 /**
  * Gets a refresh token for the user
  */
-function getRefreshToken(responseUrl, callback) {
+function getRefreshToken(responseUrl, callback, message) {
   console.log(responseUrl);
 
   const tokenUrl = 'https://www.googleapis.com/oauth2/v4/token';
@@ -70,7 +70,7 @@ function getRefreshToken(responseUrl, callback) {
     addToStorage('tt-extension-a', accessToken);
 
     // use access token to receive info
-    getUserInfo(accessToken, callback, true, true);
+    getUserInfo(accessToken, callback, true, true, message);
   };
 
   xhr.send(requestUrl.toString());
@@ -80,7 +80,7 @@ function getRefreshToken(responseUrl, callback) {
 /**
  * Gets user information using access token
  */
-function getUserInfo(accessTok, callback, startLogin, retry) {
+function getUserInfo(accessTok, callback, startLogin, retry, message) {
   const xhr = new XMLHttpRequest();
   const url = 'https://www.googleapis.com/oauth2/v3/userinfo';
   xhr.open('get', url);
@@ -105,9 +105,12 @@ function getUserInfo(accessTok, callback, startLogin, retry) {
       console.log(email);
       console.log(userId);
 
+      console.log(message);
       // if user is already logged in, send the email to script that requested it
       if (!startLogin) callback({ email, userId });
-      else { // user is relogging in so open the extension page
+      else if (message === 'sign in from app') { 
+        callback({ email, userId });
+      } else { // user is relogging in so open the extension page
         chrome.tabs.create({ url: chrome.extension.getURL('index.html') }, (tab) => {
           console.log('tab opened');
         });
@@ -174,17 +177,16 @@ chrome.runtime.onMessage.addListener(
     console.log(request);
     console.log(sender);
     console.log(sendResponse);
-    if (request.greeting === 'hello from popup' || request.greeting === 'hello from calendar') {
+    if (request.greeting === 'hello from popup' || request.greeting === 'hello from calendar' || request.greeting === 'sign in from app') {
       // if the access token is valid, then we dont need to make the user login
       getFromStorage('tt-extension-a', (value) => {
         console.log(`access is ${value}`);
 
         if (value) getUserInfo(value, sendResponse, false, true); // checks access code
-        else if (request.login) startAuthFlow(sendResponse, true); // logs in user from beginning 
+        else if (request.login) startAuthFlow(sendResponse, true, request.greeting); // logs in user from beginning 
         else sendResponse({ email: '' });
       });
-    } else if (request.greeting === 'hello from main page') sendResponse({ id: '123789' });
-    else if (request.greeting === 'sign me out') revokeToken(sendResponse, false);
+    } else if (request.greeting === 'sign me out') revokeToken(sendResponse, false);
     return true;
   },
 );
