@@ -31,6 +31,7 @@ class CalendarContainer extends Component {
     this.prevMonth = this.prevMonth.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
     this.currentMonth = this.currentMonth.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +42,8 @@ class CalendarContainer extends Component {
     if (uid) {
       onGetDayTags(month, year);
     }
+
+    window.addEventListener('keydown', this.handleKeyDown, true);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -175,6 +178,14 @@ class CalendarContainer extends Component {
         year: date.getYear() + 1900,
       },
     });
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === 37) {
+      this.prevMonth();
+    } else if (e.keyCode === 39) {
+      this.nextMonth();
+    }
   }
 
   render() {
