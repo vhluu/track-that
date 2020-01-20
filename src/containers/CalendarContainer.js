@@ -59,8 +59,8 @@ class CalendarContainer extends Component {
     if (prevState.date && prevState.date !== date) {
       this.setCalendar(date);
 
-      if (!savedMonths.includes(`${(month + 1) % 13}${year}`)) {
-        console.log('getting months from database');
+      if (!savedMonths.includes(`${CalendarContainer.formatDigit((month + 1) % 13)}${year}`)) {
+        console.log('getting months from database!');
         onGetDayTags(month, year);
       }
     }
