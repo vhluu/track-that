@@ -16,13 +16,25 @@ class TagsContainer extends Component {
       action: 'create',
       selectedTag: null,
       showModal: false,
+      showSignIn: false,
     };
 
     this.closeTagModal = this.closeTagModal.bind(this);
+    this.closeSignInModal = this.closeSignInModal.bind(this);
+    this.signIn = this.signIn.bind(this);
   }
 
   /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
   toggleTagModal(tag) {
+    const { uid } = this.props;
+
+    if (!uid) {
+      this.setState({
+        showSignIn: true,
+      });
+      return;
+    }
+
     if (tag) { // if a tag was clicked on, show the 'update' tag modal
       this.setState((prevState) => ({
         action: 'update',
@@ -46,8 +58,22 @@ class TagsContainer extends Component {
     }
   }
 
+  closeSignInModal() {
+    this.setState({
+      showSignIn: false,
+    });
+  }
+
+  /* Displays the login form for the user to sign in & populates the calendar on success */
+  signIn() {
+    const { onInitUser } = this.props;
+    onInitUser('sign in from app', true);
+
+    this.closeSignInModal();
+  }
+
   render() {
-    const { showModal, action, selectedTag } = this.state;
+    const { showModal, showSignIn, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
 
     return (
@@ -69,6 +95,10 @@ class TagsContainer extends Component {
             toggleSelf={this.toggleTagModal.bind(this)}
           />
         </Modal>
+        <Modal show={showSignIn} closeSelf={this.closeSignInModal}>
+          <p>Please sign in to continue!</p>
+          <Button clicked={this.signIn}>Sign in w/ Google</Button>
+        </Modal>
       </div>
     );
   }
@@ -78,6 +108,7 @@ const mapDispatchToProps = (dispatch) => ({
   onCreateTag: (tagData) => dispatch(actions.createTag(tagData)),
   onDeleteTag: (tagId) => dispatch(actions.deleteTag(tagId)),
   onUpdateTag: (tagData) => dispatch(actions.updateTag(tagData)),
+  onInitUser: (msg, login) => dispatch(actions.initUser(msg, login)),
 });
 
 

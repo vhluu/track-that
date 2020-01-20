@@ -22,10 +22,10 @@ const createUser = (dispatch, userInfo) => {
   });
 };
 
-export const initUser = () => {
+export const initUser = (greeting, login) => {
   return (dispatch) => {
     // gets logged-in user information from background script
-    chrome.extension.sendMessage({ greeting: 'hello from calendar' }, (response) => {
+    chrome.extension.sendMessage({ greeting, login }, (response) => {
       if (response && response.userId) {
         console.log(response);
         dispatch(setUser(response));
