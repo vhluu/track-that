@@ -65,6 +65,10 @@ class CalendarContainer extends Component {
       }
     }
   }
+  
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
 
   // TODO: store generated dates so that we dont have to recalculate each time??
   /* Sets the calendar to the given month and year */
