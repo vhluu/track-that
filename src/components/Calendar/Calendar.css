@@ -381,19 +381,28 @@ emoji-picker {
   pointer-events: auto !important;
 }
 
-.red { background-color: #ffdfdf; }
-.orange { background-color: #fff2d9; }
-.yellow { background-color: #fffcd4; }
-.green { background-color: #e3fbe9; }
-.lightblue { background-color: #d1f6fb; }
-.blue { background-color: #daecff; }
-.purple { background-color: #ece5ff; }
+.violet { background-color: #f6e6ff; }
+.indigo { background-color: #dfedff; }
+.skyblue { background-color: #d1faff; } 
+.aquamarine { background-color: #d0fde6; } 
+.lime { background-color: #e8fbd0; }
+.orange { background-color: #ffefd2; }
+.red { background-color: #ffdbdb; }
+.rose { background-color: #ffdeea; }
 .pink { background-color: #ffe3ff; }
+.purple { background-color: #e7e6ff; }
+.blue { background-color: #d5f1ff; } 
+.teal { background-color: #cefdf7; }
+.green { background-color: #dcffdc; }
+.yellow { background-color: #fffcd4; }
+.redorange { background-color: #ffe5d6; }
+.gray { background-color: #edf1f3; }
 
 .color-picker {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  max-width: 200px;
 }
 .color-picker-item {
   border-radius: 50px;
