@@ -1,20 +1,5 @@
 import db from '../util/firebase';
 
-/* Creates "Add Tag" button which will open the calendar page on click */
-const createAddBtn = () => {
-  const tagWrapper = document.querySelector('.day-tags');
-  const addBtn = document.createElement('div');
-  addBtn.className = 'add-btn';
-  addBtn.textContent = '+';
-  tagWrapper.appendChild(addBtn);
-
-  addBtn.addEventListener('click', () => {
-    // chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
-    document.querySelector('.add-tag-wrapper').classList.toggle('open');
-  });
-};
-
-
 /* The Sign In and Sign Out button elements */
 const signinBtn = document.querySelector('.google-signin');
 const signoutBtn = document.querySelector('.google-signout');
@@ -44,6 +29,17 @@ const setDate = () => {
   dayNum.textContent = date.getDate();
 };
 
+
+/* Opens the add tag area when clicking on the + (add) button */
+const initAddBtn = () => {
+  const addBtn = document.querySelector('.add-btn');
+  addBtn.addEventListener('click', () => {
+    document.querySelector('.add-tag-wrapper').classList.toggle('open');
+  });
+};
+
+
+let tags; // the user's tags
 
 /* Grabs the tags for the current day and displays it in the popup template */
 const setTags = (userId) => {
@@ -75,26 +71,21 @@ const setTags = (userId) => {
       // use the tag ids to grab the rest of the tag info from the database
       if (currDayTags.length > 0) {
         db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
-          const tags = snapshot1.val();
+          tags = snapshot1.val();
           if (tags) {
             const tagData = currDayTags.map((tagId) => tags[tagId]);
-
             const tagWrapper = document.querySelector('.day-tags');
+            const addBtnHTML = tagWrapper.innerHTML;
+            tagWrapper.innerHTML = '';
             // create the tags and append to popup template
             tagData.forEach((tag) => {
-              const tagElem = document.createElement('div');
-              tagElem.textContent = tag.icon;
-              tagElem.className = `day-tag ${tag.color}`;
-              tagWrapper.appendChild(tagElem);
+              tagWrapper.insertAdjacentHTML('beforeend', `<div class="day-tag ${tag.color}">${tag.icon}</div>`);
             });
-            createAddBtn();
+            tagWrapper.insertAdjacentHTML('beforeend', addBtnHTML); // adding add button to template
+            initAddBtn();
           }
         });
-      } else {
-        createAddBtn();
       }
-    } else {
-      createAddBtn();
     }
   });
 };
@@ -144,7 +135,7 @@ signoutBtn.addEventListener('click', () => {
 });
 
 
-/* Open the calendar page in a new tab when clicking on the View Calendar button */
+/* Opens the calendar page in a new tab when clicking on the View Calendar button */
 const calendarBtn = document.querySelector('.view-cal');
 calendarBtn.addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
@@ -153,3 +144,4 @@ calendarBtn.addEventListener('click', () => {
 
 retrieveLoginStatus(false);
 setDate();
+initAddBtn();
