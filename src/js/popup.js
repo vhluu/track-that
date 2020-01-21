@@ -29,17 +29,26 @@ const setDate = () => {
   dayNum.textContent = date.getDate();
 };
 
+let tags; // the user's tags
 
 /* Opens the add tag area when clicking on the + (add) button */
 const initAddBtn = () => {
   const addBtn = document.querySelector('.add-btn');
   addBtn.addEventListener('click', () => {
-    document.querySelector('.add-tag-wrapper').classList.toggle('open');
+    const addTagWrapper = document.querySelector('.add-tag-wrapper');
+    const allTags = addTagWrapper.querySelector('.all-tags');
+    // display the user's tags
+    if (!(addTagWrapper.classList.contains('open')) && tags && allTags.children.length === 0) {
+      let tagHTML = '';
+      tags.forEach((tag) => {
+        tagHTML += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
+      });
+      allTags.insertAdjacentHTML('beforeend', tagHTML);
+    }
+    addTagWrapper.classList.toggle('open');
   });
 };
 
-
-let tags; // the user's tags
 
 /* Grabs the tags for the current day and displays it in the popup template */
 const setTags = (userId) => {
@@ -75,14 +84,12 @@ const setTags = (userId) => {
           if (tags) {
             const tagData = currDayTags.map((tagId) => tags[tagId]);
             const tagWrapper = document.querySelector('.day-tags');
-            const addBtnHTML = tagWrapper.innerHTML;
-            tagWrapper.innerHTML = '';
+            let tagWrapperInner = '';
             // create the tags and append to popup template
             tagData.forEach((tag) => {
-              tagWrapper.insertAdjacentHTML('beforeend', `<div class="day-tag ${tag.color}">${tag.icon}</div>`);
+              tagWrapperInner += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
             });
-            tagWrapper.insertAdjacentHTML('beforeend', addBtnHTML); // adding add button to template
-            initAddBtn();
+            tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding add button to template
           }
         });
       }
