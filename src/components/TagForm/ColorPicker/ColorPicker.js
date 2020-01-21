@@ -3,8 +3,9 @@ import ColorPickerItem from './ColorPickerItem/ColorPickerItem';
 
 function ColorPicker(props) {
   const { onChange, defaultVal } = props;
-  const colors = ['red', 'orange', 'yellow', 'green', 'lightblue', 'blue', 'purple', 'pink'];
-
+  const colors = ['violet', 'indigo', 'skyblue', 'aquamarine', 'lime', 'orange', 'red', 'rose',
+    'pink', 'purple', 'blue', 'teal', 'green', 'yellow', 'redorange', 'gray'];
+    
   return (
     <div className="tag-field-wrapper">
       <label>Color</label>
