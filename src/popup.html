@@ -15,6 +15,11 @@
         margin: 0;
         width: 175px;
       }
+      p {
+        font-weight: 600;
+        color: #5d727b;
+        font-size: 13px;
+      }
 
       .btn {
         font-weight: 600;
@@ -38,6 +43,9 @@
 
       .text-center {
         text-align: center;
+      }
+      .hide {
+        display: none;
       }
 
       .day {
@@ -78,6 +86,41 @@
         margin-bottom: 6px;
       }
 
+      .add-tag-wrapper {
+        max-height: 0;
+        transition: max-height 0.15s ease-out;
+        overflow: hidden;
+      }
+      .add-tag-wrapper > * {
+        padding: 0 10px;
+      }
+      .add-tag-wrapper.open {
+        max-height: 500px;
+        transition: max-height 0.25s ease-in;
+      }
+      .all-tags {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .all-tags .day-tag {
+        position: relative;
+      }
+      .all-tags .day-tag:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+      .all-tags .selected::before {
+        content: '';
+        width: 4px;
+        height: 8px;
+        position: absolute;
+        top: 0;
+        right: -1px;
+        border-bottom: 3px solid #64c598;
+        border-right: 3px solid #64c598;
+        transform: rotate(45deg);
+      }
+
       .violet { background-color: #f6e6ff; }
       .indigo { background-color: #dfedff; }
       .skyblue { background-color: #d1faff; } 
@@ -107,10 +150,19 @@
         border-radius: 50%;
         margin-bottom: 6px;
       }
-
       .add-btn:hover {
         cursor: pointer;
         background-color: rgba(92, 231, 255, 0.3);
+      }
+
+      .save-btn {
+        border-top: none;
+        padding: 6px 10px;
+        background: #84e4f5;
+        color: #fff;
+        width: fit-content;
+        margin: 8px auto;
+        border-radius: 10px;
       }
     </style>
   </head>
@@ -124,9 +176,21 @@
         <div class="day-tags"></div>
       </div>
     </div>
-    <div class="google-signin btn" style="display: none">Sign in w/ Google</div>
+
+    <div class="add-tag-wrapper">
+      <p>Select the tags you want<br>to add</p>
+      <div class="all-tags">
+        <div class="day-tag blue selected">⌨️</div>
+        <div class="day-tag blue">⌨️</div>
+        <div class="day-tag blue">⌨️</div>
+        <div class="day-tag blue">⌨️</div>
+        <div class="day-tag blue">⌨️</div>
+      </div>
+      <div class="btn save-btn">Save</div>
+</div>
+    <div class="google-signin btn" class="hide">Sign in w/ Google</div>
     <div class="view-cal btn btn-primary">View Calendar</div>
-    <div class="google-signout btn" style="display: none">Sign out</div>
+    <div class="google-signout btn" class="hide">Sign out</div>
     <script src="/js/popup.min.js"></script>
   </body>
 </html>

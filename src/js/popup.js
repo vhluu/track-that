@@ -9,7 +9,8 @@ const createAddBtn = () => {
   tagWrapper.appendChild(addBtn);
 
   addBtn.addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
+    // chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
+    document.querySelector('.add-tag-wrapper').classList.toggle('open');
   });
 };
 
@@ -20,14 +21,14 @@ const signoutBtn = document.querySelector('.google-signout');
 
 /* Show the Sign In button only */
 const showSignIn = () => {
-  signinBtn.style.display = 'block'; // TODO: change to add hide class
-  signoutBtn.style.display = 'none';
+  signinBtn.classList.remove('hide');
+  signoutBtn.classList.add('hide');
 };
 
 /* Show the Sign Out button only */
 const showSignOut = () => {
-  signinBtn.style.display = 'none';
-  signoutBtn.style.display = 'block';
+  signinBtn.classList.add('hide');
+  signoutBtn.classList.remove('hide');
 };
 
 
