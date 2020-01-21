@@ -31,6 +31,7 @@ class CalendarContainer extends Component {
     this.prevMonth = this.prevMonth.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
     this.currentMonth = this.currentMonth.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +42,8 @@ class CalendarContainer extends Component {
     if (uid) {
       onGetDayTags(month, year);
     }
+
+    window.addEventListener('keydown', this.handleKeyDown, true);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -56,11 +59,15 @@ class CalendarContainer extends Component {
     if (prevState.date && prevState.date !== date) {
       this.setCalendar(date);
 
-      if (!savedMonths.includes(`${(month + 1) % 13}${year}`)) {
-        console.log('getting months from database');
+      if (!savedMonths.includes(`${CalendarContainer.formatDigit((month + 1) % 13)}${year}`)) {
+        console.log('getting months from database!');
         onGetDayTags(month, year);
       }
     }
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   // TODO: store generated dates so that we dont have to recalculate each time??
@@ -175,6 +182,14 @@ class CalendarContainer extends Component {
         year: date.getYear() + 1900,
       },
     });
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === 37) {
+      this.prevMonth();
+    } else if (e.keyCode === 39) {
+      this.nextMonth();
+    }
   }
 
   render() {
