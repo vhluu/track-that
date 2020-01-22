@@ -29,7 +29,7 @@ const setDate = () => {
   dayNum.textContent = date.getDate();
 };
 
-let tags; // the user's tags
+let tags, currDayTags; // the user's tags and current day tags
 
 /* Opens the add tag area when clicking on the + (add) button */
 const initAddBtn = () => {
@@ -40,8 +40,17 @@ const initAddBtn = () => {
     // display the user's tags
     if (!(addTagWrapper.classList.contains('open')) && tags && allTags.children.length === 0) {
       let tagHTML = '';
-      tags.forEach((tag) => {
-        tagHTML += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
+      console.log(tags);
+      console.log(currDayTags);
+      Object.keys(tags).forEach((tagId) => {
+        const tag = tags[tagId];
+        const isFound = currDayTags.includes(tagId) ? 'checked' : '';
+        tagHTML += `
+          <div>
+            <input type="checkbox" id="checkbox-${tagId}" class="hide" ${isFound} />
+            <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}">${tag.icon}</div></label>
+          </div>
+        `;
       });
       allTags.insertAdjacentHTML('beforeend', tagHTML);
     }
@@ -61,7 +70,7 @@ const setTags = (userId) => {
   const fullDate = `${month}${date.getYear() + 1900}`;
   const formattedDay = day < 10 ? `0${day}` : day;
 
-  const currDayTags = [];
+  currDayTags = [];
 
   // get the tags for the current month from the database
   // TODO: try getting day tags from storage, if none, then grab from firebase
