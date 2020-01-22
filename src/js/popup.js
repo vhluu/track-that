@@ -1,5 +1,10 @@
 import db from '../util/firebase';
 
+let tags, currDayTags; // the user's tags and current day tags
+let initialVals = new Map(); // map to store the initial values of the tag checkboxes
+let userId; // user id
+let month, day, fullDate; // stores current date information
+
 /* The Sign In and Sign Out button elements */
 const signinBtn = document.querySelector('.google-signin');
 const signoutBtn = document.querySelector('.google-signout');
@@ -29,7 +34,6 @@ const setDate = () => {
   dayNum.textContent = date.getDate();
 };
 
-let tags, currDayTags; // the user's tags and current day tags
 
 /* Opens the add tag area when clicking on the + (add) button */
 const initAddBtn = () => {
@@ -40,14 +44,14 @@ const initAddBtn = () => {
     // display the user's tags
     if (!(addTagWrapper.classList.contains('open')) && tags && allTags.children.length === 0) {
       let tagHTML = '';
-      console.log(tags);
-      console.log(currDayTags);
+
       Object.keys(tags).forEach((tagId) => {
         const tag = tags[tagId];
         const isFound = currDayTags.includes(tagId) ? 'checked' : '';
+        initialVals.set(tagId, isFound);
         tagHTML += `
           <div>
-            <input type="checkbox" id="checkbox-${tagId}" class="hide" ${isFound} />
+            <input type="checkbox" id="checkbox-${tagId}" data-cb-id="${tagId}" class="hide" ${isFound} />
             <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}">${tag.icon}</div></label>
           </div>
         `;
@@ -60,15 +64,15 @@ const initAddBtn = () => {
 
 
 /* Grabs the tags for the current day and displays it in the popup template */
-const setTags = (userId) => {
+const setTags = () => {
   // generate the dates needed
   const date = new Date();
-  let month = (date.getMonth() + 1) % 13;
+  month = (date.getMonth() + 1) % 13;
   if (month < 10) month = `0${month}`;
   
-  const day = date.getDate();
-  const fullDate = `${month}${date.getYear() + 1900}`;
-  const formattedDay = day < 10 ? `0${day}` : day;
+  day = date.getDate();
+  fullDate = `${month}${date.getYear() + 1900}`;
+  if (day < 10) day = `0${day}`;
 
   currDayTags = [];
 
@@ -77,7 +81,7 @@ const setTags = (userId) => {
   db.ref(`users/${userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
     const dayTags = snapshot.val();
     if (dayTags) { // get the tag ids for the current day
-      const currDate = `${month}${formattedDay}`;
+      const currDate = `${month}${day}`;
       Object.keys(dayTags).forEach((tagId) => {
         Object.keys(dayTags[tagId]).forEach((day) => {
           if (day === currDate) {
@@ -114,9 +118,9 @@ const retrieveLoginStatus = (startLogin) => {
   // communicate to background script that we want to retrieve the login status
   chrome.extension.sendMessage({ greeting: 'hello from popup', login: startLogin }, (response) => {
     if (response && response.email) { // if user is signed in
-      console.log(response);
       showSignOut(); // hide Sign In button and show Sign Out button
-      setTags(response.userId); // sets the tags in the popup template
+      userId = response.userId;
+      setTags(); // sets the tags in the popup template
     } else {
       console.log("Couldn't get email address of profile user.");
       showSignIn();
@@ -143,7 +147,6 @@ signoutBtn.addEventListener('click', () => {
 
       // if calendar is open, then remove user data from there
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        console.log(tabs);
         chrome.tabs.sendMessage(tabs[0].id, { greeting: 'sign out app' });
       });
     }
@@ -157,6 +160,30 @@ calendarBtn.addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
 });
 
+
+/* Saves the tag configuration to the database */
+const saveBtn = document.querySelector('.save-btn');
+saveBtn.addEventListener('click', () => {
+  const tagInputs = document.querySelectorAll('.all-tags input');
+  const updates = {};
+
+  
+  /* tagInputs.forEach((input) => {
+    const tagId = input.getAttribute('data-cb-id');
+    if (input.checked && !initialVals.get(tagId)) { // add all newly checked tags
+      // TODO: the top month might be different than the actual month T_T
+      updates[`users/${userId}/tagged/${fullDate}/t${tagId}/${month}${day}`] = true;
+      updates[`users/${userId}/tags/${tagId}/months/${fullDate}`] = true; 
+    } else if (!input.checked && initialVals.get(tagId)) { // remove all newly unchecked tags
+      updates[`users/${userId}/tagged/${formatTopMonth}${year}/t${tagId}/${month}${day}`] = null;
+    }
+
+    console.log(updates);
+  }); */
+
+  // close the modal
+  // display the newly added tags at the top
+});
 
 retrieveLoginStatus(false);
 setDate();
