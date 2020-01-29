@@ -12,12 +12,12 @@ export const formatDigit = (num) => (num < 10 ? `0${num}` : num);
 
 export const createDayTag = (tagId, date) => {
   return (dispatch, getState) => {
-    // add tag to the database
     const { uid } = getState();
-    const formattedMonth = formatDigit((date.month + 1) % 13);
-    db.ref(`users/${uid}/tagged/${formattedMonth}${date.year}/${tagId}/${date.date}`).set(true);
-    db.ref(`users/${uid}/tags/${(tagId).substring(1)}/months/${formattedMonth}${date.year}`).set(true); // keeps track of months that include this tag
-    dispatch(addDayTag(tagId, date.date));
+
+    // add tag to the database
+    db.ref(`users/${uid}/tagged/${date}/${tagId}`).set(true);
+    db.ref(`users/${uid}/tags/${tagId}/days/${date}`).set(true); 
+    dispatch(addDayTag(tagId, date));
   };
 };
 

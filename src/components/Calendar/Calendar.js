@@ -43,8 +43,8 @@ class Calendar extends Component {
     if (e.stopPropagation) { e.stopPropagation(); }
 
     // creates tag elements
-    const { onCreateDayTag, month, year } = this.props;
-    onCreateDayTag(e.dataTransfer.getData('text/plain'), { date: e.target.getAttribute('data-date'), month, year });
+    const { onCreateDayTag } = this.props;
+    onCreateDayTag(e.dataTransfer.getData('text/plain'), e.target.getAttribute('data-date'));
     if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
   }
 
