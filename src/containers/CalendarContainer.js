@@ -138,13 +138,15 @@ class CalendarContainer extends Component {
     return null;
   }
 
-  /* Sets stored date to previous or next month depending on isPrevious boolean parameter */
-  changeMonth(isPrevious) {
+  /* Sets stored date to previous, next or current month depending on monthType string parameter */
+  changeMonth(monthType) {
     this.setState((prevState) => {
       const { full, monthIndex } = prevState.date;
-      const date = new Date(full.valueOf());
-      if (isPrevious) date.setMonth(monthIndex - 1);
-      else date.setMonth(monthIndex + 1);
+      let date = new Date(full.valueOf());
+
+      if (monthType === 'curr') date = new Date(); // set date to current month
+      else if (monthType === 'prev') date.setMonth(monthIndex - 1); // prev month
+      else if (monthType === 'next') date.setMonth(monthIndex + 1); // next month
 
       const updatedIndex = date.getMonth();
       return ({
@@ -160,26 +162,17 @@ class CalendarContainer extends Component {
 
   /* Sets stored date to previous month */
   prevMonth() {
-    this.changeMonth(true);
+    this.changeMonth('prev');
   }
 
   /* Sets stored date to next month */
   nextMonth() {
-    this.changeMonth(false);
+    this.changeMonth('next');
   }
 
   /* Sets calendar to current month */
   currentMonth() {
-    const date = new Date();
-    const updatedIndex = date.getMonth();
-    this.setState({
-      date: {
-        full: date,
-        monthIndex: updatedIndex,
-        month: CalendarContainer.formatDigit((updatedIndex + 1) % 13),
-        year: date.getYear() + 1900,
-      },
-    });
+    this.changeMonth('curr');
   }
 
   /* Change the calendar months on left/right arrow keydown */
