@@ -8,11 +8,6 @@ import Button from '../components/Button/Button';
 import * as actions from '../store/actions/index';
 
 class CalendarContainer extends Component {
-  /* Formats the given number as two digits */
-  static formatDigit(num) {
-    return num < 10 ? `0${num}` : num;
-  }
-
   constructor(props) {
     super(props);
 
@@ -22,7 +17,7 @@ class CalendarContainer extends Component {
       date: {
         full: date,
         monthIndex, // index of month, starting at 0 for January
-        month: CalendarContainer.formatDigit((monthIndex + 1) % 13),
+        month: this.formatDigit((monthIndex + 1) % 13),
         year: date.getYear() + 1900,
       },
       days: [],
@@ -68,8 +63,9 @@ class CalendarContainer extends Component {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
+
   /* Sets the calendar to the given month and year */
-  setCalendar({ monthIndex, month, year }) {
+  setCalendar({ monthIndex, year }) {
     const days = [];
     const currMonth = new Date(year, monthIndex, 1); // sets date to 1st day of current month
     const dayOfWeek = currMonth.getDay();
@@ -83,7 +79,7 @@ class CalendarContainer extends Component {
       for (let i = 0; i < dayOfWeek; i++) {
         currDate = endOfLastMonth - dayOfWeek + i + 1;
         days.push({
-          full: `${CalendarContainer.formatDigit(lastMonth.getMonth() + 1)}${CalendarContainer.formatDigit(currDate)}`,
+          full: `${lastMonth.getYear() + 1900}-${this.formatDigit(lastMonth.getMonth() + 1)}-${this.formatDigit(currDate)}`,
           date: currDate,
         });
       }
@@ -98,7 +94,7 @@ class CalendarContainer extends Component {
     for (let i = 0; i < Math.min(daysInCurrMonth, daysLeft); i++) {
       currDate = i + 1;
       const dayObj = {
-        full: `${CalendarContainer.formatDigit(monthIndex + 1)}${CalendarContainer.formatDigit(currDate)}`,
+        full: `${year}-${this.formatDigit(monthIndex + 1)}-${this.formatDigit(currDate)}`,
         date: currDate,
         currentMonth: true,
       };
@@ -116,7 +112,7 @@ class CalendarContainer extends Component {
       for (let i = 0; i < daysLeft; i++) {
         currDate = i + 1;
         days.push({
-          full: `${CalendarContainer.formatDigit(nextMonth.getMonth() + 1)}${CalendarContainer.formatDigit(currDate)}`,
+          full: `${nextMonth.getYear() + 1900}-${this.formatDigit(nextMonth.getMonth() + 1)}-${this.formatDigit(currDate)}`,
           date: currDate,
         });
       }
@@ -138,6 +134,11 @@ class CalendarContainer extends Component {
     return null;
   }
 
+  /* Formats the given number as two digits */
+  formatDigit(num) {
+    return num < 10 ? `0${num}` : num;
+  }
+
   /* Sets stored date to previous, next or current month depending on monthType string parameter */
   changeMonth(monthType) {
     this.setState((prevState) => {
@@ -153,7 +154,7 @@ class CalendarContainer extends Component {
         date: {
           full: date,
           monthIndex: updatedIndex,
-          month: CalendarContainer.formatDigit((updatedIndex + 1) % 13),
+          month: this.formatDigit((updatedIndex + 1) % 13),
           year: date.getYear() + 1900,
         },
       });
@@ -186,24 +187,24 @@ class CalendarContainer extends Component {
 
   render() {
     const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
-    const { date, days } = this.state;
+    const { date: { full, monthIndex, month, year }, days } = this.state;
     
     const currentDay = new Date();
-    const showTodayBtn = (currentDay.getMonth() !== date.month) || (currentDay.getYear() + 1900 !== date.year);
+    const showTodayBtn = (currentDay.getMonth() !== month) || (currentDay.getYear() + 1900 !== year);
 
     return (
       <div className="calendar-wrapper">
         <div className="calendar-top">
           <Pagination prevClick={this.prevMonth} nextClick={this.nextMonth}>
             <h1 className="curr-date">
-              <span className="curr-month">{ date.full.toLocaleString('default', { month: 'long' }) }</span> 
-              <span className="curr-year">{ ` ${date.year}` }</span>
+              <span className="curr-month">{ full.toLocaleString('default', { month: 'long' }) }</span> 
+              <span className="curr-year">{ ` ${year}` }</span>
             </h1>
           </Pagination>
           {showTodayBtn && <Button btnType="btn-smaller" clicked={this.currentMonth}>Today</Button>}
         </div>
 
-        <Calendar days={days} monthIndex={date.monthIndex} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
+        <Calendar days={days} monthIndex={monthIndex} month={month} year={year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
       </div>
     );
   }
