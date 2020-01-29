@@ -133,13 +133,9 @@ class CalendarContainer extends Component {
     const { tags } = this.props;
     if (tagIds) {
       return tagIds.map((tagId) => {
-        const shortId = tagId.substring(1);
-        return { 
-          id: tagId, 
-          title: tags[shortId].title,
-          icon: tags[shortId].icon, 
-          color: tags[shortId].color, 
-        };
+        const current = tags[tagId];
+        current.id = tagId;
+        return current;
       });
     }
     return null;

@@ -10,7 +10,7 @@ function TagList(props) {
         const tag = tags[id];
         return (
           <Tag
-            id={`t${id}`}
+            id={id}
             tagColor={tag.color}
             tagIcon={tag.icon} 
             tagTitle={tag.title}

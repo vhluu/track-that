@@ -9,12 +9,12 @@ export const createTag = (newTag) => {
   return (dispatch, getState) => {
     // add tag to the database
     const { uid, nextId } = getState();
-    db.ref(`users/${uid}/tags/${nextId}`).set({
+    db.ref(`users/${uid}/tags/t${nextId}`).set({
       icon: newTag.icon,
       title: newTag.title,
       color: newTag.color,
     });
-    const tag = { ...newTag, id: nextId }; 
+    const tag = { ...newTag, id: `t${nextId}` }; 
     dispatch(addTag(tag));
   };
 };
@@ -38,7 +38,7 @@ export const deleteTag = (tagId) => {
       const updates = {};
       if (months) {
         (Object.keys(months)).forEach((monthYear) => {
-          updates[`users/${uid}/tagged/${monthYear}/t${tagId}`] = null; // removes tag from each month
+          updates[`users/${uid}/tagged/${monthYear}/${tagId}`] = null; // removes tag from each month
         });
       }
       updates[`users/${uid}/tags/${tagId}`] = null; // removes tag from tag list

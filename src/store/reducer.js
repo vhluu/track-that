@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
       // removing tag from day tags
       const updatedDT = {};
       Object.keys(state.dayTags).forEach((day) => {
-        const filtered = state.dayTags[day].filter((id) => id !== `t${action.tagId}`);
+        const filtered = state.dayTags[day].filter((id) => id !== action.tagId);
         if (filtered.length > 0) updatedDT[day] = filtered;
       });
       return {
@@ -49,10 +49,12 @@ const reducer = (state = initialState, action) => {
       console.log('setting tags', action);
       if (action.tags) {
         const keys = Object.keys(action.tags);
+        console.log(keys);
+        console.log(keys[keys.length - 1].substring(1));
         return {
           ...state,
           tags: action.tags,
-          nextId: parseInt(keys[keys.length - 1]) + 1,
+          nextId: parseInt(keys[keys.length - 1].substring(1)) + 1,
         };
       }
       return {
