@@ -17,10 +17,12 @@ class CalendarContainer extends Component {
     super(props);
 
     const date = new Date();
+    const monthIndex = date.getMonth();
     this.state = {
       date: {
         full: date,
-        month: date.getMonth(),
+        monthIndex, // index of month, starting at 0 for January
+        month: CalendarContainer.formatDigit((monthIndex + 1) % 13),
         year: date.getYear() + 1900,
       },
       days: [],
@@ -36,14 +38,10 @@ class CalendarContainer extends Component {
 
   componentDidMount() {
     const { date, date: { month, year } } = this.state;
-    this.setCalendar(date);
+    const { uid, onGetDayTags } = this.props; 
 
-    const { uid, onGetDayTags } = this.props;    
-    if (uid) {
-      onGetDayTags(month, year);
-    }
-
-    window.addEventListener('keydown', this.handleKeyDown, true);
+    this.setCalendar(date); // set calendar to current month
+    window.addEventListener('keydown', this.handleKeyDown, true); // listen to keydown for navigating through calendar months
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -58,8 +56,8 @@ class CalendarContainer extends Component {
     // if the stored date has changed then update the calendar days & day tags
     if (prevState.date && prevState.date !== date) {
       this.setCalendar(date);
-
-      if (!savedMonths.includes(`${CalendarContainer.formatDigit((month + 1) % 13)}${year}`)) {
+      // get day tags for current month from database if we havent already
+      if (!savedMonths.includes(`${month}${year}`)) {
         console.log('getting months from database!');
         onGetDayTags(month, year);
       }
@@ -70,17 +68,16 @@ class CalendarContainer extends Component {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  // TODO: store generated dates so that we dont have to recalculate each time??
   /* Sets the calendar to the given month and year */
-  setCalendar({ month, year }) {
+  setCalendar({ monthIndex, month, year }) {
     const days = [];
-    const currMonth = new Date(year, month, 1); // sets date to 1st day of current month
+    const currMonth = new Date(year, monthIndex, 1); // sets date to 1st day of current month
     const dayOfWeek = currMonth.getDay();
     let currDate;
 
     // if current month doesn't start on Sunday, then get dates from last month
     if (dayOfWeek !== 0) {
-      const lastMonth = new Date(year, month, 0);
+      const lastMonth = new Date(year, monthIndex, 0);
       const endOfLastMonth = lastMonth.getDate(); // last day of last month
 
       for (let i = 0; i < dayOfWeek; i++) {
@@ -93,7 +90,7 @@ class CalendarContainer extends Component {
     }
 
     // gets days in current month
-    const daysInCurrMonth = (new Date(year, month + 1, 0)).getDate();
+    const daysInCurrMonth = (new Date(year, monthIndex + 1, 0)).getDate();
     const current = new Date(); 
     const currentDate = current.getDate();
     const currentMonth = current.getMonth();
@@ -101,12 +98,12 @@ class CalendarContainer extends Component {
     for (let i = 0; i < Math.min(daysInCurrMonth, daysLeft); i++) {
       currDate = i + 1;
       const dayObj = {
-        full: `${CalendarContainer.formatDigit(month + 1)}${CalendarContainer.formatDigit(currDate)}`,
+        full: `${CalendarContainer.formatDigit(monthIndex + 1)}${CalendarContainer.formatDigit(currDate)}`,
         date: currDate,
         currentMonth: true,
       };
 
-      if (currentMonth === month) {
+      if (currentMonth === monthIndex) {
         dayObj.current = (currDate === currentDate);
       } 
       days.push(dayObj);
@@ -115,7 +112,7 @@ class CalendarContainer extends Component {
     // add days from next month if needed to fill up calendar
     daysLeft = 35 - Object.keys(days).length;
     if (daysLeft > 0) {
-      const nextMonth = new Date(year, month + 1, 1);
+      const nextMonth = new Date(year, monthIndex + 1, 1);
       for (let i = 0; i < daysLeft; i++) {
         currDate = i + 1;
         days.push({
@@ -141,17 +138,20 @@ class CalendarContainer extends Component {
     return null;
   }
 
-  // Sets stored date to previous or next month depending on isPrevious boolean parameter
+  /* Sets stored date to previous or next month depending on isPrevious boolean parameter */
   changeMonth(isPrevious) {
     this.setState((prevState) => {
-      const { full, month } = prevState.date;
+      const { full, monthIndex } = prevState.date;
       const date = new Date(full.valueOf());
-      if (isPrevious) date.setMonth(month - 1);
-      else date.setMonth(month + 1);
+      if (isPrevious) date.setMonth(monthIndex - 1);
+      else date.setMonth(monthIndex + 1);
+
+      const updatedIndex = date.getMonth();
       return ({
         date: {
           full: date,
-          month: date.getMonth(),
+          monthIndex: updatedIndex,
+          month: CalendarContainer.formatDigit((updatedIndex + 1) % 13),
           year: date.getYear() + 1900,
         },
       });
@@ -171,19 +171,22 @@ class CalendarContainer extends Component {
   /* Sets calendar to current month */
   currentMonth() {
     const date = new Date();
+    const updatedIndex = date.getMonth();
     this.setState({
       date: {
         full: date,
-        month: date.getMonth(),
+        monthIndex: updatedIndex,
+        month: CalendarContainer.formatDigit((updatedIndex + 1) % 13),
         year: date.getYear() + 1900,
       },
     });
   }
 
+  /* Change the calendar months on left/right arrow keydown */
   handleKeyDown(e) {
-    if (e.keyCode === 37) {
+    if (e.keyCode === 37) { // left arrow 
       this.prevMonth();
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 39) { // right arrow
       this.nextMonth();
     }
   }
@@ -207,7 +210,7 @@ class CalendarContainer extends Component {
           {showTodayBtn && <Button btnType="btn-smaller" clicked={this.currentMonth}>Today</Button>}
         </div>
 
-        <Calendar days={days} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
+        <Calendar days={days} monthIndex={date.monthIndex} month={date.month} year={date.year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
       </div>
     );
   }
