@@ -33,12 +33,12 @@ export const updateTag = (updatedTag) => {
 export const deleteTag = (tagId) => {
   return (dispatch, getState) => {
     const { uid } = getState();
-    db.ref(`users/${uid}/tags/${tagId}/months`).once('value').then((snapshot) => {
-      const months = snapshot.val();
+    db.ref(`users/${uid}/tags/${tagId}/days`).once('value').then((snapshot) => {
+      const days = snapshot.val();
       const updates = {};
-      if (months) {
-        (Object.keys(months)).forEach((monthYear) => {
-          updates[`users/${uid}/tagged/${monthYear}/${tagId}`] = null; // removes tag from each month
+      if (days) {
+        (Object.keys(days)).forEach((day) => {
+          updates[`users/${uid}/tagged/${day}/${tagId}`] = null; // removes tag from each month
         });
       }
       updates[`users/${uid}/tags/${tagId}`] = null; // removes tag from tag list
