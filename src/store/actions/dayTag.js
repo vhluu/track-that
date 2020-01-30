@@ -22,9 +22,7 @@ export const createDayTag = (tagId, date) => {
 };
 
 export const getDayTags = (start, end) => {
-  console.log(start);
-  console.log(end);
-  if (start && end) {
+  if ((start && end) && (start <= end)) {
     return (dispatch, getState) => {
       const { uid } = getState();
       return db.ref(`users/${uid}/tagged`).orderByKey().startAt(start).endAt(end).once('value')
@@ -33,18 +31,17 @@ export const getDayTags = (start, end) => {
   }
 }; 
 
-export const deleteDayTag = (tags, { topMonth, month, day, year }) => {
+export const deleteDayTag = (tags, date) => {
   return (dispatch, getState) => {
     const { uid } = getState();
 
     const updates = {};
-    const formatTopMonth = formatDigit((topMonth + 1) % 13);
-    tags.forEach((tag) => { updates[`users/${uid}/tagged/${formatTopMonth}${year}/${tag}/${month}${day}`] = null; });
+    tags.forEach((tagId) => { 
+      updates[`users/${uid}/tagged/${date}/${tagId}`] = null; 
+      updates[`users/${uid}/tags/${tagId}/days/${date}`] = null; 
+    });
     db.ref().update(updates); // bulk remove through updates w/ value null
 
-    const date = { month, day, year };
     dispatch({ type: actionTypes.DELETE_DAY_TAG, date, tags });
-
-    // TODO: handle case where we removed all instances of that tag from that month
   };
 };

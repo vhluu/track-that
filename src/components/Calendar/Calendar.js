@@ -111,7 +111,7 @@ class Calendar extends Component {
     if (tagsToRemove.length > 0) {
       // removes day tags from database
       tagsToRemove = tagsToRemove.map((tag) => tag.id);
-      onDeleteDayTag(tagsToRemove, { topMonth: month, month: selectedDay.substring(0, 2), day: selectedDay.substring(2), year });
+      onDeleteDayTag(tagsToRemove, selectedDay);
       
       this.toggleDayModal(selectedDay); // close day modal
     }
