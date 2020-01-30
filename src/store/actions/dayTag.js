@@ -21,12 +21,16 @@ export const createDayTag = (tagId, date) => {
   };
 };
 
-export const getDayTags = (month, year) => {
-  return (dispatch, getState) => {
-    const { uid } = getState();
-    const fullDate = `${formatDigit((month + 1) % 13)}${year}`;
-    return db.ref(`users/${uid}/tagged/${fullDate}`).once('value').then((snapshot) => dispatch(setDayTags(fullDate, snapshot.val())));
-  };
+export const getDayTags = (start, end) => {
+  console.log(start);
+  console.log(end);
+  if (start && end) {
+    return (dispatch, getState) => {
+      const { uid } = getState();
+      return db.ref(`users/${uid}/tagged`).orderByKey().startAt(start).endAt(end).once('value')
+        .then((snapshot) => dispatch(setDayTags(start, snapshot.val())));
+    };
+  }
 }; 
 
 export const deleteDayTag = (tags, { topMonth, month, day, year }) => {

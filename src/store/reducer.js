@@ -117,15 +117,11 @@ const reducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.SET_DAY_TAGS: {
-      const tempObject = {};
       if (action.tags) {
-        Object.keys(action.tags).forEach((tagId) => {
-          Object.keys(action.tags[tagId]).forEach((day) => {
-            if (tempObject[day]) tempObject[day].push(tagId);
-            else tempObject[day] = [tagId];
-          });
+        const tempObject = { ...action.tags };
+        Object.keys(action.tags).forEach((day) => {
+          tempObject[day] = Object.keys(action.tags[day]);
         });
-        console.log(tempObject);
 
         return {
           ...state,

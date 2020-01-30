@@ -33,28 +33,29 @@ class CalendarContainer extends Component {
 
   componentDidMount() {
     const { date, date: { month, year } } = this.state;
-    const { uid, onGetDayTags } = this.props; 
 
     this.setCalendar(date); // set calendar to current month
     window.addEventListener('keydown', this.handleKeyDown, true); // listen to keydown for navigating through calendar months
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { date, date: { month, year } } = this.state;
+    const { date, date: { month, year }, start, end } = this.state;
     const { uid, onGetDayTags, savedMonths } = this.props;
 
-    // if uid is being set for the first time, then get the calendar day tags
-    if (!prevProps.uid && uid) {
-      onGetDayTags(month, year);
+    if (!prevProps.uid && uid) { // get day tags once uid is set
+      onGetDayTags(start, end);
     }
 
-    // if the stored date has changed then update the calendar days & day tags
+    // if date changes then update the calendar days displayed
     if (prevState.date && prevState.date !== date) {
       this.setCalendar(date);
-      // get day tags for current month from database if we havent already
+    }
+
+    // if date range changes then get day tags for current range
+    if (prevState.start !== start || prevState.end !== end) {
       if (!savedMonths.includes(`${month}${year}`)) {
         console.log('getting months from database!');
-        onGetDayTags(month, year);
+        onGetDayTags(start, end);
       }
     }
   }
@@ -75,7 +76,6 @@ class CalendarContainer extends Component {
     if (dayOfWeek !== 0) {
       const lastMonth = new Date(year, monthIndex, 0);
       const endOfLastMonth = lastMonth.getDate(); // last day of last month
-
       for (let i = 0; i < dayOfWeek; i++) {
         currDate = endOfLastMonth - dayOfWeek + i + 1;
         days.push({
@@ -118,7 +118,11 @@ class CalendarContainer extends Component {
       }
     }
 
-    this.setState({ days });
+    this.setState({
+      days,
+      start: days[0].full,
+      end: days[days.length - 1].full,
+    });
   }
 
   /* Takes an array of tag ids and returns an array of tags w/ all of their data (id, title, color, icon) */
