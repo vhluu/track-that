@@ -19,6 +19,8 @@ class CalendarContainer extends Component {
         monthIndex, // index of month, starting at 0 for January
         month: this.formatDigit((monthIndex + 1) % 13),
         year: date.getYear() + 1900,
+        start: null, // start date of current calendar view in format YYYY-MM-DD
+        end: null, // end date ...
       },
       days: [],
     };
@@ -39,24 +41,30 @@ class CalendarContainer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { date, date: { month, year }, start, end } = this.state;
-    const { uid, onGetDayTags, savedMonths } = this.props;
+    const { date } = this.state;
+    const { uid, onGetDayTags, savedStart, savedEnd } = this.props;
+    let { start, end } = this.state;
 
-    if (!prevProps.uid && uid) { // get day tags once uid is set
-      onGetDayTags(start, end);
+    // if the userId is set for the first time or the user goes to a different calendar month, 
+    // then get the day tags from the database
+    if (uid && (!prevProps.uid || prevState.start !== start || prevState.end !== end)) {
+      console.log(`saved: ${savedStart}, ${savedEnd}`);
+      console.log(`new: ${start}, ${end}`);
+
+      // compare the current calendar view's start/end date to our saved start/end dates so that we
+      // only grab data from the database for dates that we havent grabbed before
+      if (savedStart && start < savedStart) {
+        end = this.updateDateString(savedStart, -1);
+      } else if (savedStart && start > savedStart) {
+        start = this.updateDateString(savedEnd, 1);
+      }
+
+      if (start < end && start !== savedStart && end !== savedEnd) onGetDayTags(start, end);
     }
 
     // if date changes then update the calendar days displayed
     if (prevState.date && prevState.date !== date) {
       this.setCalendar(date);
-    }
-
-    // if date range changes then get day tags for current range
-    if (prevState.start !== start || prevState.end !== end) {
-      if (!savedMonths.includes(`${month}${year}`)) {
-        console.log('getting months from database!');
-        onGetDayTags(start, end);
-      }
     }
   }
   
@@ -143,6 +151,16 @@ class CalendarContainer extends Component {
     return num < 10 ? `0${num}` : num;
   }
 
+  /* Increment the day in the date string by value, where date is in the format YYYY-MM-DD */
+  updateDateString(date, value) {
+    // convert string to a date
+    const dateObj = new Date(date);
+    const utcDate = new Date(dateObj.getTime() - dateObj.getTimezoneOffset() * -60000); // normalize date
+    utcDate.setDate(utcDate.getDate() + value); // update date by value
+
+    return utcDate.toISOString().split('T')[0]; // convert date to string w/ format YYYY-MM-DD
+  }
+
   /* Sets stored date to previous, next or current month depending on monthType string parameter */
   changeMonth(monthType) {
     this.setState((prevState) => {
@@ -216,7 +234,8 @@ class CalendarContainer extends Component {
 
 const mapStateToProps = (state) => ({
   dayTags: state.dayTags,
-  savedMonths: state.savedMonths,
+  savedStart: state.savedStart,
+  savedEnd: state.savedEnd,
 });
 
 const mapDispatchToProps = (dispatch) => ({

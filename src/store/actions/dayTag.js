@@ -1,7 +1,7 @@
 import db from '../../util/firebase';
 import * as actionTypes from './actionTypes';
 
-export const setDayTags = (date, tags) => ({ type: actionTypes.SET_DAY_TAGS, date, tags });
+export const setDayTags = (start, end, taggedDays) => ({ type: actionTypes.SET_DAY_TAGS, start, end, taggedDays });
 
 export const addDayTag = (tagId, date) => ({ type: actionTypes.ADD_DAY_TAG, tagId, date });
 
@@ -22,13 +22,14 @@ export const createDayTag = (tagId, date) => {
 };
 
 export const getDayTags = (start, end) => {
-  if ((start && end) && (start <= end)) {
-    return (dispatch, getState) => {
-      const { uid } = getState();
-      return db.ref(`users/${uid}/tagged`).orderByKey().startAt(start).endAt(end).once('value')
-        .then((snapshot) => dispatch(setDayTags(start, snapshot.val())));
-    };
-  }
+  console.log(`getting months ${start} to ${end} from database!`);
+
+  return (dispatch, getState) => {
+    const { uid } = getState();
+    // get the tags for the dates within the specified range (start to end inclusive)
+    return db.ref(`users/${uid}/tagged`).orderByKey().startAt(start).endAt(end).once('value')
+      .then((snapshot) => dispatch(setDayTags(start, end, snapshot.val())));
+  };
 }; 
 
 export const deleteDayTag = (tags, date) => {

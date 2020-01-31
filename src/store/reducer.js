@@ -1,11 +1,12 @@
 import * as actionTypes from './actions/actionTypes';
 
 const initialState = {
-  userId: null,
+  uid: null, // the user id
   tags: [],
-  nextId: 1,
+  nextId: 1, // the next id to use for newly created tags
   dayTags: null,
-  savedMonths: [],
+  savedStart: null, // the start date for the days we have already grabbed from the database
+  savedEnd: null, // the end date ...
 };
 
 const reducer = (state = initialState, action) => {
@@ -85,7 +86,8 @@ const reducer = (state = initialState, action) => {
         tags: [],
         nextId: 1,
         dayTags: null,
-        savedMonths: [],
+        savedStart: null,
+        savedEnd: null,
       };
     case actionTypes.ADD_DAY_TAG: {
       const currentDT = state.dayTags[action.date];
@@ -123,25 +125,30 @@ const reducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.SET_DAY_TAGS: {
-      if (action.tags) {
-        const tempObject = { ...action.tags };
-        Object.keys(action.tags).forEach((day) => {
-          tempObject[day] = Object.keys(action.tags[day]);
+      const updatedState = {
+        ...state,
+      };
+
+      if (!state.savedStart || action.start < state.savedStart) {
+        updatedState.savedStart = action.start;
+      }
+      if (!state.savedEnd || action.end > state.savedEnd) {
+        updatedState.savedEnd = action.end;
+      }
+
+      if (action.taggedDays) {
+        const tempObject = { ...action.taggedDays };
+        // for each day, get the tags associated with it and store it as an array
+        Object.keys(action.taggedDays).forEach((day) => {
+          tempObject[day] = Object.keys(action.taggedDays[day]);
         });
 
-        return {
-          ...state,
-          dayTags: {
-            ...state.dayTags,
-            ...tempObject,
-          },
-          savedMonths: state.savedMonths.concat(action.date),
+        updatedState.dayTags = {
+          ...state.dayTags,
+          ...tempObject,
         };
       } 
-      return {
-        ...state,
-        savedMonths: state.savedMonths.concat(action.date),
-      };
+      return updatedState;
     }
     default:
       return state;

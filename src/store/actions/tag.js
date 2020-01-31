@@ -21,6 +21,7 @@ export const createTag = (newTag) => {
 
 export const updateTag = (updatedTag) => {
   return (dispatch, getState) => {
+    // update the tag in the database
     db.ref(`users/${getState().uid}/tags/${updatedTag.id}`).update({
       icon: updatedTag.icon,
       title: updatedTag.title,
