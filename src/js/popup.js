@@ -1,29 +1,49 @@
 import db from '../util/firebase';
 
 let tags, dayTags; // the user's tags and current day tags
-let initialVals = new Map(); // map to store the initial values of the tag checkboxes
+const initialVals = new Map(); // map to store the initial values of the tag checkboxes
 let userId; // user id
 let month, day, fullDate; // stores current date information
+
+/* Formats the given number as two digits */
+const formatDigit = (num) => (num < 10 ? `0${num}` : num);
 
 /* The Sign In and Sign Out button elements */
 const signinBtn = document.querySelector('.google-signin');
 const signoutBtn = document.querySelector('.google-signout');
 
 /* Show the Sign In button only */
-const showSignIn = () => {
+function showSignIn() {
   signinBtn.classList.remove('hide');
   signoutBtn.classList.add('hide');
-};
+}
 
 /* Show the Sign Out button only */
-const showSignOut = () => {
+function showSignOut() {
   signinBtn.classList.add('hide');
   signoutBtn.classList.remove('hide');
-};
+}
+
+/** Gets the login status of the user
+ * Takes a boolean which indicates whether to start the login progress 
+ */
+function retrieveLoginStatus(startLogin) {
+  // communicate to background script that we want to retrieve the login status
+  chrome.extension.sendMessage({ greeting: 'hello from popup', login: startLogin }, (response) => {
+    if (response && response.email) { // if user is signed in
+      showSignOut(); // hide Sign In button and show Sign Out button
+      userId = response.userId;
+      setTags(); // sets the tags in the popup template
+    } else {
+      console.log("Couldn't get email address of profile user.");
+      showSignIn();
+    }
+  });
+}
 
 
-/* Sets the date in the popup template */
-const setDate = () => {
+/* Sets today's date in the popup template */
+function setDate() {
   const date = new Date();
   const dayOfWeek = document.querySelector('.day-of-week');
   const dayNum = document.querySelector('.day-number');
@@ -32,13 +52,42 @@ const setDate = () => {
   // sets date in popup template
   dayOfWeek.textContent = daysOfWeek[date.getDay()];
   dayNum.textContent = date.getDate();
-};
+}
 
-/* Formats the given number as two digits */
-const formatDigit = (num) => (num < 10 ? `0${num}` : num);
+
+/* Grabs the tags for the current day and displays them in the popup template */
+function setTags() {
+  // generate the full date (YYYY-MM-DD)
+  const date = new Date();
+  month = formatDigit((date.getMonth() + 1) % 13);
+  day = formatDigit(date.getDate());
+  fullDate = `${date.getYear() + 1900}-${month}-${day}`;
+
+  // get the tags for the current day from the database
+  db.ref(`users/${userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
+    dayTags = snapshot.val();
+    if (dayTags) {
+      // get the tag info (title, color, icon) from the database
+      db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
+        tags = snapshot1.val();
+        if (tags) {
+          const tagData = Object.keys(dayTags).map((tagId) => tags[tagId]);
+          const tagWrapper = document.querySelector('.day-tags');
+          let tagWrapperInner = '';
+          // create the tags and append to popup template
+          tagData.forEach((tag) => {
+            tagWrapperInner += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
+          });
+          tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
+        }
+      });
+    }
+  });
+}
+
 
 /* Opens the add tag area when clicking on the + (add) button */
-const initAddBtn = () => {
+function initAddBtn() {
   const addBtn = document.querySelector('.add-btn');
   addBtn.addEventListener('click', () => {
     const addTagWrapper = document.querySelector('.add-tag-wrapper');
@@ -62,57 +111,7 @@ const initAddBtn = () => {
     }
     addTagWrapper.classList.toggle('open');
   });
-};
-
-
-/* Grabs the tags for the current day and displays it in the popup template */
-const setTags = () => {
-  // generate the dates needed
-  const date = new Date();
-  month = formatDigit((date.getMonth() + 1) % 13);
-  day = formatDigit(date.getDate());
-  fullDate = `${date.getYear() + 1900}-${month}-${day}`;
-
-  // get the tags for the current day from the database
-  db.ref(`users/${userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
-    dayTags = snapshot.val();
-    console.log(fullDate);
-    if (dayTags) {
-      // get the tag info (title, color, icon) from the database
-      db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
-        tags = snapshot1.val();
-        if (tags) {
-          const tagData = Object.keys(dayTags).map((tagId) => tags[tagId]);
-          const tagWrapper = document.querySelector('.day-tags');
-          let tagWrapperInner = '';
-          // create the tags and append to popup template
-          tagData.forEach((tag) => {
-            tagWrapperInner += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
-          });
-          tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
-        }
-      });
-    }
-  });
-};
-
-
-/** Gets the login status of the user
- * Takes a boolean which indicates whether to start the login progress 
- */
-const retrieveLoginStatus = (startLogin) => {
-  // communicate to background script that we want to retrieve the login status
-  chrome.extension.sendMessage({ greeting: 'hello from popup', login: startLogin }, (response) => {
-    if (response && response.email) { // if user is signed in
-      showSignOut(); // hide Sign In button and show Sign Out button
-      userId = response.userId;
-      setTags(); // sets the tags in the popup template
-    } else {
-      console.log("Couldn't get email address of profile user.");
-      showSignIn();
-    }
-  });
-};
+}
 
 
 /* Signs in the user w/ Sign In button click */
@@ -170,6 +169,6 @@ saveBtn.addEventListener('click', () => {
   // display the newly added tags at the top
 });
 
-retrieveLoginStatus(false);
-setDate();
-initAddBtn();
+retrieveLoginStatus(false); // retrieve the login status without invoking login process
+setDate(); // set the date in the template to current date
+initAddBtn(); // insert the add button into the template
