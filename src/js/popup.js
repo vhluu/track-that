@@ -152,20 +152,32 @@ saveBtn.addEventListener('click', () => {
   const tagInputs = document.querySelectorAll('.all-tags input');
   const updates = {};
 
-  
-  /* tagInputs.forEach((input) => {
+  // for each the tag inputs determine which ones have been selected/deselected & 
+  // add/remove those from the database accordingly
+  tagInputs.forEach((input) => {
     const tagId = input.getAttribute('data-cb-id');
-    if (input.checked && !initialVals.get(tagId)) { // add all newly checked tags
-      // TODO: the top month might be different than the actual month T_T
-      updates[`users/${userId}/tagged/${fullDate}/t${tagId}/${month}${day}`] = true;
-      updates[`users/${userId}/tags/${tagId}/months/${fullDate}`] = true; 
-    } else if (!input.checked && initialVals.get(tagId)) { // remove all newly unchecked tags
-      updates[`users/${userId}/tagged/${formatTopMonth}${year}/t${tagId}/${month}${day}`] = null;
+    let value;
+    if (input.checked && !initialVals.get(tagId)) { // if newly checked tag
+      value = true;
+      initialVals.set(tagId, true);
+    } else if (!input.checked && initialVals.get(tagId)) { // if newly unchecked tag
+      value = null;
+      initialVals.set(tagId, false);
+    } else { // tag hasn't changed
+      return;
     }
-    console.log(updates);
-  }); */
 
-  // close the modal
+    // update the values in the database for the tagged day
+    updates[`tagged/${fullDate}/${tagId}`] = value;
+    updates[`tags/${tagId}/days/${fullDate}`] = value; 
+  });
+
+  db.ref(`users/${userId}`).update(updates); // bulk add/remove through update
+
+  // close the "add tag" modal
+  const addTagWrapper = document.querySelector('.add-tag-wrapper');
+  addTagWrapper.classList.remove('open');
+
   // display the newly added tags at the top
 });
 
