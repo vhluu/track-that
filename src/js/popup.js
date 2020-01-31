@@ -1,6 +1,6 @@
 import db from '../util/firebase';
 
-let tags, currDayTags; // the user's tags and current day tags
+let tags, dayTags; // the user's tags and current day tags
 let initialVals = new Map(); // map to store the initial values of the tag checkboxes
 let userId; // user id
 let month, day, fullDate; // stores current date information
@@ -34,6 +34,8 @@ const setDate = () => {
   dayNum.textContent = date.getDate();
 };
 
+/* Formats the given number as two digits */
+const formatDigit = (num) => (num < 10 ? `0${num}` : num);
 
 /* Opens the add tag area when clicking on the + (add) button */
 const initAddBtn = () => {
@@ -47,7 +49,7 @@ const initAddBtn = () => {
 
       Object.keys(tags).forEach((tagId) => {
         const tag = tags[tagId];
-        const isFound = currDayTags.includes(tagId) ? 'checked' : '';
+        const isFound = dayTags[tagId] ? 'checked' : '';
         initialVals.set(tagId, isFound);
         tagHTML += `
           <div>
@@ -67,45 +69,29 @@ const initAddBtn = () => {
 const setTags = () => {
   // generate the dates needed
   const date = new Date();
-  month = (date.getMonth() + 1) % 13;
-  if (month < 10) month = `0${month}`;
-  
-  day = date.getDate();
-  fullDate = `${month}${date.getYear() + 1900}`;
-  if (day < 10) day = `0${day}`;
+  month = formatDigit((date.getMonth() + 1) % 13);
+  day = formatDigit(date.getDate());
+  fullDate = `${date.getYear() + 1900}-${month}-${day}`;
 
-  currDayTags = [];
-
-  // get the tags for the current month from the database
-  // TODO: try getting day tags from storage, if none, then grab from firebase
+  // get the tags for the current day from the database
   db.ref(`users/${userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
-    const dayTags = snapshot.val();
-    if (dayTags) { // get the tag ids for the current day
-      const currDate = `${month}${day}`;
-      Object.keys(dayTags).forEach((tagId) => {
-        Object.keys(dayTags[tagId]).forEach((day) => {
-          if (day === currDate) {
-            currDayTags.push(tagId.substring(1));
-          }
-        });
+    dayTags = snapshot.val();
+    console.log(fullDate);
+    if (dayTags) {
+      // get the tag info (title, color, icon) from the database
+      db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
+        tags = snapshot1.val();
+        if (tags) {
+          const tagData = Object.keys(dayTags).map((tagId) => tags[tagId]);
+          const tagWrapper = document.querySelector('.day-tags');
+          let tagWrapperInner = '';
+          // create the tags and append to popup template
+          tagData.forEach((tag) => {
+            tagWrapperInner += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
+          });
+          tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
+        }
       });
-
-      // use the tag ids to grab the rest of the tag info from the database
-      if (currDayTags.length > 0) {
-        db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
-          tags = snapshot1.val();
-          if (tags) {
-            const tagData = currDayTags.map((tagId) => tags[tagId]);
-            const tagWrapper = document.querySelector('.day-tags');
-            let tagWrapperInner = '';
-            // create the tags and append to popup template
-            tagData.forEach((tag) => {
-              tagWrapperInner += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
-            });
-            tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding add button to template
-          }
-        });
-      }
     }
   });
 };
@@ -177,7 +163,6 @@ saveBtn.addEventListener('click', () => {
     } else if (!input.checked && initialVals.get(tagId)) { // remove all newly unchecked tags
       updates[`users/${userId}/tagged/${formatTopMonth}${year}/t${tagId}/${month}${day}`] = null;
     }
-
     console.log(updates);
   }); */
 
