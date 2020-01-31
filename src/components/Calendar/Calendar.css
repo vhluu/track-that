@@ -565,6 +565,9 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   .tags-list {
     display: block;
   }
+  .tags-container > p {
+    max-width: 85%;
+  }
   .tags-list {
     max-height: 55vh;
   }
