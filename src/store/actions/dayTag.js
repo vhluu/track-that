@@ -7,9 +7,6 @@ export const addDayTag = (tagId, date) => ({ type: actionTypes.ADD_DAY_TAG, tagI
 
 export const updateDayTag = (tag) => ({ type: actionTypes.UPDATE_DAY_TAG, tag });
 
-/* Formats the given number as two digits */
-export const formatDigit = (num) => (num < 10 ? `0${num}` : num);
-
 export const createDayTag = (tagId, date) => {
   return (dispatch, getState) => {
     const { uid } = getState();
