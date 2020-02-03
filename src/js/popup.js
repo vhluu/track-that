@@ -1,9 +1,10 @@
 import db from '../util/firebase';
 
-let tags, dayTags; // the user's tags and current day tags
+let tags; // all of the user's tags
+let dayTags; // the tags added for the current day
 const initialVals = new Map(); // map to store the initial values of the tag checkboxes
 let userId; // user id
-let month, day, fullDate; // stores current date information
+let fullDate; // the current day in YYYY-MM-DD format
 
 /* Formats the given number as two digits */
 const formatDigit = (num) => (num < 10 ? `0${num}` : num);
@@ -59,58 +60,121 @@ function setDate() {
 function setTags() {
   // generate the full date (YYYY-MM-DD)
   const date = new Date();
-  month = formatDigit((date.getMonth() + 1) % 13);
-  day = formatDigit(date.getDate());
+  const month = formatDigit((date.getMonth() + 1) % 13);
+  const day = formatDigit(date.getDate());
   fullDate = `${date.getYear() + 1900}-${month}-${day}`;
 
-  // get the tags for the current day from the database
-  db.ref(`users/${userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
-    dayTags = snapshot.val();
-    if (dayTags) {
-      // get the tag info (title, color, icon) from the database
-      db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
-        tags = snapshot1.val();
-        if (tags) {
-          const tagData = Object.keys(dayTags).map((tagId) => tags[tagId]);
+  // get all of the tags (title, color, icon) from the database
+  db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
+    tags = snapshot1.val();
+    if (tags) {
+      // get the tags for the current day from the database
+      db.ref(`users/${userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
+        dayTags = snapshot.val();
+        if (dayTags) {
+          // tagData will store an array of tags which include id, title, icon, color
+          const tagData = Object.keys(dayTags).map((tagId) => ({
+            ...tags[tagId],
+            id: tagId,
+          }));
+
           const tagWrapper = document.querySelector('.day-tags');
           let tagWrapperInner = '';
           // create the tags and append to popup template
           tagData.forEach((tag) => {
-            tagWrapperInner += `<div class="day-tag ${tag.color}">${tag.icon}</div>`;
+            tagWrapperInner += `<div class="day-tag ${tag.color}" id="${tag.id}">${tag.icon}</div>`;
           });
           tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
         }
       });
+
+      Object.keys(tags).forEach((id) => { // add the tag ids to the each tag object
+        tags[id].id = id;
+      });
+    } else {
+      document.querySelector('.has-tags').classList.add('hide');
+      document.querySelector('.no-tags-msg').classList.remove('hide');
     }
   });
 }
 
 
-/* Opens the add tag area when clicking on the + (add) button */
-function initAddBtn() {
-  const addBtn = document.querySelector('.add-btn');
-  addBtn.addEventListener('click', () => {
-    const addTagWrapper = document.querySelector('.add-tag-wrapper');
-    const allTags = addTagWrapper.querySelector('.all-tags');
-    // display the user's tags
-    if (!(addTagWrapper.classList.contains('open')) && tags && allTags.children.length === 0) {
-      let tagHTML = '';
+/* Opens the add tag section & populates it with the user tags */
+function initAddSection() {
+  const addTagWrapper = document.querySelector('.add-tag-wrapper');
+  const allTags = addTagWrapper.querySelector('.all-tags');
+  // display the user's tags
+  if (!(addTagWrapper.classList.contains('open')) && tags && allTags.children.length === 0) {
+    let tagHTML = '';
 
-      Object.keys(tags).forEach((tagId) => {
-        const tag = tags[tagId];
-        const isFound = dayTags[tagId] ? 'checked' : '';
-        initialVals.set(tagId, isFound);
-        tagHTML += `
-          <div>
-            <input type="checkbox" id="checkbox-${tagId}" data-cb-id="${tagId}" class="hide" ${isFound} />
-            <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}">${tag.icon}</div></label>
-          </div>
-        `;
-      });
-      allTags.insertAdjacentHTML('beforeend', tagHTML);
+    Object.keys(tags).forEach((tagId) => {
+      const tag = tags[tagId];
+      const isFound = (dayTags && dayTags[tagId]) ? 'checked' : '';
+      initialVals.set(tagId, isFound);
+      tagHTML += `
+        <div>
+          <input type="checkbox" id="checkbox-${tagId}" data-cb-id="${tagId}" class="hide" ${isFound} />
+          <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}">${tag.icon}</div></label>
+        </div>
+      `;
+    });
+    allTags.insertAdjacentHTML('beforeend', tagHTML);
+  }
+  addTagWrapper.classList.toggle('open');
+}
+
+
+/* Saves the tag configuration to the database */
+function saveTags() {
+  const tagInputs = document.querySelectorAll('.all-tags input');
+  const updates = {};
+  const added = [];
+  console.log(initialVals);
+  console.log(tagInputs);
+
+  // for each the tag inputs determine which ones have been selected/deselected & 
+  // add/remove those from the database accordingly
+  tagInputs.forEach((input) => {
+    const tagId = input.getAttribute('data-cb-id');
+    let value;
+    if (input.checked && !initialVals.get(tagId)) { // if newly checked tag
+      value = true;
+      initialVals.set(tagId, true);
+      added.push(tagId);
+    } else if (!input.checked && initialVals.get(tagId)) { // if newly unchecked tag
+      value = null;
+      initialVals.set(tagId, false);
+    } else { // tag hasn't changed
+      if (input.checked) added.push(tagId);
+      return;
     }
-    addTagWrapper.classList.toggle('open');
+
+    // update the values in the database for the tagged day
+    updates[`tagged/${fullDate}/${tagId}`] = value;
+    updates[`tags/${tagId}/days/${fullDate}`] = value; 
   });
+
+  db.ref(`users/${userId}`).update(updates); // bulk add/remove through update
+
+  displayTags(added);
+}
+
+/* Displays the newly added tags in the frontend */
+function displayTags(added) {
+  console.log(added);
+  let tagWrapperInner = '';
+  added.forEach((id) => {
+    const current = tags[id];
+    tagWrapperInner += `<div class="day-tag ${current.color}" id="${current.id}">${current.icon}</div>`;
+  });
+  const addBtn = document.querySelector('.add-btn');
+  const tagWrapper = document.querySelector('.day-tags');
+  tagWrapper.innerHTML = tagWrapperInner; // add day tags to the template
+  tagWrapper.appendChild(addBtn);
+
+  // close the "add tag" modal
+  const addTagWrapper = document.querySelector('.add-tag-wrapper');
+  addTagWrapper.classList.remove('open');
 }
 
 
@@ -123,7 +187,7 @@ signinBtn.addEventListener('click', () => {
 signoutBtn.addEventListener('click', () => {
   // communicate to background script that user wants to sign out
   chrome.extension.sendMessage({ greeting: 'sign me out' }, (response) => {
-    if (response && response.signed_out) { // if the background script succeeds in signing out the user
+    if (response && response.signed_out) { // if background script succeeds in signing out the user
       // remove tags from popup template
       const tagWrapper = document.querySelector('.day-tags'); 
       tagWrapper.innerHTML = '';
@@ -145,42 +209,14 @@ calendarBtn.addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
 });
 
+/* Opens the add tag section when clicking on the + (add) button */
+const addBtn = document.querySelector('.add-btn');
+addBtn.addEventListener('click', initAddSection);
 
-/* Saves the tag configuration to the database */
+
+/* Saves the selected tags to the database when clicking the save button */
 const saveBtn = document.querySelector('.save-btn');
-saveBtn.addEventListener('click', () => {
-  const tagInputs = document.querySelectorAll('.all-tags input');
-  const updates = {};
-
-  // for each the tag inputs determine which ones have been selected/deselected & 
-  // add/remove those from the database accordingly
-  tagInputs.forEach((input) => {
-    const tagId = input.getAttribute('data-cb-id');
-    let value;
-    if (input.checked && !initialVals.get(tagId)) { // if newly checked tag
-      value = true;
-      initialVals.set(tagId, true);
-    } else if (!input.checked && initialVals.get(tagId)) { // if newly unchecked tag
-      value = null;
-      initialVals.set(tagId, false);
-    } else { // tag hasn't changed
-      return;
-    }
-
-    // update the values in the database for the tagged day
-    updates[`tagged/${fullDate}/${tagId}`] = value;
-    updates[`tags/${tagId}/days/${fullDate}`] = value; 
-  });
-
-  db.ref(`users/${userId}`).update(updates); // bulk add/remove through update
-
-  // close the "add tag" modal
-  const addTagWrapper = document.querySelector('.add-tag-wrapper');
-  addTagWrapper.classList.remove('open');
-
-  // display the newly added tags at the top
-});
+saveBtn.addEventListener('click', saveTags);
 
 retrieveLoginStatus(false); // retrieve the login status without invoking login process
 setDate(); // set the date in the template to current date
-initAddBtn(); // insert the add button into the template

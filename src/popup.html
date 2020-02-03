@@ -13,7 +13,7 @@
       body {
         font-family: 'Quicksand', sans-serif;
         margin: 0;
-        width: 175px;
+        width: 185px;
       }
       p {
         font-weight: 600;
@@ -102,6 +102,7 @@
       .all-tags {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
       }
       .all-tags .day-tag {
         position: relative;
@@ -165,6 +166,13 @@
         margin: 8px auto;
         border-radius: 10px;
       }
+      .save-btn:hover {
+        background-color: #62d9ef;
+      }
+
+      .no-tags-msg p:nth-child(2) {
+        opacity: 0.7;
+      }
       
       @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
         .day-tag {
@@ -187,10 +195,16 @@
     </div>
 
     <div class="add-tag-wrapper">
-      <p>Select the tags you want<br>to add</p>
-      <div class="all-tags"></div>
-      <div class="btn save-btn">Save</div>
-</div>
+      <div class="no-tags-msg hide">
+        <p>You have no tags 😱!</p>
+        <p>But no worries, you can create some in the Calendar 😎 </p>
+      </div>
+      <div class="has-tags">
+        <p>Select the tags you want<br>for today!</p>
+        <div class="all-tags"></div>
+        <div class="btn save-btn">Save</div>
+      </div>
+    </div>
     <div class="google-signin btn" class="hide">Sign in w/ Google</div>
     <div class="view-cal btn btn-primary">View Calendar</div>
     <div class="google-signout btn" class="hide">Sign out</div>
