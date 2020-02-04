@@ -1,6 +1,11 @@
+import { setTags } from './calendar';
+
+let userId;
+
 /* The Sign In and Sign Out button elements */
 const signinBtn = document.querySelector('.google-signin');
 const signoutBtn = document.querySelector('.google-signout');
+
 
 /* Show the Sign In button only */
 function showSignIn() {
@@ -14,28 +19,31 @@ function showSignOut() {
   signoutBtn.classList.remove('hide');
 }
 
+/* Gets the user id */
+export function getUserId() {
+  return userId;
+}
+
+
 /** Gets the login status of the user
  * Takes a boolean which indicates whether to start the login progress
  * Returns the user id if user is signed in
  */
 function retrieveLoginStatus(startLogin) {
-  return new Promise((resolve) => {
-    // communicate to background script that we want to retrieve the login status
-    chrome.extension.sendMessage({ greeting: 'hello from popup', login: startLogin }, (response) => {
-      if (response && response.email) { // if user is signed in
-        showSignOut(); // hide Sign In button and show Sign Out button
-        resolve(response.userId);
-      } else {
-        showSignIn();
-        resolve();
-      }
-    });
+  // communicate to background script that we want to retrieve the login status
+  chrome.extension.sendMessage({ greeting: 'hello from popup', login: startLogin }, (response) => {
+    if (response && response.email) { // if user is signed in
+      showSignOut(); // hide Sign In button and show Sign Out button
+      userId = response.userId;
+      setTags(userId);
+    } else { // user isnt signed in
+      showSignIn();
+    }
   });
 }
 
-
 /* Initialize login-related ctas and get the login status of the user */
-function initLogin() {
+export function initLogin() {
   /* Signs in the user w/ Sign In button click */
   signinBtn.addEventListener('click', () => {
     retrieveLoginStatus(true);
@@ -51,6 +59,7 @@ function initLogin() {
         tagWrapper.innerHTML = '';
 
         showSignIn(); // show sign in button
+        userId = null; // unset user id
 
         // if calendar is open, then remove user data from there
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -60,7 +69,5 @@ function initLogin() {
     });
   });
 
-  return retrieveLoginStatus(false); // retrieve the login status without invoking login process
+  retrieveLoginStatus(false); // retrieve the login status without invoking login process
 }
-
-export default initLogin;

@@ -99,6 +99,13 @@
         max-height: 500px;
         transition: max-height 0.25s ease-in;
       }
+      .add-tag-wrapper.logged-in .login-msg,
+      .add-tag-wrapper:not(.logged-in) .has-tags {
+        display: none;
+      }
+      .add-tag-wrapper:not(.logged-in) .login-msg {
+        display: block;
+      }
       .all-tags {
         display: flex;
         flex-wrap: wrap;
@@ -173,6 +180,15 @@
       .no-tags-msg p:nth-child(2) {
         opacity: 0.7;
       }
+
+      .login-msg p {
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        text-align: center;
+        padding: 5px;
+        color: #f96363;
+        border-radius: 5px;
+      }
       
       @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
         .day-tag {
@@ -198,6 +214,9 @@
       <div class="no-tags-msg hide">
         <p>You have no tags 😱!</p>
         <p>But no worries, you can create some in the Calendar 😎 </p>
+      </div>
+      <div class="login-msg">
+        <p class="red">Please sign in to continue!!</p>
       </div>
       <div class="has-tags">
         <p>Select the tags you want<br>for today!</p>

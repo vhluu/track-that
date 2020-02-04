@@ -1,9 +1,9 @@
 
 import db from '../../util/firebase';
 import { fullDate, getTags, getDayTags } from './calendar';
+import { getUserId } from './login';
 
 const initialVals = new Map(); // map to store the initial values of the tag checkboxes
-let userId; // user id
 
 /* Opens the add tag section & populates it with the user tags */
 function toggleAdd() {
@@ -30,6 +30,8 @@ function toggleAdd() {
     allTags.insertAdjacentHTML('beforeend', tagHTML);
   }
   addTagWrapper.classList.toggle('open');
+  if (getUserId()) addTagWrapper.classList.add('logged-in');
+  else addTagWrapper.classList.remove('logged-in');
 }
 
 
@@ -61,7 +63,8 @@ function saveTags() {
     updates[`tags/${tagId}/days/${fullDate}`] = value; 
   });
 
-  db.ref(`users/${userId}`).update(updates); // bulk add/remove through update
+  const userId = getUserId();
+  if (userId) db.ref(`users/${userId}`).update(updates); // bulk add/remove through update
 
   displayTags(added); // display the updated tags in the frontend
 }
@@ -88,9 +91,7 @@ function displayTags(added) {
 
 
 /* Initialize the add widget buttons and set the id */
-function initAddWidget(uid) {
-  userId = uid;
-
+function initAddWidget() {
   /* Saves the selected tags to the database when clicking the save button */
   const saveBtn = document.querySelector('.save-btn');
   saveBtn.addEventListener('click', saveTags);
