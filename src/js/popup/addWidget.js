@@ -67,6 +67,11 @@ function saveTags() {
   if (userId) db.ref(`users/${userId}`).update(updates); // bulk add/remove through update
 
   displayTags(added); // display the updated tags in the frontend
+
+  // if calendar is open, then remove user data from there
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { greeting: 'updating day tags', updated: added, date: fullDate });
+  });
 }
 
 
