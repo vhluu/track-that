@@ -70,6 +70,11 @@ export function setTags(userId) {
   });
 }
 
+/* Clears the tags and day tags variables */
+export function clearTags() {
+  tags = null;
+  dayTags = null;
+}
 
 /* Initialize the Calendar date and cta */
 export function initCalendar() {

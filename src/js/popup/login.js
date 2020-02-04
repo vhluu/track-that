@@ -1,4 +1,5 @@
-import { setTags } from './calendar';
+import { setTags, clearTags } from './calendar';
+import { toggleAdd } from './addWidget';
 
 let userId;
 
@@ -60,6 +61,9 @@ export function initLogin() {
 
         showSignIn(); // show sign in button
         userId = null; // unset user id
+        clearTags(); // clear user tags
+        const addTagWrapper = document.querySelector('.add-tag-wrapper');
+        if (addTagWrapper.classList.contains('open')) toggleAdd();
 
         // if calendar is open, then remove user data from there
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

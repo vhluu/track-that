@@ -6,7 +6,7 @@ import { getUserId } from './login';
 const initialVals = new Map(); // map to store the initial values of the tag checkboxes
 
 /* Opens the add tag section & populates it with the user tags */
-function toggleAdd() {
+export function toggleAdd() {
   const addTagWrapper = document.querySelector('.add-tag-wrapper');
   const allTags = addTagWrapper.querySelector('.all-tags');
   const tags = getTags();
