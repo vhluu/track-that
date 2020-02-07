@@ -1,0 +1,36 @@
+.calendar-wrapper {
+  user-select: none;
+
+  @media only screen and (min-width: 1024px) {
+    padding: 20px 0 20px 30px;
+    border-left: 1px solid rgba(0,0,0,0.05);
+    width: 90%;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    padding-left: 40px;
+  }
+}
+
+.calendar-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .curr-date {
+    margin: 0 6px;
+    width: 193px;
+    text-align: center;
+
+    @media only screen and (min-width: 1600px) {
+      .curr-date {
+        width: 210px;
+      }
+    }
+
+    .curr-year {
+      color: rgba(93,114,123,0.7);
+    }
+  }
+  
+}

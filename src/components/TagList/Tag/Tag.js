@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Tag.scss';
 
 class Tag extends Component {
   onDragStart(e) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Checkbox.scss';
 
 function Checkbox(props) {
   const { children, id, extraClasses, onChange, index, checked = false } = props;

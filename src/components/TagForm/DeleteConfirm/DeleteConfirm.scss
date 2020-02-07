@@ -1,0 +1,36 @@
+.delete-confirm {
+  position: absolute;
+  padding: 18px 10px 15px 10px;
+  width: 250px;
+  text-align: center;
+  left: -114px;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
+  bottom: 50px;
+
+  @media only screen and (min-width: 1600px) {
+    width: 275px;
+    padding: 20px 10px 17px 10px;
+  }
+
+  .btn {
+    padding: 5px 11px;
+  }
+
+  .btn-delete {
+    background: #ff8787;
+    margin-left: 5px;
+  }
+}
+
+.delete-confirm-title {
+  margin: 0 0 6px 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.delete-confirm-desc {
+  margin: 0 0 8px 0;
+  opacity: 0.8;
+}

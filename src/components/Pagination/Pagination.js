@@ -1,4 +1,5 @@
 import React from 'react';
+import './Pagination.scss';
 
 function Pagination(props) {
   const { prevClick, nextClick, children } = props;

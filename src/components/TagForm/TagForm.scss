@@ -1,0 +1,26 @@
+.tag-field-wrapper {
+  margin-bottom: 15px;
+}
+
+.tag-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag-error-message {
+  color: #ff8787;
+  margin: 0 0 10px 0;
+}
+
+.tag-update .btn-create-tag{
+  display: none;
+}
+
+.tag-add .tag-btn-wrapper {
+  display: none;
+}
+
+.tag-delete-wrapper {
+  position: relative;
+}

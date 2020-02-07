@@ -1,0 +1,50 @@
+.calendar { 
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+  background-image: linear-gradient(90deg, rgb(212, 253, 234),rgb(215, 251, 255));
+  position: relative;
+}
+
+.cal-header { 
+  flex-basis: calc(100%/7); 
+  max-width: calc(100%/7); 
+  box-shadow: -1px -1px rgb(178, 232, 205), inset -1px -1px 0 0 rgb(178, 232, 205);
+  width: 106px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-size: 12px;
+  color: rgb(76, 193, 138);
+  padding: 7px;
+
+  @media only screen and (min-width: 1480px) {
+    font-size: 13px;
+  }
+  @media only screen and (min-width: 1600px) {
+    font-size: 14px;
+  }
+}
+
+
+/* ==== DAY MODAL ==== */
+.edit-day-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  min-width: 250px;
+
+  .edit-day {
+    font-size: 18px;
+    margin-top: 0;
+    font-weight: 600;
+    text-align: right;
+    margin-bottom: 0;
+  }  
+
+  .delete-icon {
+    margin-top: 5px;
+  }
+}

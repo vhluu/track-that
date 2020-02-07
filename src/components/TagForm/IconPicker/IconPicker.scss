@@ -1,0 +1,28 @@
+.tag-field-icon {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e6eaee;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 6px;
+
+  @media only screen and (min-width: 1600px) {
+    font-size: 14px;
+  }
+}
+
+.tag-emoji-picker {
+  position: absolute;
+  top: -30px;
+  left: 70px;
+  z-index: 10;
+}
+
+emoji-picker {
+  position: absolute;
+  z-index: 40;
+  pointer-events: auto !important;
+}
