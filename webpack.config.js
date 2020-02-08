@@ -29,13 +29,13 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin([
-      { from: 'src', to: '', ignore: ['js/*', 'components/**/*', 'index.js'] },
+      { from: 'src', to: '', ignore: ['*.js', '*.scss'] },
     ]),
   ],
   output: {
     filename: 'js/[name].min.js',
     chunkFilename: 'js/[name].min.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
   },
   watch: true,
 };
