@@ -1,3 +1,6 @@
+
+@import '../../sass/variables';
+
 .pagination {
   display: flex;
   align-items: center;
@@ -16,7 +19,7 @@
   text-align: center;
   cursor: pointer;
 
-  @media only screen and (min-width: 1600px) {
+  @media screen and (min-width: $bp-desktop-lg) {
     width: 24px;
     font-size: 20px;
     height: 24px;

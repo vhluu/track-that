@@ -1,3 +1,6 @@
+@import '../../sass/variables';
+
+// Calendar
 .calendar { 
   display: flex; 
   flex-wrap: wrap; 
@@ -6,6 +9,8 @@
   position: relative;
 }
 
+
+// Calendar Header
 .cal-header { 
   flex-basis: calc(100%/7); 
   max-width: calc(100%/7); 
@@ -18,22 +23,23 @@
   color: rgb(76, 193, 138);
   padding: 7px;
 
-  @media only screen and (min-width: 1480px) {
+  @media screen and (min-width: $bp-desktop-md) {
     font-size: 13px;
   }
-  @media only screen and (min-width: 1600px) {
+
+  @media screen and (min-width: $bp-desktop-lg) {
     font-size: 14px;
   }
 }
 
 
-/* ==== DAY MODAL ==== */
+// Day Modal
 .edit-day-modal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10;
+  z-index: $zindex-day-modal;
   min-width: 250px;
 
   .edit-day {

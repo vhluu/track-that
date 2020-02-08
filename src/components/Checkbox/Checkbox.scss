@@ -1,3 +1,7 @@
+
+@import '../../sass/variables';
+
+// Checkbox Wrapper
 .checkbox-wrapper {
   margin-bottom: 8px;
 
@@ -18,12 +22,14 @@
     cursor: pointer;
     padding: 8px;
 
-    @media only screen and (min-width: 1600px) {
+    @media screen and (min-width: $bp-desktop-lg) {
       padding: 10px;
     }
   }
 }
 
+
+// Custom Checkbox
 .custom-checkbox {
   width: 18px;
   height: 18px;
@@ -53,12 +59,13 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   border-width: 0 2.5px 2.5px 0;
 }
 
-
 .day-checkboxes {
   max-height: 250px;
   overflow-y: auto;
 }
 
+
+// Select All
 .select-all {
   border-bottom: 1px solid #e6eaee;
   padding-bottom: 5px;

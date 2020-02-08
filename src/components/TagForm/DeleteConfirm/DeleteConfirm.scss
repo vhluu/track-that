@@ -1,3 +1,6 @@
+
+@import '../../../sass/variables';
+
 .delete-confirm {
   position: absolute;
   padding: 18px 10px 15px 10px;
@@ -9,7 +12,7 @@
   box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
   bottom: 50px;
 
-  @media only screen and (min-width: 1600px) {
+  @media screen and (min-width: $bp-desktop-lg) {
     width: 275px;
     padding: 20px 10px 17px 10px;
   }

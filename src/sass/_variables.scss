@@ -1,0 +1,23 @@
+// #### Media query breakpoints
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-desktop-sm: 1200px;
+$bp-desktop-md: 1480px;
+$bp-desktop-lg: 1600px;
+
+
+// #### Retina specific query
+$retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)"; 
+
+
+// #### Fonts
+$font-stack: 'Quicksand', sans-serif;
+
+
+// #### Z-index master list
+$zindex-day-modal: 10;
+$zindex-logo: 10;
+$zindex-tag-emoji: 10;
+$zindex-modal: 20;
+$zindex-emoji-picker: 40;
+

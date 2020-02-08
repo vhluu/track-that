@@ -1,4 +1,6 @@
-/* ==== TAGS ==== */
+@import '../../sass/variables';
+
+// Tags Container
 .tags-container {
   margin-bottom: 30px;
 
@@ -20,8 +22,8 @@
   }
 }
 
-
-@media only screen and (min-width: 1024px) {
+// Tags Container (Desktop)
+@media screen and (min-width: $bp-desktop) {
   .tags-container {
     margin-bottom: 0;
 
@@ -52,7 +54,7 @@
   display: flex;
   flex-wrap: wrap;
 
-  @media only screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     display: block;
   }
 }

@@ -1,17 +1,22 @@
+@import '../../sass/variables';
+
+// Calendar Wrapper
 .calendar-wrapper {
   user-select: none;
 
-  @media only screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     padding: 20px 0 20px 30px;
     border-left: 1px solid rgba(0,0,0,0.05);
     width: 90%;
   }
 
-  @media only screen and (min-width: 1200px) {
+  @media screen and (min-width: $bp-desktop-sm) {
     padding-left: 40px;
   }
 }
 
+
+// Calendar Top
 .calendar-top {
   display: flex;
   align-items: center;
@@ -22,7 +27,7 @@
     width: 193px;
     text-align: center;
 
-    @media only screen and (min-width: 1600px) {
+    @media screen and (min-width: $bp-desktop-lg) {
       .curr-date {
         width: 210px;
       }
@@ -32,5 +37,4 @@
       color: rgba(93,114,123,0.7);
     }
   }
-  
 }

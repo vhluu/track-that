@@ -1,5 +1,6 @@
+@import '../../../sass/variables';
 
-
+// Day
 .day { 
   flex-basis: calc(100%/7); 
   max-width: calc(100%/7); 
@@ -16,20 +17,21 @@
   padding: 6px 5px;
   overflow: scroll;
 
-  @media only screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     height: 13vh;
   }
-  
-  @media only screen and (min-width: 1480px) {
+
+  @media screen and (min-width: $bp-desktop-md) {
     font-size: 15px;
   }
 
-  @media only screen and (min-width: 1600px) {
+  @media screen and (min-width: $bp-desktop-lg) {
     font-size: 16px;
   }
 }
 
 
+// Day Number
 .day-number {
   position: absolute;
   right: 8px;
@@ -49,6 +51,7 @@
 }
 
 
+// Day Tag
 .day-tags {
   display: flex;
   flex-wrap: wrap;
@@ -63,12 +66,11 @@
     margin-bottom: 5px;
     text-align: center;
 
-    /* Retina-specific stuff here */
-    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+    @media #{$retina} { 
       text-align: right;
     }
 
-    @media only screen and (min-width: 1600px) {
+    @media screen and (min-width: $bp-desktop-lg) {
       font-size: 16px;
       width: 27px;
       height: 27px;
@@ -77,6 +79,7 @@
 }
 
 
+// Current day
 .current-day {
   .bar {
     position: absolute;
@@ -95,7 +98,6 @@
   background: transparent;
   color: rgb(131, 208, 172);
 }
-
 
 .dragged {
   opacity: 0.5;

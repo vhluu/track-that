@@ -1,3 +1,6 @@
+@import '../../sass/variables';
+
+// Button
 .btn {
   border-radius: 10px;
   font-weight: 500;
@@ -11,30 +14,31 @@
   &:hover {
     cursor: pointer;
   }
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 16px;
+  }
 }
 
+
+// Dashed Button
 .btn-dashed {
   width: fit-content;
   color: #62d1e4;
   border: 1px dashed #62d1e4;
   background: rgba(92,231,255,0.1);
-}
 
-.btn-smaller {
-  padding: 6px 12px;
-}
-
-
-@media only screen and (min-width: 1600px) {
-  .btn {
-    font-size: 16px;
-  }
-
-  .btn-dashed {
+  @media screen and (min-width: $bp-desktop-lg) {
     padding: 12px;
   }
-  
-  .btn-smaller {
+}
+
+
+// Smaller Button
+.btn-smaller {
+  padding: 6px 12px;
+
+  @media screen and (min-width: $bp-desktop-lg) {
     font-size: 15px;
   }
 }

@@ -1,4 +1,6 @@
+@import '../../sass/variables';
+
 .modal {
   position: absolute;
-  z-index: 20;
+  z-index: $zindex-modal;
 }

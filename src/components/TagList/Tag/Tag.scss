@@ -1,3 +1,5 @@
+@import '../../../sass/variables';
+
 .tag {
   cursor: move; /* fallback */
   cursor: grab;
@@ -14,15 +16,15 @@
   max-width: 200px;
   overflow-x: auto;
 
-  @media only screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     margin: 0 0 5px 0;
   }
 
-  @media only screen and (min-width: 1480px) {
+  @media screen and (min-width: $bp-desktop-md) {
     font-size: 15px;
   }
 
-  @media only screen and (min-width: 1600px) {
+  @media screen and (min-width: $bp-desktop-lg) {
     font-size: 16px;
     padding: 12px;
     margin: 0 0 7px 0;
