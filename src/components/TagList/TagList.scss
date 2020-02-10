@@ -3,7 +3,7 @@
 .tags-list {
   position: relative;
   display: flex;
-  overflow: scroll;
+  overflow: auto;
 
   @media screen and (min-width: $bp-desktop) {
     display: block;

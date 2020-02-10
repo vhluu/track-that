@@ -15,7 +15,7 @@
   height: 10vh;
   min-height: 80px;
   padding: 6px 5px;
-  overflow: scroll;
+  overflow: auto;
 
   @media screen and (min-width: $bp-desktop) {
     height: 13vh;
