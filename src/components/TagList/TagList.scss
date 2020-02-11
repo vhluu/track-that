@@ -1,0 +1,12 @@
+@import '../../sass/variables';
+
+.tags-list {
+  position: relative;
+  display: flex;
+  overflow: auto;
+
+  @media screen and (min-width: $bp-desktop) {
+    display: block;
+    max-height: 55vh;
+  }
+}

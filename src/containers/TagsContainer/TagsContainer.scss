@@ -1,0 +1,60 @@
+@import '../../sass/variables';
+
+// Tags Container
+.tags-container {
+  margin-bottom: 30px;
+
+  h2 {
+    margin: 0 0 5px 0;
+  }
+
+  & > p {
+    display: none;
+  }
+
+  .btn-dashed {
+    margin: 5px 0 0 5px;
+  }
+
+  .modal {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+// Tags Container (Desktop)
+@media screen and (min-width: $bp-desktop) {
+  .tags-container {
+    margin-bottom: 0;
+
+    h2 {
+      margin: 18px 0;
+    }
+
+    & > p {
+      display: block;
+      max-width: 85%;
+    }
+
+    .btn-dashed {
+      margin: 10px 0 0 0;
+      padding: 10px;
+      line-height: 16px;
+    }
+
+    .modal {
+      top: 50%;
+      transform: translateY(-50%);
+      left: 150px;
+    }
+  }
+}
+
+.tags-main-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  @media screen and (min-width: $bp-desktop) {
+    display: block;
+  }
+}

@@ -1,0 +1,193 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap);
+@import '../../sass/variables';
+
+// #### General
+* { 
+  box-sizing: border-box; 
+}
+
+body {
+  font-family: $font-stack;
+  margin: 0;
+  min-height: 100vh;
+  /* background-image: linear-gradient(125deg, rgb(172, 239, 208),rgb(182, 240, 247)); */
+  background-image: linear-gradient(125deg, rgb(172, 239, 208),#adeffb);
+  color:rgb(93, 114, 123);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  outline: none;
+  font-size: 14px;
+  font-family: $font-stack;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #e6eaee;
+  box-shadow: none;
+  color: #2c355a;
+
+  &::placeholder {
+    color: #b7bdc3;
+  }
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 16px;
+  }
+}
+
+label {
+  color: #56618f;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 2px;
+  display: block;
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+}
+
+p {
+  font-weight: 500;
+  font-size: 14px;
+
+  @media screen and (min-width: $bp-desktop-md) {
+    font-size: 15px;
+  }
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 16px;
+  }
+}
+
+
+// #### Typography
+h1 {
+  font-size: 25px;
+  font-weight: 700;
+}
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+@media screen and (min-width: $bp-desktop-lg) {
+  h1 {
+    font-size: 27px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+}
+
+
+// #### Colors
+.violet { background-color: #f6e6ff; }
+.indigo { background-color: #dfedff; }
+.skyblue { background-color: #d1faff; } 
+.aquamarine { background-color: #d0fde6; } 
+.lime { background-color: #e8fbd0; }
+.orange { background-color: #ffefd2; }
+.red { background-color: #ffdbdb; }
+.rose { background-color: #ffdeea; }
+.pink { background-color: #ffe3ff; }
+.purple { background-color: #e7e6ff; }
+.blue { background-color: #d5f1ff; } 
+.teal { background-color: #cefdf7; }
+.green { background-color: #dcffdc; }
+.yellow { background-color: #fffcd4; }
+.redorange { background-color: #ffe5d6; }
+.gray { background-color: #edf1f3; }
+
+
+// #### Layout
+.section {
+  padding: 0 40px;
+  position: relative;
+}
+
+.main-wrapper {
+  max-width: 90vw;
+  margin: 30px auto;
+
+  @media screen and (min-width: $bp-desktop) {
+    align-items: flex-start;
+    position: relative;
+  }
+
+  @media screen and (min-width: $bp-desktop-sm) {
+    max-width: 80vw;
+    padding: 30px 40px;
+  }
+}
+
+@media screen and (min-width: $bp-tablet) {
+  .flex_t { display: flex; }
+}
+@media screen and (min-width: $bp-desktop) {
+  .flex_d { display: flex; }
+}
+
+
+// #### Helper Classes
+.hide {
+  display: none !important;
+}
+
+.prevent-click {
+  pointer-events: none;
+}
+
+
+// #### Card
+.card {
+  box-shadow: 0 0 11px 0 #eaf0f6;
+  border-radius: 15px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
+}
+
+
+// #### Delete Icon
+.delete-icon {
+  height: 30px;
+  overflow: visible;
+
+  * {
+    pointer-events: none;
+  }
+
+  .delete-icon-top {
+    transition: transform 0.7s;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .delete-icon-top {
+      transform: translateX(-40px) rotate(-20deg);
+    }
+  }
+}
+
+
+// #### Sign-in Modal
+.sign-in-modal {
+  text-align: center;
+  padding: 20px;
+
+  p {
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    text-align: center;
+    color: #f96363;
+    border-radius: 5px;
+    margin-top: 0;
+    padding: 15px 10px;
+    font-weight: 600;
+  }
+}

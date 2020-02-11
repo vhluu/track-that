@@ -1,0 +1,30 @@
+@import '../../../sass/variables';
+
+.tag-field-icon {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e6eaee;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 6px;
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 14px;
+  }
+}
+
+.tag-emoji-picker {
+  position: absolute;
+  top: -30px;
+  left: 70px;
+  z-index: $zindex-tag-emoji;
+}
+
+emoji-picker {
+  position: absolute;
+  z-index: $zindex-emoji-picker;
+  pointer-events: auto !important;
+}

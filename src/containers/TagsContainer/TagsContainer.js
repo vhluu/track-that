@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Button from '../components/Button/Button';
-import Modal from '../components/Modal/Modal';
-import TagForm from '../components/TagForm/TagForm';
-import TagList from '../components/TagList/TagList';
+import Button from '../../components/Button/Button';
+import Modal from '../../components/Modal/Modal';
+import TagForm from '../../components/TagForm/TagForm';
+import TagList from '../../components/TagList/TagList';
+import './TagsContainer.scss';
 
-import * as actions from '../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 class TagsContainer extends Component {
   constructor(props) {

@@ -1,0 +1,40 @@
+@import '../../sass/variables';
+
+// Calendar Wrapper
+.calendar-wrapper {
+  user-select: none;
+
+  @media screen and (min-width: $bp-desktop) {
+    padding: 20px 0 20px 30px;
+    border-left: 1px solid rgba(0,0,0,0.05);
+    width: 90%;
+  }
+
+  @media screen and (min-width: $bp-desktop-sm) {
+    padding-left: 40px;
+  }
+}
+
+
+// Calendar Top
+.calendar-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .curr-date {
+    margin: 0 6px;
+    width: 193px;
+    text-align: center;
+
+    @media screen and (min-width: $bp-desktop-lg) {
+      .curr-date {
+        width: 210px;
+      }
+    }
+
+    .curr-year {
+      color: rgba(93,114,123,0.7);
+    }
+  }
+}

@@ -1,0 +1,32 @@
+@import '../../../sass/variables';
+
+.tag {
+  cursor: move; /* fallback */
+  cursor: grab;
+  position: relative;
+  color: rgba(14,30,37,0.6);
+  padding: 10px 10px;
+  font-size: 14px;
+  line-height: 16px;
+  border-radius: 10px;
+  font-weight: 500;
+  width: fit-content;
+  margin: 5px 5px 0 5px;
+  white-space: nowrap;
+
+  @media screen and (min-width: $bp-desktop) {
+    margin: 0 0 5px 0;
+    max-width: 200px;
+    overflow-x: auto;
+  }
+
+  @media screen and (min-width: $bp-desktop-md) {
+    font-size: 15px;
+  }
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 16px;
+    padding: 12px;
+    margin: 0 0 7px 0;
+  }
+}

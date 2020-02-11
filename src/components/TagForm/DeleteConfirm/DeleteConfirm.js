@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../../Button/Button';
+import './DeleteConfirm.scss';
 
 function DeleteConfirm(props) {
   const { cancel, myDelete } = props;

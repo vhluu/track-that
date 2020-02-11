@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Tag from './Tag/Tag';
+import './TagList.scss';
 
 function TagList(props) {
   const { tags, onClick } = props;

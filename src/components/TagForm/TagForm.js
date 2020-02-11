@@ -5,6 +5,8 @@ import ColorPicker from './ColorPicker/ColorPicker';
 import DeleteConfirm from './DeleteConfirm/DeleteConfirm';
 import IconPicker from './IconPicker/IconPicker';
 
+import './TagForm.scss';
+
 class TagForm extends Component {
   constructor(props) {
     super(props);

@@ -1,5 +1,6 @@
 import React from 'react';
 import ColorPickerItem from './ColorPickerItem/ColorPickerItem';
+import './ColorPicker.scss';
 
 function ColorPicker(props) {
   const { onChange, defaultVal } = props;

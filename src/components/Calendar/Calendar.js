@@ -4,7 +4,7 @@ import Day from './Day/Day';
 import Modal from '../Modal/Modal';
 import Checkbox from '../Checkbox/Checkbox';
 
-import './Calendar.css';
+import './Calendar.scss';
 
 class Calendar extends Component {
   constructor(props) {

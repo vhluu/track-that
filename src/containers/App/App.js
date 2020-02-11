@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import TagsContainer from './TagsContainer';
-import CalendarContainer from './CalendarContainer';
+import TagsContainer from '../TagsContainer/TagsContainer';
+import CalendarContainer from '../CalendarContainer/CalendarContainer';
 
-import * as actions from '../store/actions/index';
+import './App.scss';
+
+import * as actions from '../../store/actions/index';
 
 class App extends Component {
   componentDidMount() {

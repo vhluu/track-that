@@ -1,4 +1,5 @@
 import React from 'react';
+import './Day.scss';
 
 function Day(props) {
   const { date, full, onClick, tags, tagsReady, onDragOver, onDragEnter, onDragLeave, onDrop, getTagInfo, currentMonth, current } = props;

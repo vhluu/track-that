@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import 'emoji-mart/css/emoji-mart.css';
+import '../../../sass/emoji-mart.scss';
 import data from 'emoji-mart/data/all.json';
 import { NimblePicker } from 'emoji-mart';
+import './IconPicker.scss';
 
 class IconPicker extends Component {
   constructor(props) {

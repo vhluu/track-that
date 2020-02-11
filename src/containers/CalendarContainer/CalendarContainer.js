@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Calendar from '../components/Calendar/Calendar';
-import Pagination from '../components/Pagination/Pagination';
-import Button from '../components/Button/Button';
+import Calendar from '../../components/Calendar/Calendar';
+import Pagination from '../../components/Pagination/Pagination';
+import Button from '../../components/Button/Button';
+import './CalendarContainer.scss';
 
-import * as actions from '../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 class CalendarContainer extends Component {
   constructor(props) {
