@@ -7,6 +7,8 @@ export const addDayTag = (tagId, date) => ({ type: actionTypes.ADD_DAY_TAG, tagI
 
 export const updateDayTag = (tag) => ({ type: actionTypes.UPDATE_DAY_TAG, tag });
 
+export const replaceDayTags = (tags, date) => ({ type: actionTypes.REPLACE_DAY_TAGS, tags, date });
+
 export const createDayTag = (tagId, date) => {
   return (dispatch, getState) => {
     const { uid } = getState();

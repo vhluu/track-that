@@ -8,7 +8,7 @@ import * as actions from '../store/actions/index';
 
 class App extends Component {
   componentDidMount() {
-    const { onInitUser, onSignOutUser } = this.props;
+    const { onInitUser, onSignOutUser, onReplaceDayTags } = this.props;
     onInitUser('hello from calendar');
 
     chrome.runtime.onMessage.addListener(
@@ -16,6 +16,8 @@ class App extends Component {
         console.log(request);
         if (request.greeting === 'sign out app') {
           onSignOutUser();
+        } else if (request.greeting === 'updating day tags') {
+          onReplaceDayTags(request.updated, request.date);
         }
         return true;
       },
@@ -44,6 +46,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onInitUser: (msg) => dispatch(actions.initUser(msg)),
     onSignOutUser: () => dispatch(actions.signOutUser()),
+    onReplaceDayTags: (tags, date) => dispatch(actions.replaceDayTags(tags, date)),
   };
 };
 

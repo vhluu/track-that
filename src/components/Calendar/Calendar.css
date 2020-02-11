@@ -497,6 +497,22 @@ input[type="checkbox"]:checked + label .custom-checkbox:before {
   margin-top: 5px;
 }
 
+/* ==== SIGN IN MODAL ==== */
+.sign-in-modal {
+  text-align: center;
+  padding: 20px;
+}
+.sign-in-modal p {
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  text-align: center;
+  color: #f96363;
+  border-radius: 5px;
+  margin-top: 0;
+  padding: 15px 10px;
+  font-weight: 600;
+}
+
 /* ==== DRAG & DROP ==== */
 .dragged {
   opacity: 0.5;

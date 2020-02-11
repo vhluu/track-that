@@ -95,8 +95,8 @@ class TagsContainer extends Component {
             toggleSelf={this.toggleTagModal.bind(this)}
           />
         </Modal>
-        <Modal show={showSignIn} closeSelf={this.closeSignInModal}>
-          <p>Please sign in to continue!</p>
+        <Modal show={showSignIn} closeSelf={this.closeSignInModal} extraClasses="sign-in-modal">
+          <p className="red">Please sign in to continue!</p>
           <Button clicked={this.signIn}>Sign in w/ Google</Button>
         </Modal>
       </div>

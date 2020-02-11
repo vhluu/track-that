@@ -150,6 +150,15 @@ const reducer = (state = initialState, action) => {
       } 
       return updatedState;
     }
+    case actionTypes.REPLACE_DAY_TAGS: {
+      return {
+        ...state, 
+        dayTags: {
+          ...state.dayTags,
+          [action.date]: action.tags,
+        },
+      };
+    }
     default:
       return state;
   }

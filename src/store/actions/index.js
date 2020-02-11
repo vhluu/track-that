@@ -14,4 +14,5 @@ export {
   updateDayTag,
   deleteDayTag,
   getDayTags,
+  replaceDayTags,
 } from './dayTag';
