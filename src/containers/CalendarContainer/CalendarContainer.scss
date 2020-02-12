@@ -24,12 +24,12 @@
 
   .curr-date {
     margin: 0 6px;
-    width: 193px;
+    min-width: 193px;
     text-align: center;
 
     @media screen and (min-width: $bp-desktop-lg) {
       .curr-date {
-        width: 210px;
+        min-width: 210px;
       }
     }
 
