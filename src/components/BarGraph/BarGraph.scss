@@ -1,0 +1,59 @@
+.bar-graph {
+  padding: 20px 50px;
+  .graph-inner {
+    display: flex;
+    height: 150px;
+    width: 150px;
+    border-left: 1px solid #dff1f5;
+    border-bottom: 1px solid #dff1f5;
+    position: relative;
+
+    & > div:last-child {
+      margin-right: 10px;
+    }
+  }
+
+  .bar-wrapper {
+    height: 100%;
+    position: relative;
+    width: 20px;
+    margin-left: 10px;
+    background: rgb(236, 249, 255);
+
+    .label {
+      position: absolute;
+      bottom: -20px;
+      font-weight: 500;
+    }
+  }
+
+  .bar {
+    border-radius: 4px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-image: linear-gradient(#bae8ff, #b5f3fb);
+  }
+}
+
+.x-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  width: 100%;
+
+  .x-axis-lines {
+    border-bottom: 1px solid #dff1f5;
+    position: relative;
+  }
+
+  .x-axis-label {
+    position: absolute;
+    left: -20px;
+    top: -50%;
+    transform: translateY(-50%);
+  }
+}

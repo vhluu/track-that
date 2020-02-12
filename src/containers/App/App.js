@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import TagsContainer from '../TagsContainer/TagsContainer';
 import CalendarContainer from '../CalendarContainer/CalendarContainer';
+import BarGraph from '../../components/BarGraph/BarGraph';
 
 import './App.scss';
 
@@ -32,6 +33,7 @@ class App extends Component {
       <div className="app flex_d main-wrapper card">
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
+        <BarGraph />
       </div>
     );
   }
