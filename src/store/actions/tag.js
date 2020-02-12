@@ -34,7 +34,7 @@ export const updateTag = (updatedTag) => {
 export const deleteTag = (tagId) => {
   return (dispatch, getState) => {
     const { uid } = getState();
-    db.ref(`users/${uid}/tags/${tagId}/days`).once('value').then((snapshot) => {
+    db.ref(`users/${uid}/tags/${tagId}/stats`).once('value').then((snapshot) => {
       const days = snapshot.val();
       const updates = {};
       if (days) {

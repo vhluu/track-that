@@ -83,9 +83,9 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userId: null,
-        tags: [],
+        tags: {},
         nextId: 1,
-        dayTags: null,
+        dayTags: {},
         savedStart: null,
         savedEnd: null,
       };

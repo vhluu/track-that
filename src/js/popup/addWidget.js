@@ -60,7 +60,7 @@ function saveTags() {
 
     // update the values in the database for the tagged day
     updates[`tagged/${fullDate}/${tagId}`] = value;
-    updates[`tags/${tagId}/days/${fullDate}`] = value; 
+    updates[`stats/${tagId}/${fullDate}`] = value; 
   });
 
   const userId = getUserId();
