@@ -43,8 +43,15 @@ class Calendar extends Component {
     if (e.stopPropagation) { e.stopPropagation(); }
 
     // creates tag elements
-    const { onCreateDayTag } = this.props;
-    onCreateDayTag(e.dataTransfer.getData('text/plain'), e.target.getAttribute('data-date'));
+    const { onCreateDayTag, dayTags } = this.props;
+
+    const dropId = e.dataTransfer.getData('text/plain');
+    const dropDate = e.target.getAttribute('data-date');
+    
+    // add day tag if that tag wasnt already added
+    if (!(dayTags[dropDate] && dayTags[dropDate].includes(dropId))) {
+      onCreateDayTag(e.dataTransfer.getData('text/plain'), dropDate);
+    }
     if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
   }
 
