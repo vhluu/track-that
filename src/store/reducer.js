@@ -2,9 +2,9 @@ import * as actionTypes from './actions/actionTypes';
 
 const initialState = {
   uid: null, // the user id
-  tags: [],
+  tags: {},
   nextId: 1, // the next id to use for newly created tags
-  dayTags: null,
+  dayTags: {},
   savedStart: null, // the start date for the days we have already grabbed from the database
   savedEnd: null, // the end date ...
 };
