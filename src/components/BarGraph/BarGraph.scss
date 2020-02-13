@@ -1,5 +1,6 @@
 .bar-graph {
   padding: 20px 50px;
+
   .graph-inner {
     display: flex;
     height: 150px;
@@ -9,7 +10,7 @@
     position: relative;
 
     & > div:last-child {
-      margin-right: 10px;
+      margin-right: 15px;
     }
   }
 
@@ -17,7 +18,7 @@
     height: 100%;
     position: relative;
     width: 20px;
-    margin-left: 10px;
+    margin-left: 15px;
     background: rgb(236, 249, 255);
 
     .label {
@@ -33,6 +34,20 @@
     bottom: 0;
     width: 100%;
     background-image: linear-gradient(#bae8ff, #b5f3fb);
+    min-height: 0;
+    transition: min-height 1s;
+
+    // .bar-value {
+    //   display: none;
+    // }
+
+    .bar-value {
+      display: block;
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 }
 

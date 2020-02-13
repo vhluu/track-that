@@ -29,11 +29,18 @@ class App extends Component {
 
   render() {
     const { tags, uid } = this.props;
+
+    const data = [{ label: 'Jan', value: 10 }, { label: 'Feb', value: 20 }, { label: 'Mar', value: 15 }, { label: 'Apr', value: 6 }];
+    
+    const labelStep = 2;
+    const lineStep = 5;
+    const graphMax = 30;
+
     return (
       <div className="app flex_d main-wrapper card">
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
-        <BarGraph />
+        <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
       </div>
     );
   }
