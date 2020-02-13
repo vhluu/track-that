@@ -4,12 +4,24 @@ import { connect } from 'react-redux';
 import TagsContainer from '../TagsContainer/TagsContainer';
 import CalendarContainer from '../CalendarContainer/CalendarContainer';
 import BarGraph from '../../components/BarGraph/BarGraph';
+import Button from '../../components/Button/Button';
+import Modal from '../../components/Modal/Modal';
 
 import './App.scss';
 
 import * as actions from '../../store/actions/index';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showGraph: false,
+    };
+
+    this.toggleGraph = this.toggleGraph.bind(this);
+  }
+
   componentDidMount() {
     const { onInitUser, onSignOutUser, onReplaceDayTags } = this.props;
     onInitUser('hello from calendar');
@@ -27,8 +39,16 @@ class App extends Component {
     );
   }
 
+  toggleGraph() {
+    console.log('toggling graph');
+    this.setState((prevState) => ({
+      showGraph: !prevState.showGraph,
+    }));
+  }
+
   render() {
     const { tags, uid } = this.props;
+    const { showGraph } = this.state;
 
     const data = [{ label: 'Jan', value: 10 }, { label: 'Feb', value: 20 }, { label: 'Mar', value: 15 }, { label: 'Apr', value: 6 }];
     
@@ -40,7 +60,13 @@ class App extends Component {
       <div className="app flex_d main-wrapper card">
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
-        <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
+
+        <Button type="round graph-button" clicked={this.toggleGraph}>Stats</Button>
+        { showGraph && (
+          <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
+            <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
+          </Modal> 
+        ) }
       </div>
     );
   }
