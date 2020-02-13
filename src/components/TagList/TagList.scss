@@ -7,6 +7,6 @@
 
   @media screen and (min-width: $bp-desktop) {
     display: block;
-    max-height: 55vh;
+    max-height: calc(55vh - 40px);
   }
 }

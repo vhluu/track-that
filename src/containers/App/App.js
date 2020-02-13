@@ -61,7 +61,7 @@ class App extends Component {
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
 
-        <Button type="round graph-button" clicked={this.toggleGraph}>Stats</Button>
+        <Button btnType="round graph-button" clicked={this.toggleGraph}>Stats</Button>
         { showGraph && (
           <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
             <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
