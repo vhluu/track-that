@@ -3,9 +3,7 @@ import * as actionTypes from './actionTypes';
 
 export const setStats = (tagId, days) => ({ type: actionTypes.SET_STATS, tagId, days });
 
-export const getStats = (tagId, start, end) => {
-  // console.log(`getting months ${start} to ${end} from database!`);
-
+export const getStats = (tagId) => {
   return (dispatch, getState) => {
     const { uid } = getState();
     // get the tags for the dates within the specified range (start to end inclusive)

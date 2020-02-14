@@ -45,7 +45,7 @@ class App extends Component {
     console.log(this.props.tags);
     const { onGetStats } = this.props;
     // grab the stats for the chosen tag
-    onGetStats('t1');
+    onGetStats('t2');
 
     this.setState((prevState) => ({
       showGraph: !prevState.showGraph,

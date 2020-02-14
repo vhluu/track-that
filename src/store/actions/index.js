@@ -11,7 +11,6 @@ export {
 
 export {
   createDayTag,
-  updateDayTag,
   deleteDayTag,
   getDayTags,
   replaceDayTags,
