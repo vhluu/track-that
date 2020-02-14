@@ -37,18 +37,21 @@ export const deleteTag = (tagId) => {
     db.ref(`users/${uid}/stats/${tagId}`).once('value').then((snapshot) => {
       const months = snapshot.val();
       const updates = {};
-      console.log(months);
+
       if (months) {
-        (Object.keys(months)).forEach((month) => {
-          (Object.keys(months[month])).forEach((day) => {
-            console.log(day);
+        (Object.values(months)).forEach((days) => {
+          (Object.keys(days)).forEach((day) => {
             updates[`users/${uid}/tagged/${day}/${tagId}`] = null; // removes tag from each month
           });
         });
+
+        updates[`users/${uid}/stats/${tagId}`] = null; // removes stats for the tag
       }
+      
       updates[`users/${uid}/tags/${tagId}`] = null; // removes tag from tag list
-      updates[`users/${uid}/stats/${tagId}`] = null; // removes stats for the tag
+
       db.ref().update(updates); // bulk remove through updates w/ value null
+
       dispatch({ type: actionTypes.DELETE_TAG, tagId });
     });
   };
