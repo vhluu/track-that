@@ -16,3 +16,7 @@ export {
   getDayTags,
   replaceDayTags,
 } from './dayTag';
+
+export {
+  getStats,
+} from './stats';

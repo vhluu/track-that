@@ -159,6 +159,12 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
+    case actionTypes.SET_STATS: {
+      console.log(action);
+      return {
+        ...state, 
+      };
+    }
     default:
       return state;
   }

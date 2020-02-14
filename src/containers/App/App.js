@@ -41,6 +41,12 @@ class App extends Component {
 
   toggleGraph() {
     console.log('toggling graph');
+    
+    console.log(this.props.tags);
+    const { onGetStats } = this.props;
+    // grab the stats for the chosen tag
+    onGetStats('t1');
+
     this.setState((prevState) => ({
       showGraph: !prevState.showGraph,
     }));
@@ -84,6 +90,7 @@ const mapDispatchToProps = (dispatch) => {
     onInitUser: (msg) => dispatch(actions.initUser(msg)),
     onSignOutUser: () => dispatch(actions.signOutUser()),
     onReplaceDayTags: (tags, date) => dispatch(actions.replaceDayTags(tags, date)),
+    onGetStats: (tagId) => dispatch(actions.getStats(tagId)),
   };
 };
 
