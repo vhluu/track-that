@@ -39,6 +39,11 @@ class App extends Component {
     );
   }
 
+  componentDidUpdate(prevProps) {
+    console.log(prevProps.stats);
+    console.log(this.props.stats);
+  }
+
   toggleGraph() {
     console.log('toggling graph');
     
@@ -53,14 +58,24 @@ class App extends Component {
   }
 
   render() {
-    const { tags, uid } = this.props;
+    const { tags, uid, stats } = this.props;
     const { showGraph } = this.state;
 
-    const data = [{ label: 'Jan', value: 10 }, { label: 'Feb', value: 20 }, { label: 'Mar', value: 15 }, { label: 'Apr', value: 6 }];
-    
+    // setting graph config
     const labelStep = 2;
     const lineStep = 5;
     const graphMax = 30;
+    const data = [];
+
+    // populating data array with selected tag stats
+    Object.entries(stats).forEach(([date, count]) => {
+      // getting month as abbreviated string (ex. Jan)
+      const monthString = new Date(`${date}-04`).toLocaleString('default', { month: 'short' });
+      data.push({
+        label: monthString,
+        value: count,
+      });
+    });
 
     return (
       <div className="app flex_d main-wrapper card">
@@ -82,6 +97,7 @@ const mapStateToProps = (state) => {
   return {
     tags: state.tags,
     uid: state.uid,
+    stats: state.stats,
   };
 };
 
