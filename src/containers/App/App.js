@@ -6,6 +6,7 @@ import CalendarContainer from '../CalendarContainer/CalendarContainer';
 import BarGraph from '../../components/BarGraph/BarGraph';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
+import Select from '../../components/Select/Select';
 
 import './App.scss';
 
@@ -85,6 +86,7 @@ class App extends Component {
         <Button btnType="round graph-button" clicked={this.toggleGraph}>Stats</Button>
         { showGraph && (
           <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
+            <Select />
             <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
           </Modal> 
         ) }
