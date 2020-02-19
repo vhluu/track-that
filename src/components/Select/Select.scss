@@ -6,6 +6,10 @@
   font-size: 14px;
 
   &.active {
+    .options-wrapper {
+      max-height: 200px;
+    }
+
     .option-current::after {
       transform: rotate(225deg) translate(0px, -4px);
     }
@@ -17,6 +21,7 @@
     border-radius: 5px;
     // box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
     padding: 6px 8px;
+    min-height: 37px;
 
     &:hover {
       border-color: #62d1e4;
@@ -37,20 +42,16 @@
       border-bottom: 2px solid #98a6ad;
       border-color: #85c6e6;
       border-color: #62d1e4;
-      transition: transform 1s;
+      transition: transform 0.8s;
     }
   }
 
   .options-wrapper {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 1s;
-    max-height: 200px;
+    transition: max-height 0.8s;
     position: absolute;
     box-sizing: border-box;
-    border: 1px solid rgba(0,0,0,0.1);
-    // box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
-    border-radius: 5px;
     width: 100%;
     margin-top: 5px;
     z-index: $zindex-select;
@@ -58,6 +59,12 @@
 
     &:hover {
       border-color: #62d1e4;
+    }
+
+    .options {
+      border: 1px solid rgba(0,0,0,0.1);
+      // box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
+      border-radius: 5px;
     }
   }
 
