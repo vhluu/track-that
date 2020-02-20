@@ -4,29 +4,42 @@ import './Select.scss';
 class Select extends Component {
   constructor(props) {
     super(props);
+    const { value, options } = props;
+
+    let label;
+    if (options) { // find value in options to get label
+      options.forEach((option) => {
+        if (option.value === value) {
+          label = option.label;
+        }
+      });
+    }
 
     this.state = {
-      open: false,
-      currVal: '',
-      currLabel: null,
+      open: false, // whether select dropdown menu is open
+      currVal: value || '', // currently selected value
+      currLabel: label,
     };
 
     this.toggleSelect = this.toggleSelect.bind(this);
     this.selectOption = this.selectOption.bind(this);
   }
 
-  toggleSelect(e) {
+  /* Toggles the select dropdown menu */
+  toggleSelect() {
     this.setState((prevState) => ({
       open: !prevState.open,
     }));
   }
 
+  /* Handles when user selects an option */
   selectOption(e) {
     console.log(e.target);
     const { onChange } = this.props;
 
-    if (onChange) onChange(currVal, currLabel);
+    if (onChange) onChange(currVal, currLabel); // pass value/label to onChange handler
 
+    // update current value/label and close select dropdown
     this.setState({
       currVal: e.target.getAttribute('data-value'),
       currLabel: e.target.textContent,
@@ -36,8 +49,8 @@ class Select extends Component {
 
 
   render() {
-    const options = [ { label: '😃 hello', value: 't1' }, { label: '🌊 goodbye', value: 't2' } ];
     const { open, currVal, currLabel } = this.state;
+    const { options } = this.props;
     const selectClass = open ? 'active' : '';
 
     return (

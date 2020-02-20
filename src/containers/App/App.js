@@ -78,6 +78,10 @@ class App extends Component {
       });
     });
 
+    // select dropdown options
+    const options = [ { label: '😃 hello', value: 't1' }, { label: '🌊 goodbye', value: 't2' } ];
+    const defaultValue = 't2';
+
     return (
       <div className="app flex_d main-wrapper card">
         <TagsContainer uid={uid} tags={tags} />
@@ -86,7 +90,7 @@ class App extends Component {
         <Button btnType="round graph-button" clicked={this.toggleGraph}>Stats</Button>
         { showGraph && (
           <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
-            <Select />
+            <Select value={defaultValue} options={options} />
             <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
           </Modal> 
         ) }
