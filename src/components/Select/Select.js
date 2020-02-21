@@ -36,13 +36,15 @@ class Select extends Component {
   selectOption(e) {
     console.log(e.target);
     const { onChange } = this.props;
+    const currVal = e.target.getAttribute('data-value');
+    const currLabel = e.target.textContent;
 
     if (onChange) onChange(currVal, currLabel); // pass value/label to onChange handler
 
     // update current value/label and close select dropdown
     this.setState({
-      currVal: e.target.getAttribute('data-value'),
-      currLabel: e.target.textContent,
+      currVal,
+      currLabel,
       open: false,
     });
   }

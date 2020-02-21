@@ -23,12 +23,15 @@ class StatsContainer extends Component {
       lineStep: 5, // line step of 5 will show a line for every 5n value
       graphMax: 30, // the max y-value of the graph
     };
+
+    this.onSelectChange = this.onSelectChange.bind(this);
   }
 
   componentDidMount() {
     const { onGetStats, tags } = this.props;
     
     this.populateSelect(); // populate the select dropdown
+    console.log('displaying stats for ' + Object.keys(tags)[0]);
     if (tags) onGetStats(Object.keys(tags)[0]); // set the first tag as the default dropdown value
   }
 
@@ -36,6 +39,12 @@ class StatsContainer extends Component {
     const { stats } = this.props;
     // update the graph if stats has changed
     if (prevProps.stats !== stats) this.updateGraphData();
+  }
+
+  /* Handles select dropdown change by updating graph w/ new values */
+  onSelectChange(value) {
+    const { onGetStats } = this.props;
+    onGetStats(value);
   }
   
   /* Populates the select dropdown with the tags */
@@ -85,7 +94,7 @@ class StatsContainer extends Component {
 
     return (
       <div className="stats-container">
-        { defaultValue && options && <Select value={defaultValue} options={options} /> }
+        { defaultValue && options && <Select value={defaultValue} options={options} onChange={this.onSelectChange} /> }
         <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
       </div>
     );
