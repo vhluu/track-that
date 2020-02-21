@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import BarGraph from '../../components/BarGraph/BarGraph';
 import Select from '../../components/Select/Select';
+import './StatsContainer.scss';
 
 import * as actions from '../../store/actions/index';
 
@@ -15,6 +16,7 @@ class StatsContainer extends Component {
       options: [], // options for select dropdown
       defaultValue: null, // default value for select dropdown
       data: [], // graph data
+      noneTagged: false, // boolean indicating whether the current tag has no tagged days
     };
 
     // setting graph config
@@ -71,9 +73,11 @@ class StatsContainer extends Component {
   updateGraphData() {
     const { stats } = this.props;
     const data = [];
+    const tagStats = Object.entries(stats); // stats for selected tag
+    const noneTagged = (tagStats.length === 0); // whether there are any tagged days
 
     // populating data array with selected tag stats
-    Object.entries(stats).forEach(([date, count]) => {
+    tagStats.forEach(([date, count]) => {
       // getting month as abbreviated string (ex. Jan)
       const monthString = new Date(`${date}-04`).toLocaleString('default', { month: 'short' });
       data.push({
@@ -84,18 +88,27 @@ class StatsContainer extends Component {
 
     this.setState({
       data,
+      noneTagged,
     });
   }
 
   render() {
     const { stats, tags } = this.props;
-    const { options, defaultValue, data } = this.state;
+    const { options, defaultValue, data, noneTagged } = this.state;
     const { labelStep, lineStep, graphMax } = this.graphConfig;
 
     return (
       <div className="stats-container">
         { defaultValue && options && <Select value={defaultValue} options={options} onChange={this.onSelectChange} /> }
-        <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
+        <div className="overlay-wrapper">
+          <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
+          { noneTagged && (<div className="none-tagged-msg">
+            <div>
+              <span>😮🔎</span><br />
+              No tagged days found!
+            </div>
+          </div>) }
+        </div>
       </div>
     );
   }
