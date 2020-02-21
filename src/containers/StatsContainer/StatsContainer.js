@@ -10,37 +10,57 @@ import * as actions from '../../store/actions/index';
 class StatsContainer extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      options: [], // options for select dropdown
+      defaultValue: null, // default value for select dropdown
+      data: [], // graph data
+    };
+
+    // setting graph config
+    this.graphConfig = {
+      labelStep: 2, // label step of 2 will show labels on every 2n line
+      lineStep: 5, // line step of 5 will show a line for every 5n value
+      graphMax: 30, // the max y-value of the graph
+    };
   }
 
   componentDidMount() {
-    const { stats } = this.props;
-    // populateSelect();
-    // getStats()
+    const { onGetStats, tags } = this.props;
+    
+    this.populateSelect(); // populate the select dropdown
+    if (tags) onGetStats(Object.keys(tags)[0]); // set the first tag as the default dropdown value
   }
 
-  componentDidUpdate() {
-
+  componentDidUpdate(prevProps) {
+    const { stats } = this.props;
+    // update the graph if stats has changed
+    if (prevProps.stats !== stats) this.updateGraphData();
   }
   
+  /* Populates the select dropdown with the tags */
+  populateSelect() {
+    const { tags } = this.props;
 
-  render() {
-    const { stats, tags } = this.props;
-
-    // select dropdown options
-    // const options = [ { label: '😃 hello', value: 't1' }, { label: '🌊 goodbye', value: 't2' } ];
-    const options = [];
-    let defaultValue;
     if (tags) {
+      const options = [];
+      let defaultValue;
+
       Object.entries(tags).forEach(([tagId, tag], index) => {
         if (index === 0) defaultValue = tagId;
         options.push({ value: tagId, label: `${tag.icon} ${tag.title}` });
       });
-    }
 
-    // setting graph config
-    const labelStep = 2;
-    const lineStep = 5;
-    const graphMax = 30;
+      this.setState({
+        options,
+        defaultValue,
+      });
+    }
+  }
+
+  /* Updates the graph with data from the current stats */
+  updateGraphData() {
+    const { stats } = this.props;
     const data = [];
 
     // populating data array with selected tag stats
@@ -53,12 +73,22 @@ class StatsContainer extends Component {
       });
     });
 
+    this.setState({
+      data,
+    });
+  }
+
+  render() {
+    const { stats, tags } = this.props;
+    const { options, defaultValue, data } = this.state;
+    const { labelStep, lineStep, graphMax } = this.graphConfig;
+
     return (
       <div className="stats-container">
-        <Select value={defaultValue} options={options} />
+        { defaultValue && options && <Select value={defaultValue} options={options} /> }
         <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
       </div>
-    )
+    );
   }
 }
 
