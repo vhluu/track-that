@@ -5,8 +5,6 @@ export const setDayTags = (start, end, taggedDays) => ({ type: actionTypes.SET_D
 
 export const addDayTag = (tagId, date) => ({ type: actionTypes.ADD_DAY_TAG, tagId, date });
 
-export const updateDayTag = (tag) => ({ type: actionTypes.UPDATE_DAY_TAG, tag });
-
 export const replaceDayTags = (tags, date) => ({ type: actionTypes.REPLACE_DAY_TAGS, tags, date });
 
 export const createDayTag = (tagId, date) => {
@@ -15,7 +13,7 @@ export const createDayTag = (tagId, date) => {
 
     // add tag to the database
     db.ref(`users/${uid}/tagged/${date}/${tagId}`).set(true);
-    db.ref(`users/${uid}/tags/${tagId}/days/${date}`).set(true); 
+    db.ref(`users/${uid}/stats/${tagId}/${date.substring(0, 7)}/${date}`).set(true); 
     dispatch(addDayTag(tagId, date));
   };
 };
@@ -38,7 +36,7 @@ export const deleteDayTag = (tags, date) => {
     const updates = {};
     tags.forEach((tagId) => { 
       updates[`users/${uid}/tagged/${date}/${tagId}`] = null; 
-      updates[`users/${uid}/tags/${tagId}/days/${date}`] = null; 
+      updates[`users/${uid}/stats/${tagId}/${date.substring(0, 7)}/${date}`] = null; 
     });
     db.ref().update(updates); // bulk remove through updates w/ value null
 

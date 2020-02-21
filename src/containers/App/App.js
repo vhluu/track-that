@@ -3,12 +3,25 @@ import { connect } from 'react-redux';
 
 import TagsContainer from '../TagsContainer/TagsContainer';
 import CalendarContainer from '../CalendarContainer/CalendarContainer';
+import StatsContainer from '../StatsContainer/StatsContainer';
+import Button from '../../components/Button/Button';
+import Modal from '../../components/Modal/Modal';
 
 import './App.scss';
 
 import * as actions from '../../store/actions/index';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showGraph: false,
+    };
+
+    this.toggleGraph = this.toggleGraph.bind(this);
+  }
+
   componentDidMount() {
     const { onInitUser, onSignOutUser, onReplaceDayTags } = this.props;
     onInitUser('hello from calendar');
@@ -26,12 +39,30 @@ class App extends Component {
     );
   }
 
+  /* Toggles the stats modal */
+  toggleGraph() {
+    console.log('toggling graph');
+
+    this.setState((prevState) => ({
+      showGraph: !prevState.showGraph,
+    }));
+  }
+
   render() {
     const { tags, uid } = this.props;
+    const { showGraph } = this.state;
+
     return (
       <div className="app flex_d main-wrapper card">
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
+
+        <Button btnType="round graph-button" clicked={this.toggleGraph}>Stats</Button>
+        { showGraph && (
+          <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
+            <StatsContainer />
+          </Modal> 
+        ) }
       </div>
     );
   }

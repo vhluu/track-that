@@ -112,10 +112,13 @@ h2 {
 .main-wrapper {
   max-width: 90vw;
   margin: 30px auto;
+  position: relative;
+  padding-bottom: 80px;
 
   @media screen and (min-width: $bp-desktop) {
     align-items: flex-start;
     position: relative;
+    padding-bottom: 30px;
   }
 
   @media screen and (min-width: $bp-desktop-sm) {
@@ -189,5 +192,21 @@ h2 {
     margin-top: 0;
     padding: 15px 10px;
     font-weight: 600;
+  }
+}
+
+// #### Graph
+.graph-modal {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.graph-button {
+  position: absolute;
+  bottom: 25px;
+
+  @media screen and (min-width: $bp-tablet) {
+    bottom: 40px;
   }
 }

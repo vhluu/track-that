@@ -11,8 +11,11 @@ export {
 
 export {
   createDayTag,
-  updateDayTag,
   deleteDayTag,
   getDayTags,
   replaceDayTags,
 } from './dayTag';
+
+export {
+  getStats,
+} from './stats';

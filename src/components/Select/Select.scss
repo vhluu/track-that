@@ -1,0 +1,83 @@
+@import '../../sass/variables';
+
+.select {
+  position: relative;
+  width: 150px;
+  font-size: 14px;
+
+  &.active {
+    .options-wrapper {
+      max-height: 200px;
+    }
+
+    .option-current::after {
+      transform: rotate(225deg) translate(0px, -4px);
+    }
+  }
+
+  .option-current {
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 8px 12px;
+    border-radius: 5px;
+    // box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
+    padding: 6px 8px;
+    min-height: 37px;
+
+    &:hover {
+      border-color: #62d1e4;
+      cursor: pointer;
+      background: rgba(92,231,255,0.1);
+    }
+
+    &::after {
+      display: inline-block;
+      position: absolute;
+      content: "";
+      top: 14px;
+      right: 12px;
+      width: 6px;
+      height: 6px;
+      transform: rotate(45deg);
+      border-right: 2px solid #98a6ad;
+      border-bottom: 2px solid #98a6ad;
+      border-color: #85c6e6;
+      border-color: #62d1e4;
+      transition: transform 0.8s;
+    }
+  }
+
+  .options-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s;
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 5px;
+    z-index: $zindex-select;
+    background: #fff;
+
+    &:hover {
+      border-color: #62d1e4;
+    }
+
+    .options {
+      border: 1px solid rgba(0,0,0,0.1);
+      // box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
+      border-radius: 5px;
+    }
+  }
+
+  .option {
+    padding: 6px 12px;
+
+    &:hover {
+      cursor: pointer;
+      background: rgba(92,231,255,0.1);
+    }
+
+    &.selected {
+      background: rgba(92,231,255,0.3);
+    }
+  }
+}

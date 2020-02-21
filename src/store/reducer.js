@@ -7,6 +7,7 @@ const initialState = {
   dayTags: {},
   savedStart: null, // the start date for the days we have already grabbed from the database
   savedEnd: null, // the end date ...
+  stats: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -83,9 +84,9 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userId: null,
-        tags: [],
+        tags: {},
         nextId: 1,
-        dayTags: null,
+        dayTags: {},
         savedStart: null,
         savedEnd: null,
       };
@@ -120,10 +121,6 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
-    case actionTypes.UPDATE_DAY_TAG:
-      return {
-        ...state,
-      };
     case actionTypes.SET_DAY_TAGS: {
       const updatedState = {
         ...state,
@@ -156,6 +153,23 @@ const reducer = (state = initialState, action) => {
         dayTags: {
           ...state.dayTags,
           [action.date]: action.tags,
+        },
+      };
+    }
+    case actionTypes.SET_STATS: {
+      console.log(action);
+      const moreStats = {
+        ...state.stats,
+      };
+
+      Object.entries(action.days).forEach(([month, days]) => {
+        moreStats[month] = Object.keys(days).length;
+      });
+      console.log(moreStats);
+      return {
+        ...state, 
+        stats: {
+          ...moreStats,
         },
       };
     }
