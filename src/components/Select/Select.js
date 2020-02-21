@@ -7,7 +7,7 @@ class Select extends Component {
     const { value, options } = props;
 
     let label;
-    if (options) { // find value in options to get label
+    if (options && value) { // find value in options to get label
       options.forEach((option) => {
         if (option.value === value) {
           label = option.label;

@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 
 import TagsContainer from '../TagsContainer/TagsContainer';
 import CalendarContainer from '../CalendarContainer/CalendarContainer';
-import BarGraph from '../../components/BarGraph/BarGraph';
+import StatsContainer from '../StatsContainer/StatsContainer';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
-import Select from '../../components/Select/Select';
 
 import './App.scss';
 
@@ -40,18 +39,9 @@ class App extends Component {
     );
   }
 
-  componentDidUpdate(prevProps) {
-    console.log(prevProps.stats);
-    console.log(this.props.stats);
-  }
-
+  /* Toggles the stats modal */
   toggleGraph() {
     console.log('toggling graph');
-    
-    console.log(this.props.tags);
-    const { onGetStats } = this.props;
-    // grab the stats for the chosen tag
-    onGetStats('t2');
 
     this.setState((prevState) => ({
       showGraph: !prevState.showGraph,
@@ -59,28 +49,8 @@ class App extends Component {
   }
 
   render() {
-    const { tags, uid, stats } = this.props;
+    const { tags, uid } = this.props;
     const { showGraph } = this.state;
-
-    // setting graph config
-    const labelStep = 2;
-    const lineStep = 5;
-    const graphMax = 30;
-    const data = [];
-
-    // populating data array with selected tag stats
-    Object.entries(stats).forEach(([date, count]) => {
-      // getting month as abbreviated string (ex. Jan)
-      const monthString = new Date(`${date}-04`).toLocaleString('default', { month: 'short' });
-      data.push({
-        label: monthString,
-        value: count,
-      });
-    });
-
-    // select dropdown options
-    const options = [ { label: '😃 hello', value: 't1' }, { label: '🌊 goodbye', value: 't2' } ];
-    const defaultValue = 't2';
 
     return (
       <div className="app flex_d main-wrapper card">
@@ -90,8 +60,7 @@ class App extends Component {
         <Button btnType="round graph-button" clicked={this.toggleGraph}>Stats</Button>
         { showGraph && (
           <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
-            <Select value={defaultValue} options={options} />
-            <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
+            <StatsContainer />
           </Modal> 
         ) }
       </div>
@@ -103,7 +72,6 @@ const mapStateToProps = (state) => {
   return {
     tags: state.tags,
     uid: state.uid,
-    stats: state.stats,
   };
 };
 
@@ -112,7 +80,6 @@ const mapDispatchToProps = (dispatch) => {
     onInitUser: (msg) => dispatch(actions.initUser(msg)),
     onSignOutUser: () => dispatch(actions.signOutUser()),
     onReplaceDayTags: (tags, date) => dispatch(actions.replaceDayTags(tags, date)),
-    onGetStats: (tagId) => dispatch(actions.getStats(tagId)),
   };
 };
 
