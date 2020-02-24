@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import BarGraph from '../../components/BarGraph/BarGraph';
 import Select from '../../components/Select/Select';
+import Overlay from '../../components/Overlay/Overlay';
 import './StatsContainer.scss';
 
 import * as actions from '../../store/actions/index';
@@ -100,15 +101,13 @@ class StatsContainer extends Component {
     return (
       <div className="stats-container">
         { defaultValue && options && <Select value={defaultValue} options={options} onChange={this.onSelectChange} /> }
-        <div className="overlay-wrapper">
+        <Overlay show={noneTagged}>
           <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
-          { noneTagged && (<div className="none-tagged-msg">
-            <div>
-              <span>😮🔎</span><br />
-              No tagged days found!
-            </div>
-          </div>) }
-        </div>
+          <div className="none-tagged-msg">
+            <span>😮🔎</span><br />
+            No tagged days found!
+          </div>
+        </Overlay>
       </div>
     );
   }
