@@ -157,20 +157,15 @@ const reducer = (state = initialState, action) => {
       };
     }
     case actionTypes.SET_STATS: {
-      console.log(action);
-      if (!action.days) {
-        return {
-          ...state, 
-          stats: {},
-        };
-      }
       const moreStats = {
         ...state.stats,
+        [action.tagId]: {},
       };
-
-      Object.entries(action.days).forEach(([month, days]) => {
-        moreStats[month] = Object.keys(days).length;
-      });
+      if (action.days) {
+        Object.entries(action.days).forEach(([month, days]) => {
+          moreStats[action.tagId][month] = Object.keys(days).length;
+        });
+      }
       console.log(moreStats);
       return {
         ...state, 

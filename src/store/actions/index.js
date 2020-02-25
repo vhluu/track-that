@@ -18,4 +18,5 @@ export {
 
 export {
   getStats,
+  clearStats,
 } from './stats';

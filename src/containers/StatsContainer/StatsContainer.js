@@ -18,6 +18,7 @@ class StatsContainer extends Component {
       defaultValue: null, // default value for select dropdown
       data: [], // graph data
       noneTagged: false, // boolean indicating whether the current tag has no tagged days
+      currentValue: null, // current value for select dropdown
     };
 
     // setting graph config
@@ -46,8 +47,12 @@ class StatsContainer extends Component {
 
   /* Handles select dropdown change by updating graph w/ new values */
   onSelectChange(value) {
-    const { onGetStats } = this.props;
-    onGetStats(value);
+    const { onGetStats, stats } = this.props;
+    this.setState({
+      currentValue: value,
+    });
+    if (!stats[value]) onGetStats(value);
+    else this.updateGraphData(value);
   }
   
   /* Populates the select dropdown with the tags */
@@ -66,17 +71,19 @@ class StatsContainer extends Component {
       this.setState({
         options,
         defaultValue,
+        currentValue: defaultValue,
       });
     }
   }
 
   /* Updates the graph with data from the current stats */
-  updateGraphData() {
+  updateGraphData(value) {
     const { stats } = this.props;
+    const { currentValue } = this.state;
     const data = [];
-    const tagStats = Object.entries(stats); // stats for selected tag
+    const tagStats = stats && stats[value || currentValue] ? Object.entries(stats[value || currentValue]) : []; // stats for selected tag
     const noneTagged = (tagStats.length === 0); // whether there are any tagged days
-
+    console.log(tagStats);
     // populating data array with selected tag stats
     tagStats.forEach(([date, count]) => {
       // getting month as abbreviated string (ex. Jan)
