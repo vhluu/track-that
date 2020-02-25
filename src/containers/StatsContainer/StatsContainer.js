@@ -114,7 +114,7 @@ class StatsContainer extends Component {
 
     return (
       <div className="stats-container">
-        <div className="flex space-between align-center">
+        <div className="stats-header flex space-between align-center">
           <h2>Tags Per Month</h2>
           { defaultValue && options && <Select value={defaultValue} options={options} onChange={this.onSelectChange} /> }
         </div>

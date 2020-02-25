@@ -1,9 +1,11 @@
 .stats-container {
   min-width: 350px;
 }
-.overlay-wrapper {
-  position: relative;
+
+.stats-header {
+  margin-bottom: -20px;
 }
+
 .none-tagged-msg {
   color: #ff8080;
   top: 25%;
@@ -13,7 +15,6 @@
   padding: 10px;
   border-radius: 10px;
   text-align: center;
-  /* background-color: #ffdbdb; */
   font-weight: 500;
   font-size: 14px;
 
