@@ -114,7 +114,10 @@ class StatsContainer extends Component {
 
     return (
       <div className="stats-container">
-        { defaultValue && options && <Select value={defaultValue} options={options} onChange={this.onSelectChange} /> }
+        <div className="flex space-between align-center">
+          <h2>Tags Per Month</h2>
+          { defaultValue && options && <Select value={defaultValue} options={options} onChange={this.onSelectChange} /> }
+        </div>
         <Overlay show={noneTagged}>
           <BarGraph data={data} max={graphMax} lineStep={lineStep} labelStep={labelStep} />
           <div className="none-tagged-msg">

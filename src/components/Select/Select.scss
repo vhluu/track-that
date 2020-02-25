@@ -11,17 +11,18 @@
     }
 
     .option-current::after {
-      transform: rotate(225deg) translate(0px, -4px);
+      transform: rotate(225deg) translate(-2px, -2px);
     }
   }
 
   .option-current {
     border: 1px solid rgba(0,0,0,0.1);
-    padding: 8px 12px;
+    // padding: 8px 12px;
     border-radius: 5px;
     // box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
-    padding: 6px 8px;
-    min-height: 37px;
+    // padding: 6px 8px;
+    padding: 4px 6px;
+    min-height: 33px;
 
     &:hover {
       border-color: #62d1e4;
@@ -33,7 +34,7 @@
       display: inline-block;
       position: absolute;
       content: "";
-      top: 14px;
+      top: 12px;
       right: 12px;
       width: 6px;
       height: 6px;
@@ -69,7 +70,7 @@
   }
 
   .option {
-    padding: 6px 12px;
+    padding: 4px 10px;
 
     &:hover {
       cursor: pointer;

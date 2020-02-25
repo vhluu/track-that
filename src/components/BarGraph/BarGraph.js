@@ -23,16 +23,18 @@ function BarGraph(props) {
             );
           }) }
         </div>
-        { data.map((point) => {
-          return (
-            <div className="bar-wrapper">
-              <div className="bar" style={{ 'min-height': `calc((${point.value}/${max}) * 100%)` }}>
-                <div className="bar-value">{ point.value }</div>
+        <div className="bars">
+          { data.map((point) => {
+            return (
+              <div className="bar-wrapper">
+                <div className="bar" style={{ 'min-height': `calc((${point.value}/${max}) * 100%)` }}>
+                  <div className="bar-value">{ point.value }</div>
+                </div>
+                <div className="label">{ point.label }</div>
               </div>
-              <div className="label">{ point.label }</div>
-            </div>
-          );
-        }) }
+            );
+          }) }
+        </div>
       </div>
     </div>
   );
