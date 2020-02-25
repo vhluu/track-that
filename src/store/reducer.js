@@ -166,7 +166,7 @@ const reducer = (state = initialState, action) => {
           moreStats[action.tagId][month] = Object.keys(days).length;
         });
       }
-      console.log(moreStats);
+
       return {
         ...state, 
         stats: {
@@ -174,6 +174,11 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
+    case actionTypes.CLEAR_STATS:
+      return {
+        ...state, 
+        stats: {},
+      };
     default:
       return state;
   }

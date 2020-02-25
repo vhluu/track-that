@@ -35,7 +35,6 @@ class StatsContainer extends Component {
     const { onGetStats, tags } = this.props;
     
     this.populateSelect(); // populate the select dropdown
-    console.log('displaying stats for ' + Object.keys(tags)[0]);
     if (tags) onGetStats(Object.keys(tags)[0]); // set the first tag as the default dropdown value
   }
 
@@ -43,6 +42,11 @@ class StatsContainer extends Component {
     const { stats } = this.props;
     // update the graph if stats has changed
     if (prevProps.stats !== stats) this.updateGraphData();
+  }
+
+  componentWillUnmount() {
+    const { onClearStats } = this.props;
+    onClearStats(); // clear stats saved in store
   }
 
   /* Handles select dropdown change by updating graph w/ new values */
@@ -58,7 +62,6 @@ class StatsContainer extends Component {
   /* Populates the select dropdown with the tags */
   populateSelect() {
     const { tags } = this.props;
-
     if (tags) {
       const options = [];
       let defaultValue;
@@ -72,6 +75,11 @@ class StatsContainer extends Component {
         options,
         defaultValue,
         currentValue: defaultValue,
+      });
+    } else {
+      this.setState({
+        defaultValue: 'empty',
+        noneTagged: true,
       });
     }
   }
@@ -101,7 +109,6 @@ class StatsContainer extends Component {
   }
 
   render() {
-    const { stats, tags } = this.props;
     const { options, defaultValue, data, noneTagged } = this.state;
     const { labelStep, lineStep, graphMax } = this.graphConfig;
 
@@ -130,6 +137,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onGetStats: (tagId) => dispatch(actions.getStats(tagId)),
+    onClearStats: () => dispatch(actions.clearStats()),
   };
 };
 
