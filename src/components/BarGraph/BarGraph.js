@@ -14,11 +14,11 @@ class BarGraph extends Component {
   componentDidMount() {
     // get the width of the bars div
     this.barsWidth = this.barsRef.current.getBoundingClientRect().width;
-    this.resetScroll(); // scroll the bars div to rightmost
+    this.resetScroll(); // scrolls to the rightmost bar
   }
 
   componentDidUpdate() {
-    this.resetScroll(); // scroll the bars div to rightmost
+    this.resetScroll(); // scrolls to the rightmost bar
   }
 
   /* Sets the scroll position to initially display the rightmost item in the graph, if there is overflow */
