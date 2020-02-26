@@ -61,6 +61,7 @@ class Select extends Component {
         <div className="options-wrapper">
           <div className="options">
             { options.map((option) => <div className={`option${currVal == option.value ? ' selected': ''}`} data-value={option.value} onClick={this.selectOption}>{ option.label }</div>) }
+            { options.length === 0 && <div className="option">No Tags Available</div> }
           </div>
         </div>
       </div>

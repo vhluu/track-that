@@ -14,3 +14,4 @@ export const SET_DAY_TAGS = 'SET_DAY_TAGS';
 export const REPLACE_DAY_TAGS = 'REPLACE_DAY_TAGS';
 
 export const SET_STATS = 'SET_STATS';
+export const CLEAR_STATS = 'CLEAR_STATS';

@@ -127,6 +127,9 @@ h2 {
   }
 }
 
+.flex { display: flex }
+.space-between { justify-content: space-between; }
+.align-center { align-items: center; }
 @media screen and (min-width: $bp-tablet) {
   .flex_t { display: flex; }
 }

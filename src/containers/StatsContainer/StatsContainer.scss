@@ -1,0 +1,24 @@
+.stats-container {
+  min-width: 350px;
+}
+
+.stats-header {
+  margin-bottom: -20px;
+}
+
+.none-tagged-msg {
+  color: #ff8080;
+  top: 25%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+
+  span {
+    font-size: 18px;
+  }
+}
