@@ -7,6 +7,8 @@
   justify-content: space-between; 
   background-image: linear-gradient(90deg, rgb(212, 253, 234),rgb(215, 251, 255));
   position: relative;
+  background-color: lighten(nth($primary-gradient, 1), 10%);
+  background-color: desaturate(nth($primary-gradient, 1), 10%);
 }
 
 

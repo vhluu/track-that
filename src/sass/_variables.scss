@@ -21,3 +21,48 @@ $zindex-tag-emoji: 10;
 $zindex-select: 15;
 $zindex-modal: 20;
 $zindex-emoji-picker: 40;
+
+
+// #### Colors
+$violet: #f6e6ff;
+$indigo: #dfedff;
+$skyblue: #d1faff;
+$aquamarine: #d0fde6;
+$lime: #e8fbd0;
+$orange: #ffefd2;
+$red: #ffdbdb;
+$rose: #ffdeea;
+$pink: #ffe3ff;
+$purple: #e7e6ff;
+$blue: #d5f1ff;
+$teal: #cefdf7;
+$green: #dcffdc;
+$yellow: #fffcd4;
+$redorange: #ffe5d6;
+$gray: #edf1f3;
+
+
+// #### Color Map - for Gradients
+$color-map: ( 
+  violet: ( $violet, $indigo ),
+  indigo: ( $indigo, $skyblue ),
+  skyblue: ( $skyblue, $aquamarine ),
+  aquamarine: ( $aquamarine, $lime ),
+  lime: ( $lime, $orange ),
+  orange: ( $orange, $red ),
+  red: ( $red, $rose ),
+  rose: ( $rose, $pink ),
+  pink: ( $pink, $purple ),
+  purple: ( $purple, $blue ),
+  blue: ( $blue, $teal ),
+  teal: ( $teal, $green ),
+  green: ( $green, $yellow ),
+  yellow: ( $yellow, $redorange ),
+  redorange: ( $redorange, $violet ),
+  gray: ( $gray, $indigo ),
+);
+
+$primary-gradient: #acefd0, #adeffb;
+
+$btn-light: #9eeef9;
+$btn-dark: #8dd6fb;
