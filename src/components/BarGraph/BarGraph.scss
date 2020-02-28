@@ -1,3 +1,5 @@
+@import '../../sass/variables';
+
 .bar-graph {
   padding: 10px 30px 15px 30px;
 
@@ -22,7 +24,7 @@
       background-image: linear-gradient(#bbe9ff, #d2faff);
 
       .bar {
-        background-image: linear-gradient(#8dd6fb, #9eeef9);
+        background-image: linear-gradient($gradient-blue-2, $gradient-blue-1);
       }
       
       .bar-value, .label {
@@ -49,7 +51,6 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-image: linear-gradient(#bae8ff, #b5f3fb);
     min-height: 0;
     transition: min-height 0.8s;
     background-image: linear-gradient(#a2e0ff, #b1f2fb);

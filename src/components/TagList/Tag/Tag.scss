@@ -1,7 +1,7 @@
 @import '../../../sass/variables';
 
 .tag {
-  cursor: move; /* fallback */
+  cursor: move; // fallback
   cursor: grab;
   position: relative;
   color: rgba(14,30,37,0.6);
@@ -17,7 +17,7 @@
   transition: all .2s ease-in-out;
 
 
-  /* generate gradient classes using color map */
+  // Generate gradient classes using color map
   @each $name, $colors in $color-map {
     $first: nth($colors, 1);
     $second: nth($colors, 2);

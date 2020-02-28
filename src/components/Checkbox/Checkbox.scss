@@ -10,6 +10,12 @@
     align-items: center;
     color: rgb(93, 114, 123);
     text-transform: none;
+
+    
+    &:hover .tag {
+      background-position: 100% 0;
+      transition: all .2s ease-in-out;
+    }
   }
 
   input[type="checkbox"] {
@@ -21,6 +27,18 @@
     margin-bottom: 0;
     cursor: pointer;
     padding: 8px;
+    background-size: 300% 100%;
+    transition: all .2s ease-in-out;
+
+    // Generate gradient classes using color map
+    @each $name, $colors in $color-map {
+      $first: nth($colors, 1);
+      $second: nth($colors, 2);
+
+      &.#{$name} {
+        background-image: linear-gradient(to right, $first, $first, $first, $second);
+      }
+    }
 
     @media screen and (min-width: $bp-desktop-lg) {
       padding: 10px;
@@ -51,6 +69,10 @@
     position: absolute;
     border: solid white;
     border-width: 0 2.5px 2.5px 0;
+  }
+
+  &:hover {
+    background-color: rgba(92,231,255,0.1);
   }
 }
 

@@ -11,7 +11,7 @@ body {
   margin: 0;
   min-height: 100vh;
   /* background-image: linear-gradient(125deg, rgb(172, 239, 208),rgb(182, 240, 247)); */
-  background-image: linear-gradient(125deg, nth($primary-gradient, 1), nth($primary-gradient, 2));
+  background-image: linear-gradient(125deg, $gradient-green-1, $gradient-green-2);
   color:rgb(93, 114, 123);
   display: flex;
   justify-content: center;
@@ -85,22 +85,22 @@ h2 {
 
 
 // #### Colors
-.violet { background-color: #f6e6ff; }
-.indigo { background-color: #dfedff; }
-.skyblue { background-color: #d1faff; } 
-.aquamarine { background-color: #d0fde6; } 
-.lime { background-color: #e8fbd0; }
-.orange { background-color: #ffefd2; }
-.red { background-color: #ffdbdb; }
-.rose { background-color: #ffdeea; }
-.pink { background-color: #ffe3ff; }
-.purple { background-color: #e7e6ff; }
-.blue { background-color: #d5f1ff; } 
-.teal { background-color: #cefdf7; }
-.green { background-color: #dcffdc; }
-.yellow { background-color: #fffcd4; }
-.redorange { background-color: #ffe5d6; }
-.gray { background-color: #edf1f3; }
+.violet { background-color: $violet; }
+.indigo { background-color: $indigo; }
+.skyblue { background-color: $skyblue; } 
+.aquamarine { background-color: $aquamarine; } 
+.lime { background-color: $lime; }
+.orange { background-color: $orange; }
+.red { background-color: $red; }
+.rose { background-color: $rose; }
+.pink { background-color: $pink; }
+.purple { background-color: $purple; }
+.blue { background-color: $blue; } 
+.teal { background-color: $teal; }
+.green { background-color: $green; }
+.yellow { background-color: $yellow }
+.redorange { background-color: $redorange; }
+.gray { background-color: $gray; }
 
 
 // #### Layout
@@ -113,17 +113,16 @@ h2 {
   max-width: 90vw;
   margin: 30px auto;
   position: relative;
-  padding-bottom: 80px;
+  &.card { padding-bottom: 80px; }
 
   @media screen and (min-width: $bp-desktop) {
     align-items: flex-start;
     position: relative;
-    padding-bottom: 30px;
+    &.card { padding-bottom: 30px; }
   }
 
   @media screen and (min-width: $bp-desktop-sm) {
     max-width: 80vw;
-    padding: 30px 40px;
   }
 }
 
@@ -209,7 +208,7 @@ h2 {
   position: absolute;
   bottom: 25px;
 
-  @media screen and (min-width: $bp-tablet) {
+  @media screen and (min-width: $bp-desktop) {
     bottom: 40px;
   }
 }

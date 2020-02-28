@@ -8,9 +8,7 @@
 }
 
 .pagination-arrow {
-  $color1: nth($primary-gradient, 1);
-  $color2: nth($primary-gradient, 2);
-  background-image: linear-gradient(125deg, $color1, $color2, $color2, $color2);
+  background-image: linear-gradient(125deg, $gradient-green-1, $gradient-green-2, $gradient-green-2, $gradient-green-2);
   background-size: 300% 100%;
   transition: 0.3s ease-in-out;
   color: #fff;

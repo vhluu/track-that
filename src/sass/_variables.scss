@@ -1,3 +1,7 @@
+// #### Fonts
+$font-stack: 'Quicksand', sans-serif;
+
+
 // #### Media query breakpoints
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
@@ -8,10 +12,6 @@ $bp-desktop-lg: 1600px;
 
 // #### Retina specific query
 $retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)"; 
-
-
-// #### Fonts
-$font-stack: 'Quicksand', sans-serif;
 
 
 // #### Z-index master list
@@ -62,7 +62,10 @@ $color-map: (
   gray: ( $gray, $indigo ),
 );
 
-$primary-gradient: #acefd0, #adeffb;
 
-$btn-light: #9eeef9;
-$btn-dark: #8dd6fb;
+// #### Gradient Stops
+$gradient-green-1: #acefd0;
+$gradient-green-2: #adeffb;
+
+$gradient-blue-1: #9eeef9;
+$gradient-blue-2: #8dd6fb;
