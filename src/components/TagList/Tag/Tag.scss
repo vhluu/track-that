@@ -18,14 +18,7 @@
 
 
   // Generate gradient classes using color map
-  @each $name, $colors in $color-map {
-    $first: nth($colors, 1);
-    $second: nth($colors, 2);
-
-    &.#{$name} {
-      background-image: linear-gradient(to right, $first, $first, $first, $second);
-    }
-  }
+  @include gradient-classes;
 
   &:hover {
     background-position: 100% 0;

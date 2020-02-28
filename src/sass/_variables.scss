@@ -69,3 +69,17 @@ $gradient-green-2: #adeffb;
 
 $gradient-blue-1: #9eeef9;
 $gradient-blue-2: #8dd6fb;
+
+
+// #### Mixins
+// Generate gradient classes using color map
+@mixin gradient-classes {
+  @each $name, $colors in $color-map {
+    $first: nth($colors, 1);
+    $second: nth($colors, 2);
+
+    &.#{$name} {
+      background-image: linear-gradient(to right, $first, $first, $first, $second);
+    }
+  }
+}
