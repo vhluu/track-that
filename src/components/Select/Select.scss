@@ -63,6 +63,8 @@
       border: 1px solid rgba(0,0,0,0.1);
       // box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
       border-radius: 5px;
+      max-height: 190px;
+      overflow: auto;
     }
   }
 

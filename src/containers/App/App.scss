@@ -151,7 +151,8 @@ h2 {
 .windows {
   .tags-list::-webkit-scrollbar,
   .day::-webkit-scrollbar,
-  .day-checkboxes::-webkit-scrollbar {
+  .day-checkboxes::-webkit-scrollbar,
+  .select .options::-webkit-scrollbar {
     display: none;
     background: transparent;
     width: 0;
