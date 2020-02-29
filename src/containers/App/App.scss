@@ -16,6 +16,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  scroll-behavior: smooth;
 }
 
 input {
@@ -146,6 +147,16 @@ h2 {
   pointer-events: none;
 }
 
+// #### Windows - Hide scrollbar
+.windows {
+  .tags-list::-webkit-scrollbar,
+  .day::-webkit-scrollbar,
+  .day-checkboxes::-webkit-scrollbar {
+    display: none;
+    background: transparent;
+    width: 0;
+  }
+}
 
 // #### Card
 .card {
