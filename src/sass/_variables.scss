@@ -1,3 +1,7 @@
+// #### Fonts
+$font-stack: 'Quicksand', sans-serif;
+
+
 // #### Media query breakpoints
 $bp-tablet: 768px;
 $bp-desktop: 1024px;
@@ -10,10 +14,6 @@ $bp-desktop-lg: 1600px;
 $retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)"; 
 
 
-// #### Fonts
-$font-stack: 'Quicksand', sans-serif;
-
-
 // #### Z-index master list
 $zindex-day-modal: 10;
 $zindex-logo: 10;
@@ -21,3 +21,65 @@ $zindex-tag-emoji: 10;
 $zindex-select: 15;
 $zindex-modal: 20;
 $zindex-emoji-picker: 40;
+
+
+// #### Colors
+$violet: #f6e6ff;
+$indigo: #dfedff;
+$skyblue: #d1faff;
+$aquamarine: #d0fde6;
+$lime: #e8fbd0;
+$orange: #ffefd2;
+$red: #ffdbdb;
+$rose: #ffdeea;
+$pink: #ffe3ff;
+$purple: #e7e6ff;
+$blue: #d5f1ff;
+$teal: #cefdf7;
+$green: #dcffdc;
+$yellow: #fffcd4;
+$redorange: #ffe5d6;
+$gray: #edf1f3;
+
+
+// #### Color Map - for Gradients
+$color-map: ( 
+  violet: ( $violet, $indigo ),
+  indigo: ( $indigo, $skyblue ),
+  skyblue: ( $skyblue, $aquamarine ),
+  aquamarine: ( $aquamarine, $lime ),
+  lime: ( $lime, $orange ),
+  orange: ( $orange, $red ),
+  red: ( $red, $rose ),
+  rose: ( $rose, $pink ),
+  pink: ( $pink, $purple ),
+  purple: ( $purple, $blue ),
+  blue: ( $blue, $teal ),
+  teal: ( $teal, $green ),
+  green: ( $green, $yellow ),
+  yellow: ( $yellow, $redorange ),
+  redorange: ( $redorange, $violet ),
+  gray: ( $gray, $indigo ),
+);
+
+
+// #### Gradient Stops
+$gradient-green-1: #acefd0;
+$gradient-green-2: #adeffb;
+
+$gradient-blue-1: #9eeef9;
+$gradient-blue-2: #8dd6fb;
+
+
+// #### Mixins
+// Generate gradient classes using color map
+@mixin gradient-classes {
+  @each $name, $colors in $color-map {
+    $first: nth($colors, 1);
+    $second: nth($colors, 2);
+
+    &.#{$name} {
+      background-image: linear-gradient(to right, $first, $first, $first, $second);
+    }
+  }
+}

@@ -17,6 +17,7 @@ class App extends Component {
 
     this.state = {
       showGraph: false,
+      isWindows: false,
     };
 
     this.toggleGraph = this.toggleGraph.bind(this);
@@ -37,6 +38,15 @@ class App extends Component {
         return true;
       },
     );
+
+    // detect Windows platform
+    const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
+    const platform = window.navigator.platform;
+    if (windowsPlatforms.indexOf(platform) !== -1) {
+      this.setState({
+        isWindows: true,
+      });
+    }
   }
 
   /* Toggles the stats modal */
@@ -50,10 +60,10 @@ class App extends Component {
 
   render() {
     const { tags, uid } = this.props;
-    const { showGraph } = this.state;
+    const { showGraph, isWindows } = this.state;
 
     return (
-      <div className="app flex_d main-wrapper card">
+      <div className={`app flex_d main-wrapper card${isWindows ? ' windows' : ''}`}>
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
 

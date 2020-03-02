@@ -7,12 +7,15 @@
   text-align: center;
   font-size: 14px;
   padding: 8px 14px;
-  background: #84e4f5;
+  background-image: linear-gradient(to right, $gradient-blue-1, $gradient-blue-2, $gradient-blue-2, $gradient-blue-2);
+  background-size: 300% 100%;
   color: #fff;
   display: inline-block;
+  transition: all .3s ease-in-out;
 
   &:hover {
     cursor: pointer;
+    background-position: 100% 0;
   }
 
   @media screen and (min-width: $bp-desktop-lg) {
@@ -27,6 +30,10 @@
   color: #62d1e4;
   border: 1px dashed #62d1e4;
   background: rgba(92,231,255,0.1);
+
+  &:hover {
+    background-color: rgba(92,231,255,0.2);
+  }
 
   @media screen and (min-width: $bp-desktop-lg) {
     padding: 12px;

@@ -1,7 +1,7 @@
 @import '../../../sass/variables';
 
 .tag {
-  cursor: move; /* fallback */
+  cursor: move; // fallback
   cursor: grab;
   position: relative;
   color: rgba(14,30,37,0.6);
@@ -13,6 +13,18 @@
   width: fit-content;
   margin: 5px 5px 0 5px;
   white-space: nowrap;
+  background-size: 300% 100%;
+  transition: all .2s ease-in-out;
+
+
+  // Generate gradient classes using color map
+  @include gradient-classes;
+
+  &:hover {
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
+  }
+    
 
   @media screen and (min-width: $bp-desktop) {
     margin: 0 0 5px 0;
