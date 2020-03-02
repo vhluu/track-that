@@ -1,11 +1,9 @@
 const clientId = '<CLIENT-ID>';
 const clientSecret = '<CLIENT-SECRET>';
 const redirectUrl = chrome.identity.getRedirectURL();
-console.log(redirectUrl);
 
-var accessToken;
-var refreshToken;
-
+let accessToken;
+let refreshToken;
 
 /**
  * Starts the user authorization flow
@@ -84,7 +82,7 @@ function getUserInfo(accessTok, callback, startLogin, retry, message) {
   const xhr = new XMLHttpRequest();
   const url = 'https://www.googleapis.com/oauth2/v3/userinfo';
   xhr.open('get', url);
-
+ 
   xhr.setRequestHeader('Authorization', `Bearer ${accessTok}`);
   xhr.onload = function retrieveInfo() {
     console.log(this.status);
@@ -154,9 +152,11 @@ function refreshAccessToken(callback) {
           addToStorage('tt-extension-a', accessToken);
 
           getUserInfo(accessToken, callback, false, false);
-        } else { // refresh token is expired
-          // revoke refresh token & generate a new one
-          revokeToken(callback, true);
+        } else { // refresh token no longer works
+          console.log('refresh token no longer working. restarting auth flow!');
+          removeFromStorage(['tt-extension-a', 'tt-extension-r']);
+
+          startAuthFlow(callback, false); // generate a new refresh token
         }
       };
 
@@ -179,6 +179,7 @@ chrome.runtime.onMessage.addListener(
     console.log(sendResponse);
     if (request.greeting === 'hello from popup' || request.greeting === 'hello from calendar' || request.greeting === 'sign in from app') {
       // if the access token is valid, then we dont need to make the user login
+      console.log('helloooo');
       getFromStorage('tt-extension-a', (value) => {
         console.log(`access is ${value}`);
 
@@ -213,6 +214,8 @@ function removeFromStorage(keys) {
 
 /**
  * Revokes tokens & starts authorization flow is 'generateNew' is true
+ * Revoking an access token means that the refresh token will also be revoked
+ * See more info here: https://developers.google.com/identity/protocols/OAuth2WebServer
  */
 function revokeToken(callback, generateNew) {
   getFromStorage('tt-extension-a', (value) => {
