@@ -23,6 +23,10 @@ class TagsContainer extends Component {
     this.closeTagModal = this.closeTagModal.bind(this);
     this.closeSignInModal = this.closeSignInModal.bind(this);
     this.signIn = this.signIn.bind(this);
+    this.createTag = this.createTag.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
+
+    this.tagListRef = React.createRef();
   }
 
   /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
@@ -73,6 +77,25 @@ class TagsContainer extends Component {
     this.closeSignInModal();
   }
 
+  /* Add tag to database/store & close tag modal */
+  createTag(tagData) {
+    const { onCreateTag } = this.props;
+    this.toggleTagModal(); // close tag modal
+    onCreateTag(tagData); // add to database & store
+    this.scrollToBottom(this.tagListRef.current, 500); // scroll to bottom of tags list
+  }
+
+  /* Scrolls to bottom of passed in element after delay */
+  scrollToBottom(elem, delay) {
+    setTimeout(() => {
+      const elemHeight = elem.getBoundingClientRect().height; // get height of element
+      
+      if (elem.scrollHeight > elemHeight) { // check if its contents are overflowing
+        elem.scrollTop = elem.scrollHeight;
+      }
+    }, delay);
+  }
+
   render() {
     const { showModal, showSignIn, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
@@ -82,12 +105,12 @@ class TagsContainer extends Component {
         <h2>Tags</h2>
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
         <div className="tags-main-wrapper">
-          <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} />
+          <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} />
           <Button btnType="btn-dashed" clicked={this.toggleTagModal.bind(this, null)}>+ Add New Tag</Button>
         </div>
         <Modal show={showModal} closeSelf={this.closeTagModal}>
           <TagForm
-            onCreateTag={(tagData) => { this.toggleTagModal(); onCreateTag(tagData); }} 
+            onCreateTag={this.createTag} 
             onDeleteTag={() => { this.toggleTagModal(selectedTag); onDeleteTag(selectedTag.id); }}
             onUpdateTag={(tagData) => onUpdateTag(tagData)}
             action={action}

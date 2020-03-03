@@ -4,6 +4,7 @@
 // #### General
 * { 
   box-sizing: border-box; 
+  scroll-behavior: smooth;
 }
 
 body {
@@ -16,7 +17,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  scroll-behavior: smooth;
 }
 
 input {
