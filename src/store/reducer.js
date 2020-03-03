@@ -53,10 +53,12 @@ const reducer = (state = initialState, action) => {
         const keys = Object.keys(action.tags);
         console.log(keys);
         console.log(keys[keys.length - 1].substring(1));
+        let lastId = keys[keys.length - 1].substring(1);
+        if (Number.isNaN(lastId)) lastId = lastId.substring(1);
         return {
           ...state,
           tags: action.tags,
-          nextId: parseInt(keys[keys.length - 1].substring(1)) + 1,
+          nextId: parseInt(lastId, 10) + 1,
         };
       }
       return {
@@ -68,16 +70,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         uid: action.userInfo.userId,
-      };
-    case actionTypes.CREATE_USER_SUCCESS:
-      console.log('creating user', action);
-      return {
-        ...state,
-      };
-    case actionTypes.GET_USER_FAILED:
-      console.log('failed to get user', action);
-      return {
-        ...state,
       };
     case actionTypes.SIGN_OUT_USER:
       console.log('signing out user', action);

@@ -9,12 +9,13 @@ export const createTag = (newTag) => {
   return (dispatch, getState) => {
     // add tag to the database
     const { uid, nextId } = getState();
-    db.ref(`users/${uid}/tags/t${nextId}`).set({
+    let id = nextId < 10 ? `0${nextId}` : nextId; // adds 0 before ids that are less than 10
+    db.ref(`users/${uid}/tags/t${id}`).set({
       icon: newTag.icon,
       title: newTag.title,
       color: newTag.color,
     });
-    const tag = { ...newTag, id: `t${nextId}` }; 
+    const tag = { ...newTag, id: `t${id}` }; 
     dispatch(addTag(tag));
   };
 };
