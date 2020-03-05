@@ -149,13 +149,20 @@ h2 {
 
 // #### Windows - Hide scrollbar
 .windows {
-  .tags-list::-webkit-scrollbar,
   .day::-webkit-scrollbar,
   .day-checkboxes::-webkit-scrollbar,
   .select .options::-webkit-scrollbar {
     display: none;
     background: transparent;
     width: 0;
+  }
+
+  @media screen and (min-width: $bp-desktop) {
+    .tags-list::-webkit-scrollbar {
+      display: none;
+      background: transparent;
+      width: 0;
+    }
   }
 }
 

@@ -42,7 +42,7 @@ $redorange: #ffe5d6;
 $gray: #edf1f3;
 
 
-// #### Color Map - for Gradients
+// #### Color Map - for Tag Gradients
 $color-map: ( 
   violet: ( $violet, $indigo ),
   indigo: ( $indigo, $skyblue ),
@@ -63,13 +63,17 @@ $color-map: (
 );
 
 
-// #### Gradient Stops
-$gradient-green-1: #acefd0;
-$gradient-green-2: #adeffb;
+// #### Main Gradient Stops
+// $gradient-green-1: #acefd0;
+// $gradient-green-2: #adeffb;
+$gradient-green-1: #a5f2cf;
+$gradient-green-2: #96e9f9;
 
-$gradient-blue-1: #9eeef9;
-$gradient-blue-2: #8dd6fb;
+$gradient-blue-1: #97edff;
+$gradient-blue-2: #7fc2fb;
 
+$gradient-red-1: #ffbf99;
+$gradient-red-2: #ff8787;
 
 // #### Mixins
 // Generate gradient classes using color map

@@ -36,7 +36,7 @@
       .btn-primary {
         color: #54cce0;
       }
-      .btn:hover {
+      .btn:not(.save-btn):hover {
         cursor: pointer;
         background: rgba(172, 242, 253, 0.2);
       }
@@ -172,9 +172,13 @@
         width: fit-content;
         margin: 8px auto;
         border-radius: 10px;
+        background-image: linear-gradient(to right, #97edff, #7fc2fb, #7fc2fb);
+        background-size: 300% 100%;
+        transition: all .3s ease-in-out;
       }
       .save-btn:hover {
-        background-color: #62d9ef;
+        background-position: 100% 0;
+        cursor: pointer;
       }
 
       .no-tags-msg p:nth-child(2) {

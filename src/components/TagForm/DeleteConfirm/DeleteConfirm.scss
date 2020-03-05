@@ -22,8 +22,14 @@
   }
 
   .btn-delete {
-    background: #ff8787;
+    background-image: linear-gradient(to right, $gradient-red-1, $gradient-red-2, $gradient-red-2, $gradient-red-2);
+    background-size: 300% 100%;
+    transition: all .3s ease-in-out;
     margin-left: 5px;
+
+    &:hover {
+      background-position: 100% 0;
+    }
   }
 }
 
