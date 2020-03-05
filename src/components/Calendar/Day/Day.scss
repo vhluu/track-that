@@ -70,10 +70,19 @@
       text-align: right;
     }
 
+    @media screen and (min-width: $bp-desktop-md) {
+      font-size: 17px;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+    }
+
     @media screen and (min-width: $bp-desktop-lg) {
-      font-size: 16px;
-      width: 27px;
-      height: 27px;
+      font-size: 19px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
     }
   }
 }
