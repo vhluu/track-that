@@ -45,6 +45,10 @@
   z-index: $zindex-day-modal;
   min-width: 250px;
 
+  @media screen and (min-width: $bp-desktop-md) {
+    min-width: 280px;
+  }
+
   .edit-day {
     font-size: 18px;
     margin-top: 0;
