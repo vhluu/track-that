@@ -53,7 +53,8 @@
     width: 100%;
     min-height: 0;
     transition: min-height 0.8s;
-    background-image: linear-gradient(#a2e0ff, #b1f2fb);
+    // background-image: linear-gradient(#a2e0ff, #b1f2fb);
+    background-image: linear-gradient(lighten($gradient-blue-2, 5%), lighten($gradient-blue-1, 5%));
 
     .bar-value {
       display: block;
@@ -87,5 +88,14 @@
     left: -20px;
     top: -50%;
     transform: translateY(-50%);
+  }
+}
+
+// Fix x-axis size issue caused by Windows scrollbar
+.windows {
+  .overflow {
+    .x-axis {
+      height: calc(100% - 57px);
+    }
   }
 }

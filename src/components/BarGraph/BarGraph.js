@@ -28,6 +28,9 @@ class BarGraph extends Component {
 
     if (scrollWidth > this.barsWidth) { // check if the graph bars are overflowing its container
       barsRef.scrollLeft = scrollWidth;
+      barsRef.parentElement.classList.add('overflow');
+    } else {
+      barsRef.parentElement.classList.remove('overflow');
     }
   }
 
