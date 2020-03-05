@@ -7,13 +7,14 @@
     <style>
       @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap');
 
+      /* General */
       * {
         box-sizing: border-box;
       }
       body {
         font-family: 'Quicksand', sans-serif;
         margin: 0;
-        width: 185px;
+        width: 196px;
       }
       p {
         font-weight: 600;
@@ -21,6 +22,7 @@
         font-size: 13px;
       }
 
+      /* Buttons */
       .btn {
         font-weight: 600;
         text-align: center;
@@ -29,7 +31,6 @@
         padding: 10px 14px;
         white-space: nowrap;
         border-top: 1px solid #e2e2e2;
-        /* color: #5d7886; */
         color: #92a2ab;
         text-transform: uppercase;
       }
@@ -41,6 +42,7 @@
         background: rgba(172, 242, 253, 0.2);
       }
 
+      /* Helper Classes */
       .text-center {
         text-align: center;
       }
@@ -48,6 +50,7 @@
         display: none !important;
       }
 
+      /* Calendar Day */
       .day {
         display: flex;
         background-image: linear-gradient(90deg, rgb(212, 253, 234),rgb(215, 251, 255));
@@ -69,7 +72,6 @@
       .day-tags {
         display: flex;
         flex-wrap: wrap;
-        /* border-left: 2px solid rgb(178, 232, 205); */
         border-left: 2px solid #88e5f5;
         margin-left: 10px;
         padding: 6px 6px 0 6px;
@@ -86,7 +88,11 @@
         margin-bottom: 6px;
         text-align: center;
       }
+      .day .day-tag {
+        cursor: default;
+      }
 
+      /* Add Tag Widget */
       .add-tag-wrapper {
         max-height: 0;
         transition: max-height 0.15s ease-out;
@@ -106,6 +112,8 @@
       .add-tag-wrapper:not(.logged-in) .login-msg {
         display: block;
       }
+
+      /* All Tags Section */
       .all-tags {
         display: flex;
         flex-wrap: wrap;
@@ -115,7 +123,7 @@
         position: relative;
       }
       .all-tags .day-tag:hover {
-        opacity: 0.8;
+        border: 2px solid #64c598;
         cursor: pointer;
       }
       .all-tags input:checked + label .day-tag:before {
@@ -130,6 +138,7 @@
         transform: rotate(45deg);
       }
 
+      /* Colors */
       .violet { background-color: #f6e6ff; }
       .indigo { background-color: #dfedff; }
       .skyblue { background-color: #d1faff; } 
@@ -147,6 +156,7 @@
       .redorange { background-color: #ffe5d6; }
       .gray { background-color: #edf1f3; }
 
+      /* Add Button */
       .add-btn {
         border: 1px dashed #62d1e4;
         line-height: 21px;
@@ -164,6 +174,7 @@
         background-color: rgba(92, 231, 255, 0.3);
       }
 
+      /* Save Button */
       .save-btn {
         border-top: none;
         padding: 6px 10px;
@@ -181,10 +192,10 @@
         cursor: pointer;
       }
 
+      /* Error Messages */
       .no-tags-msg p:nth-child(2) {
         opacity: 0.7;
       }
-
       .login-msg p {
         font-size: 14px;
         letter-spacing: 0.4px;
@@ -194,6 +205,7 @@
         border-radius: 5px;
       }
 
+      /* Sign-in Button */
       .google-signin {
         display: flex;
         justify-content: center;
@@ -202,6 +214,7 @@
         margin-right: 7px;
       }
       
+      /* Fix for emoji horizontal alignment issues for retina screens */
       @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
         .day-tag {
           text-align: right;
@@ -209,7 +222,9 @@
       }
     </style>
   </head>
+
   <body>
+    <!-- Calendar Day -->
     <div>
       <div class="day">
         <div class="text-center">
@@ -222,6 +237,7 @@
       </div>
     </div>
 
+    <!-- Add Tag Widget -->
     <div class="add-tag-wrapper">
       <div class="no-tags-msg hide">
         <p>You have no tags 😱!</p>
@@ -236,9 +252,12 @@
         <div class="btn save-btn">Save</div>
       </div>
     </div>
+
+    <!-- CTA Buttons -->
     <div class="google-signin btn" class="hide">
       <svg class="google-icon" width="14" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M13.72 7.159c0-.496-.045-.974-.127-1.432H7v2.708h3.767a3.22 3.22 0 01-1.397 2.113v1.756h2.263c1.323-1.219 2.087-3.013 2.087-5.145z" fill-rule="evenodd" fill="#4285f4"/><path d="M7 14c1.89 0 3.475-.627 4.633-1.696L9.37 10.548c-.627.42-1.43.668-2.37.668-1.824 0-3.367-1.231-3.918-2.886H.745v1.814A6.999 6.999 0 007 14z" fill-rule="evenodd" fill="#34a853"/><path d="M3.083 8.33A4.21 4.21 0 012.863 7c0-.461.08-.91.22-1.33V3.856H.745A6.986 6.986 0 000 7c0 1.13.27 2.199.745 3.144L3.083 8.33z" fill-rule="evenodd" fill="#fbbc05"/><path d="M7 2.784c1.028 0 1.95.353 2.676 1.047l2.008-2.008C10.47.693 8.887 0 7 0A6.997 6.997 0 00.745 3.856L3.083 5.67C3.633 4.015 5.177 2.784 7 2.784z" fill-rule="evenodd" fill="#ea4335"/></svg>
-      Sign in w/ Google</div>
+      Sign in w/ Google
+    </div>
     <div class="view-cal btn btn-primary">View Calendar</div>
     <div class="google-signout btn" class="hide">Sign out</div>
     <script src="/js/popup.min.js"></script>
