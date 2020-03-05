@@ -23,7 +23,7 @@ export function toggleAdd() {
       tagHTML += `
         <div>
           <input type="checkbox" id="checkbox-${tagId}" data-cb-id="${tagId}" class="hide" ${isFound} />
-          <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}">${tag.icon}</div></label>
+          <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}" title="${tag.title}">${tag.icon}</div></label>
         </div>
       `;
     });
@@ -81,7 +81,7 @@ function displayTags(added) {
   const tags = getTags(); // get the tag information
   added.forEach((id) => { // create the tag elements
     const current = tags[id];
-    tagWrapperInner += `<div class="day-tag ${current.color}" id="${current.id}">${current.icon}</div>`;
+    tagWrapperInner += `<div class="day-tag ${current.color}" id="${current.id}" title="${current.title}">${current.icon}</div>`;
   });
 
   const addBtn = document.querySelector('.add-btn');
