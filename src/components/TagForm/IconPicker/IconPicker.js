@@ -66,7 +66,7 @@ class IconPicker extends Component {
         <div className="tag-field-icon" onClick={this.toggleIconPicker} role="button" tabIndex={0}>{selectedIcon}</div>
         { showIconPicker && (
           <div className="tag-emoji-picker">
-            <NimblePicker set="apple" data={data} onSelect={this.setIcon} />
+            <NimblePicker native="true" data={data} onSelect={this.setIcon} />
           </div>
         ) }
       </div>

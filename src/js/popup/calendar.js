@@ -54,7 +54,7 @@ export function setTags(userId) {
           let tagWrapperInner = '';
           // create the tags and append to popup template
           tagData.forEach((tag) => {
-            tagWrapperInner += `<div class="day-tag ${tag.color}" id="${tag.id}">${tag.icon}</div>`;
+            tagWrapperInner += `<div class="day-tag ${tag.color}" id="${tag.id}" title="${tag.title}">${tag.icon}</div>`;
           });
           tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
         }

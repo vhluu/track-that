@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Tag from './Tag/Tag';
 import './TagList.scss';
 
-function TagList(props) {
+const TagList = React.forwardRef((props, ref) => {
   const { tags, onClick } = props;
   return (
-    <div className="tags-list">
+    <div className="tags-list" ref={ref}>
       {Object.keys(tags).map((id) => {
         const tag = tags[id];
         return (
@@ -21,11 +20,6 @@ function TagList(props) {
       })}
     </div>
   );
-}
-
-TagList.propTypes = {
-  onClick: PropTypes.func,
-  tags: PropTypes.objectOf(PropTypes.object).isRequired,
-};
+});
 
 export default TagList;

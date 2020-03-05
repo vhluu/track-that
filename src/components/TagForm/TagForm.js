@@ -57,7 +57,14 @@ class TagForm extends Component {
   createTag() {
     const formValues = this.validateForm(); // validate form & get form values
 
-    if (formValues) this.props.onCreateTag(formValues); // if form is valid, then create tag in store & database
+    if (formValues) { // form data is valid
+      this.props.onCreateTag(formValues); // create tag in store & database
+      this.setState({ // clear form
+        selectedColor: false,
+        selectedIcon: false,
+        titleValue: '',
+      });
+    }
   }
 
   /* Handles click of 'Update Tag' btn. Updates tag in store & database */
