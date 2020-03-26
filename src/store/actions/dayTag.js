@@ -1,4 +1,4 @@
-import db from '../../util/firebase';
+import { db } from '../../util/firebase';
 import * as actionTypes from './actionTypes';
 
 export const setDayTags = (start, end, taggedDays) => ({ type: actionTypes.SET_DAY_TAGS, start, end, taggedDays });

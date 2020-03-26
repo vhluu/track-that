@@ -1,4 +1,4 @@
-import db from '../../util/firebase';
+import { db } from '../../util/firebase';
 
 let tags; // all of the user's tags
 let dayTags; // the tags added for the current day

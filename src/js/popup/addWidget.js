@@ -1,5 +1,5 @@
 
-import db from '../../util/firebase';
+import { db } from '../../util/firebase';
 import { fullDate, getTags, getDayTags } from './calendar';
 import { getUserId } from './login';
 

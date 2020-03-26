@@ -1,17 +1,18 @@
 import app from 'firebase/app';
 import 'firebase/database';
+import 'firebase/auth';
 
 const config = {
   apiKey: '<FIREBASE-API-KEY>',
-  authDomain: 'trackthat-9a3ff.firebaseapp.com',
-  databaseURL: 'https://trackthat-9a3ff.firebaseio.com',
-  projectId: 'trackthat-9a3ff',
+  authDomain: '<FIREBASE-AUTH-DOMAIN>',
+  databaseURL: '<FIREBASE-DATABASE-URL>',
+  projectId: '<FIREBASE-PROJECT-ID>',
   storageBucket: '',
-  messagingSenderId: '925564062879',
-  appId: '1:925564062879:web:3699f8c1eebae75d86a6aa',
+  appId: '<FIREBASE-API-ID>',
 };
 
 app.initializeApp(config);
-const db = app.database();
 
-export default db;
+export const db = app.database();
+
+export const fbApp = app;
