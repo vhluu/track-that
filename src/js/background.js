@@ -1,3 +1,5 @@
+import { fbApp } from '../util/firebase';
+
 const clientId = '<CLIENT-ID>';
 const clientSecret = '<CLIENT-SECRET>';
 const redirectUrl = chrome.identity.getRedirectURL();
@@ -75,6 +77,9 @@ function getRefreshToken(responseUrl, callback, message) {
 }
 
 
+let afterSuccess;
+let loginStart;
+let clientMessage;
 /**
  * Gets user information using access token
  */
@@ -96,23 +101,39 @@ function getUserInfo(accessTok, callback, startLogin, retry, message) {
         refreshAccessToken(callback);
       });
     } else if (this.status === 200) { // successfully retrieved user information
-      console.log(this.response);
-      const userInfo = JSON.parse(this.response);
-      const { email } = userInfo;
-      const userId = userInfo.sub;
-      console.log(email);
-      console.log(userId);
+      // Authorize Firebase with the OAuth Access Token.
+      const credential = fbApp.auth.GoogleAuthProvider.credential(null, accessTok);
+      console.log('we in hereee');
+      afterSuccess = callback;
+      loginStart = startLogin;
+      clientMessage = message;
+      console.log('credential is');
+      console.log(credential);
+      fbApp.auth().signInWithCredential(credential).catch(function(error) {
+        // The OAuth token might have been invalidated. Lets' remove it from cache.
+        // TODO: handle this case
+        if (error.code === 'auth/invalid-credential') {
+          console.log('invalid credentials');
+        }
+      });
 
-      console.log(message);
-      // if user is already logged in, send the email to script that requested it
-      if (!startLogin) callback({ email, userId });
-      else if (message === 'sign in from app') { 
-        callback({ email, userId });
-      } else { // user is relogging in so open the extension page
-        chrome.tabs.create({ url: chrome.extension.getURL('index.html') }, (tab) => {
-          console.log('tab opened');
-        });
-      }
+      // console.log(this.response);
+      // const userInfo = JSON.parse(this.response);
+      // const { email } = userInfo;
+      // const userId = userInfo.sub;
+      // console.log(email);
+      // console.log(userId);
+
+      // console.log(message);
+      // // if user is already logged in, send the email to script that requested it
+      // if (!startLogin) callback({ email, userId });
+      // else if (message === 'sign in from app') { 
+      //   callback({ email, userId });
+      // } else { // user is relogging in so open the extension page
+      //   chrome.tabs.create({ url: chrome.extension.getURL('index.html') }, (tab) => {
+      //     console.log('tab opened');
+      //   });
+      // }
     } else {
       console.log(`Error: ${this.status}`);
     }
@@ -155,6 +176,7 @@ function refreshAccessToken(callback) {
         } else { // refresh token no longer works
           console.log('refresh token no longer working. restarting auth flow!');
           removeFromStorage(['tt-extension-a', 'tt-extension-r']);
+          fbApp.auth().signOut();
 
           startAuthFlow(callback, false); // generate a new refresh token
         }
@@ -178,15 +200,20 @@ chrome.runtime.onMessage.addListener(
     console.log(sender);
     console.log(sendResponse);
     if (request.greeting === 'hello from popup' || request.greeting === 'hello from calendar' || request.greeting === 'sign in from app') {
-      // if the access token is valid, then we dont need to make the user login
-      console.log('helloooo');
-      getFromStorage('tt-extension-a', (value) => {
-        console.log(`access is ${value}`);
+      const { currentUser } = fbApp.auth();
+      console.log(currentUser);
+      if (currentUser) {
+        sendResponse({ userId: currentUser.uid });
+      } else {
+        // if the access token is valid, then we dont need to make the user login
+        getFromStorage('tt-extension-a', (value) => {
+          console.log(`access is ${value}`);
 
-        if (value) getUserInfo(value, sendResponse, false, true); // checks access code
-        else if (request.login) startAuthFlow(sendResponse, true, request.greeting); // logs in user from beginning 
-        else sendResponse({ email: '' });
-      });
+          if (value) getUserInfo(value, sendResponse, false, true); // checks access code
+          else if (request.login) startAuthFlow(sendResponse, true, request.greeting); // logs in user from beginning 
+          else sendResponse({ email: '' });
+        });
+      }
     } else if (request.greeting === 'sign me out') revokeToken(sendResponse, false);
     return true;
   },
@@ -218,6 +245,7 @@ function removeFromStorage(keys) {
  * See more info here: https://developers.google.com/identity/protocols/OAuth2WebServer
  */
 function revokeToken(callback, generateNew) {
+  console.log('sigined out!!!');
   getFromStorage('tt-extension-a', (value) => {
     console.log(`access is ${value}`);
 
@@ -227,6 +255,7 @@ function revokeToken(callback, generateNew) {
         if (response.status === 200) { // successfully revoked token
           console.log('successfully revoked token');
           removeFromStorage(['tt-extension-a', 'tt-extension-r']);
+          fbApp.auth().signOut();
 
           if (generateNew) startAuthFlow(callback, false);
           else callback({ signed_out: true });
@@ -235,3 +264,26 @@ function revokeToken(callback, generateNew) {
     }
   });
 }
+
+let fbUID;
+fbApp.auth().onAuthStateChanged((user) => {
+  console.log(user);
+  console.log(afterSuccess);
+  console.log(fbApp.auth().currentUser);
+  if (user && afterSuccess) {
+    console.log(user);
+    const { uid } = user;
+    // send uid to the popup or app
+    // if user is already logged in, send the email to script that requested it
+    if (!loginStart) afterSuccess({ userId: uid });
+    else if (clientMessage === 'sign in from app') { 
+      afterSuccess({ userId: uid });
+    } else { // user is relogging in so open the extension page
+      chrome.tabs.create({ url: chrome.extension.getURL('index.html') }, (tab) => {
+        console.log('tab opened');
+      });
+    }
+  } else if (!user) {
+    console.log('User is no longer signed in');
+  }
+});
