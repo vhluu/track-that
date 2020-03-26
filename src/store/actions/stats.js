@@ -1,4 +1,4 @@
-import db from '../../util/firebase';
+import { db } from '../../util/firebase';
 import * as actionTypes from './actionTypes';
 
 export const setStats = (tagId, days) => ({ type: actionTypes.SET_STATS, tagId, days });

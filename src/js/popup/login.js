@@ -33,7 +33,7 @@ export function getUserId() {
 function retrieveLoginStatus(startLogin) {
   // communicate to background script that we want to retrieve the login status
   chrome.extension.sendMessage({ greeting: 'hello from popup', login: startLogin }, (response) => {
-    if (response && response.email) { // if user is signed in
+    if (response && response.userId) { // if user is signed in
       showSignOut(); // hide Sign In button and show Sign Out button
       userId = response.userId;
       setTags(userId);
