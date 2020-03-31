@@ -18,6 +18,7 @@ const updateObject = (oldObject, updatedProps) => {
   };
 };
 
+// Handler for adding tags
 const addTag = (state, action) => {
   console.log('adding tag', action);
   return updateObject(state, { 
@@ -26,6 +27,7 @@ const addTag = (state, action) => {
   });
 };
 
+// Handler for deleting tags
 const deleteTag = (state, action) => {
   console.log('deleting tag', action);
   // removing tag from tags
@@ -44,6 +46,7 @@ const deleteTag = (state, action) => {
   });
 };
 
+// Handler for updating tags
 const updateTag = (state, action) => {
   console.log('updating tag', action);
   return updateObject(state, {
@@ -51,6 +54,7 @@ const updateTag = (state, action) => {
   });
 };
 
+// Handler for setting tags
 const setTags = (state, action) => {
   console.log('setting tags', action);
   if (action.tags) {
@@ -70,12 +74,13 @@ const setTags = (state, action) => {
   };
 };
 
-
+// Handler for setting user id
 const setUser = (state, action) => {
   console.log('getting user', action);
   return updateObject(state, { uid: action.userInfo.userId });
 };
 
+// Handler for signing out user
 const signOutUser = (state, action) => {
   console.log('signing out user', action);
   return updateObject(state, {
@@ -88,6 +93,7 @@ const signOutUser = (state, action) => {
   });
 };
 
+// Handler for adding day tags
 const addDayTag = (state, action) => {
   const currentDT = state.dayTags[action.date];
 
@@ -98,6 +104,7 @@ const addDayTag = (state, action) => {
   });
 };
 
+// Handler for deleting day tags
 const deleteDayTag = (state, action) => {
   console.log('deleting day tags', action);
   // removing tags from day tags
@@ -112,14 +119,10 @@ const deleteDayTag = (state, action) => {
       [action.date]: filteredTags,
     };
   }
-  return {
-    ...state,
-    dayTags: {
-      ...updatedDT,
-    },
-  };
+  return updateObject(state, { dayTags: updatedDT });
 };
 
+// Handler for setting day tags
 const setDayTags = (state, action) => {
   const updatedState = {
     ...state,
@@ -147,12 +150,14 @@ const setDayTags = (state, action) => {
   return updatedState;
 };
 
+// Handler for replacing day tags
 const replaceDayTags = (state, action) => {
   return updateObject(state, {
     dayTags: updateObject(state.dayTags, { [action.date]: action.tags }),
   });
 };
 
+// Handler for setting stats
 const setStats = (state, action) => {
   const moreStats = updateObject(state.stats, { [action.tagId]: {} });
   if (action.days) {
@@ -165,8 +170,10 @@ const setStats = (state, action) => {
   return updateObject(state, { stats: moreStats });
 };
 
+// Handler for deleting stats
 const clearStats = (state) => updateObject(state, { stats: {} });
 
+// Object of action types to handlers
 const handlers = {
   ADD_TAG: addTag,
   DELETE_TAG: deleteTag,
@@ -182,6 +189,7 @@ const handlers = {
   CLEAR_STATS: clearStats,
 };
 
+// Reducer 
 const reducer = (state = initialState, action) => {
   if (handlers[action.type]) {
     return handlers[actionTypes[action.type]](state, action);
