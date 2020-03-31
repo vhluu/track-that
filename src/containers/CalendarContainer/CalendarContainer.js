@@ -167,6 +167,7 @@ class CalendarContainer extends Component {
     this.setState((prevState) => {
       const { full, monthIndex } = prevState.date;
       let date = new Date(full.valueOf());
+      date.setDate(1); // set date to 1 to prevent issues with months not having same # of days
 
       if (monthType === 'curr') date = new Date(); // set date to current month
       else if (monthType === 'prev') date.setMonth(monthIndex - 1); // prev month
@@ -186,6 +187,7 @@ class CalendarContainer extends Component {
 
   /* Sets stored date to previous month */
   prevMonth() {
+    console.log('calling prev month');
     this.changeMonth('prev');
   }
 
