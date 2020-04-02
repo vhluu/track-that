@@ -1,5 +1,5 @@
 import * as actionTypes from './actions/actionTypes';
-import { updateObject, removeProp } from '../util/utility';
+import { updateObject, removeProp, debug } from '../util/utility';
 
 const initialState = {
   uid: null, // the user id
@@ -175,7 +175,7 @@ const handlers = {
 // Reducer 
 const reducer = (state = initialState, action) => {
   if (handlers[action.type]) {
-    console.log(action.type, action);
+    if (debug) console.log(action.type, action);
     return handlers[actionTypes[action.type]](state, action);
   }
   return state;

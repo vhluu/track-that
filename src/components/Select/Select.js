@@ -34,7 +34,6 @@ class Select extends Component {
 
   /* Handles when user selects an option */
   selectOption(e) {
-    console.log(e.target);
     const { onChange } = this.props;
     const currVal = e.target.getAttribute('data-value');
     const currLabel = e.target.textContent;

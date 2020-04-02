@@ -187,7 +187,6 @@ class CalendarContainer extends Component {
 
   /* Sets stored date to previous month */
   prevMonth() {
-    console.log('calling prev month');
     this.changeMonth('prev');
   }
 

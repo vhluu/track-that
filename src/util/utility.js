@@ -13,3 +13,6 @@ export const removeProp = (oldObject, propToRemove) => {
   const { [propToRemove]: deletedItem, ...updatedObject } = oldObject;
   return updatedObject;
 };
+
+// Whether to show console.log statements
+export const debug = false;

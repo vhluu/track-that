@@ -8,7 +8,6 @@ export const clearStats = () => ({ type: actionTypes.CLEAR_STATS });
 export const getStats = (tagId) => {
   return (dispatch, getState) => {
     const { uid } = getState();
-    console.log('getting stats from database!');
     // get the tags for the dates within the specified range (start to end inclusive)
     return db.ref(`users/${uid}/stats/${tagId}`).once('value').then((snapshot) => dispatch(setStats(tagId, snapshot.val())));
   };

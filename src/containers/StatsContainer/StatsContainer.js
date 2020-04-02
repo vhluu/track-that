@@ -91,7 +91,7 @@ class StatsContainer extends Component {
     const data = [];
     const tagStats = stats && stats[value || currentValue] ? Object.entries(stats[value || currentValue]) : []; // stats for selected tag
     const noneTagged = (tagStats.length === 0); // whether there are any tagged days
-    console.log(tagStats);
+    
     // populating data array with selected tag stats
     tagStats.forEach(([date, count]) => {
       // getting month as abbreviated string (ex. Jan)
