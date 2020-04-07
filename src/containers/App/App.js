@@ -29,7 +29,6 @@ class App extends Component {
 
     chrome.runtime.onMessage.addListener(
       (request, sender, sendResponse) => {
-        console.log(request);
         if (request.greeting === 'sign out app') {
           onSignOutUser();
         } else if (request.greeting === 'updating day tags') {
@@ -51,8 +50,6 @@ class App extends Component {
 
   /* Toggles the stats modal */
   toggleGraph() {
-    console.log('toggling graph');
-
     this.setState((prevState) => ({
       showGraph: !prevState.showGraph,
     }));

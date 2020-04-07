@@ -15,7 +15,6 @@ const createUser = (dispatch, userInfo) => {
   // checks if user is in the database, if not, then add them
   db.ref(`users/${userInfo.userId}/created`).once('value').then((snapshot) => {
     if (!snapshot.val()) {
-      console.log(`adding user to db with user id ${userInfo.userId}`);
       db.ref(`users/${userInfo.userId}`).set({ created: true });
       dispatch(createUserSuccess());
     }
