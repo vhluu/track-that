@@ -35,11 +35,8 @@ function startAuthFlow(callback, interactive, message) {
  * Gets a refresh token for the user
  */
 function getRefreshToken(responseUrl, callback, message) {
-  console.log(responseUrl);
-
   const tokenUrl = 'https://www.googleapis.com/oauth2/v4/token';
   const authCode = responseUrl.split('&')[0].split('code=')[1]; // gets authorization code from reponse url
-  console.log(authCode);
 
   const tokenParams = {
     code: decodeURIComponent(authCode),
@@ -55,15 +52,10 @@ function getRefreshToken(responseUrl, callback, message) {
   xhr.open('post', tokenUrl);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.onload = function retrieveTokens() {
-    console.log(this.status);
-    console.log(this.response);
-
     // grab the access token and use that to get the email
     const tokenInfo = JSON.parse(this.response);
     refreshToken = tokenInfo.refresh_token;
     accessToken = tokenInfo.access_token;
-    console.log(refreshToken);
-    console.log(accessToken);
 
     // store refresh & access token
     addToStorage('tt-extension-r', refreshToken);
@@ -91,7 +83,6 @@ function getUserInfo(accessTok, callback, startLogin, retry, message) {
  
   xhr.setRequestHeader('Authorization', `Bearer ${accessTok}`);
   xhr.onload = function retrieveInfo() {
-    console.log(this.status);
     if (this.status === 401 && retry) { // access token is expired or revoked
       console.log('Access Token expired');
 
@@ -110,9 +101,6 @@ function getUserInfo(accessTok, callback, startLogin, retry, message) {
       loginStart = startLogin;
       clientMessage = message;
 
-      console.log('credential is');
-      console.log(credential);
-
       // firebase auth - sign in user with given credientials
       fbApp.auth().signInWithCredential(credential).catch((error) => {
         // if oauth token has been invalidated, then remove it from cache
@@ -120,7 +108,6 @@ function getUserInfo(accessTok, callback, startLogin, retry, message) {
           console.log('invalid credentials');
           chrome.identity.removeCachedAuthToken({ token: accessTok }, (response) => {
             console.log('removed cached auth token');
-            console.log(response);
 
             refreshAccessToken(callback);
           });
@@ -156,7 +143,6 @@ function refreshAccessToken(callback) {
       xhr.open('post', refreshUrl);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.onload = function getAccess() {
-        console.log(this.status);
         console.log(this.response);
         if (this.status === 200) {
           // grab the access token and use that to get the email
@@ -187,19 +173,13 @@ function refreshAccessToken(callback) {
  */
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
-    console.log(request);
-    console.log(sender);
-    console.log(sendResponse);
     if (request.greeting === 'hello from popup' || request.greeting === 'hello from calendar' || request.greeting === 'sign in from app') {
       const { currentUser } = fbApp.auth();
-      console.log(currentUser);
       if (currentUser) {
         sendResponse({ userId: currentUser.uid });
       } else {
         // if the access token is valid, then we dont need to make the user login
         getFromStorage('tt-extension-a', (value) => {
-          console.log(`access is ${value}`);
-
           if (value) getUserInfo(value, sendResponse, false, true); // checks access code
           else if (request.login) startAuthFlow(sendResponse, true, request.greeting); // logs in user from beginning 
           else sendResponse({ email: '' });
@@ -213,13 +193,13 @@ chrome.runtime.onMessage.addListener(
 
 function addToStorage(key, value) {
   chrome.storage.local.set({ [key]: value }, () => {
-    console.log(`${key} is set to ${value}`);
+    console.log(`storing ${key}`);
   });
 }
 
 function getFromStorage(key, callback) {
   chrome.storage.local.get([key], (result) => {
-    console.log(result[key]);
+    console.log(`getting ${key}`);
     callback(result[key]);
   });
 }
@@ -236,10 +216,8 @@ function removeFromStorage(keys) {
  * See more info here: https://developers.google.com/identity/protocols/OAuth2WebServer
  */
 function revokeToken(callback, generateNew) {
-  console.log('sigined out!!!');
+  console.log('signing out!');
   getFromStorage('tt-extension-a', (value) => {
-    console.log(`access is ${value}`);
-
     if (value) {
       window.fetch(`https://accounts.google.com/o/oauth2/revoke?token=${value}`).then((response) => {
         console.log(response);
@@ -261,8 +239,8 @@ function revokeToken(callback, generateNew) {
  * Handles changes to firebase user auth state
  */
 fbApp.auth().onAuthStateChanged((user) => {
-  console.log(user);
   if (user && afterSuccess) { // user has successfully signed in
+    console.log('User is signed in');
     const { uid } = user;
 
     if (!loginStart) { // send uid to the popup or app
