@@ -1,7 +1,7 @@
 {
   "name": "Track That",
   "version": "1.0.1",
-  "description": "Extension that allows you to keep track of when you last did something",
+  "description": "Keep track of your habits or when you last did something with Track That",
   "permissions": ["declarativeContent", "storage", "identity", "identity.email"],
   "browser_action": {
     "default_popup": "popup.html"
