@@ -11,7 +11,6 @@ export const createUserSuccess = () => ({ type: actionTypes.CREATE_USER_SUCCESS 
 export const signOutUser = () => ({ type: actionTypes.SIGN_OUT_USER });
 
 const createUser = (dispatch, userInfo) => {
-  console.log(userInfo);
   // checks if user is in the database, if not, then add them
   db.ref(`users/${userInfo.userId}/created`).once('value').then((snapshot) => {
     if (!snapshot.val()) {
@@ -26,7 +25,7 @@ export const initUser = (greeting, login) => {
     // gets logged-in user information from background script
     chrome.extension.sendMessage({ greeting, login }, (response) => {
       if (response && response.userId) {
-        console.log(response);
+        if (greeting === 'sign in from app') { window.location.reload(); }
         dispatch(setUser(response));
 
         createUser(dispatch, response); // creates user if not already in database
