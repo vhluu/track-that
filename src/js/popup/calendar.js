@@ -1,4 +1,5 @@
 import { db } from '../../util/firebase';
+import { populateWidget } from './addWidget';
 
 let tags; // all of the user's tags
 let dayTags; // the tags added for the current day
@@ -58,6 +59,7 @@ export function setTags(userId) {
           });
           tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
         }
+        populateWidget(tags, dayTags);
       });
 
       Object.keys(tags).forEach((id) => { // add the tag ids to the each tag object
@@ -66,6 +68,7 @@ export function setTags(userId) {
     } else { // show message if user has no tags
       document.querySelector('.has-tags').classList.add('hide');
       document.querySelector('.no-tags-msg').classList.remove('hide');
+      document.querySelector('.loading-msg').classList.add('hide');
     }
   });
 }
