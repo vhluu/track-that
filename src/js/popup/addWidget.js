@@ -19,7 +19,8 @@ export function populateWidget(tags, dayTags) {
   const addTagWrapper = document.querySelector('.add-tag-wrapper');
   const allTags = addTagWrapper.querySelector('.all-tags');
 
-  document.querySelector('.loading-msg').classList.add('hide'); // hide loading message
+  document.querySelector('.loading-dots').classList.add('hide'); // hide loading message
+  document.querySelector('.save-btn').classList.remove('hide'); // hide loading message
 
   // display the user's tags
   if (tags && allTags.children.length === 0) {

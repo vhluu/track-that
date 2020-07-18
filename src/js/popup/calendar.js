@@ -68,7 +68,7 @@ export function setTags(userId) {
     } else { // show message if user has no tags
       document.querySelector('.has-tags').classList.add('hide');
       document.querySelector('.no-tags-msg').classList.remove('hide');
-      document.querySelector('.loading-msg').classList.add('hide');
+      document.querySelector('.loading-dots').classList.add('hide');
     }
   });
 }
