@@ -1,19 +1,29 @@
 
 import { db } from '../../util/firebase';
-import { fullDate, getTags, getDayTags } from './calendar';
+import { fullDate, getTags } from './calendar';
 import { getUserId } from './login';
 
 const initialVals = new Map(); // map to store the initial values of the tag checkboxes
 
-/* Opens the add tag section & populates it with the user tags */
+/* Opens the add widget */
 export function toggleAdd() {
   const addTagWrapper = document.querySelector('.add-tag-wrapper');
+  addTagWrapper.classList.toggle('open');
+  if (getUserId()) addTagWrapper.classList.add('logged-in');
+  else addTagWrapper.classList.remove('logged-in');
+}
+
+
+/* Populates the add widget with the user's tags */
+export function populateWidget(tags, dayTags) {
+  const addTagWrapper = document.querySelector('.add-tag-wrapper');
   const allTags = addTagWrapper.querySelector('.all-tags');
-  const tags = getTags();
-  const dayTags = getDayTags();
+
+  document.querySelector('.loading-dots').classList.add('hide'); // hide loading message
+  document.querySelector('.save-btn').classList.remove('hide'); // hide loading message
 
   // display the user's tags
-  if (!(addTagWrapper.classList.contains('open')) && tags && allTags.children.length === 0) {
+  if (tags && allTags.children.length === 0) {
     let tagHTML = '';
 
     Object.keys(tags).forEach((tagId) => {
@@ -29,9 +39,6 @@ export function toggleAdd() {
     });
     allTags.insertAdjacentHTML('beforeend', tagHTML);
   }
-  addTagWrapper.classList.toggle('open');
-  if (getUserId()) addTagWrapper.classList.add('logged-in');
-  else addTagWrapper.classList.remove('logged-in');
 }
 
 

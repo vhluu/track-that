@@ -213,6 +213,39 @@
       .google-icon {
         margin-right: 7px;
       }
+
+      /* Loading Dots */
+      .loading-dots {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .loading-dots > div {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        background-color: rgb(148, 232, 193);
+        animation: 1.5s bounce infinite ease-in-out both;
+      }
+
+      .loading-dots .bounce {
+        animation-delay: -0.3s;
+      }
+
+      .loading-dots .bounce2 {
+        animation-delay: -0.15s;
+      }
+
+      @keyframes bounce {
+        0%, 80%, 100% {
+          transform: scale(0);
+        }
+
+        40% {
+          transform: scale(1);
+        }
+      }
       
       /* Fix for emoji horizontal alignment issues for retina screens */
       @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -248,8 +281,13 @@
       </div>
       <div class="has-tags">
         <p>Select the tags you want<br>for today!</p>
+        <div class="loading-dots">
+          <div class="bounce"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
         <div class="all-tags"></div>
-        <div class="btn save-btn">Save</div>
+        <div class="btn save-btn hide">Save</div>
       </div>
     </div>
 
