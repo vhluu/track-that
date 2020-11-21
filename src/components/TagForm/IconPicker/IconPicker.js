@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import { isMac } from '../../../util/utility';
+
 import '../../../sass/emoji-mart.scss';
 import data from 'emoji-mart/data/all.json';
-import { NimblePicker } from 'emoji-mart';
+import { NimblePicker, Emoji, getEmojiDataFromNative } from 'emoji-mart';
+
 import './IconPicker.scss';
+
+const emojiData = getEmojiDataFromNative('😆', 'apple', data);
+const emojiData2 = getEmojiDataFromNative('💩', 'apple', data);
 
 class IconPicker extends Component {
   constructor(props) {
@@ -66,7 +72,11 @@ class IconPicker extends Component {
         <div className="tag-field-icon" onClick={this.toggleIconPicker} role="button" tabIndex={0}>{selectedIcon}</div>
         { showIconPicker && (
           <div className="tag-emoji-picker">
-            <NimblePicker native="true" data={data} onSelect={this.setIcon} />
+            { isMac ? (
+              <NimblePicker native="true" data={data} onSelect={this.setIcon} />
+            ) : (
+              <NimblePicker set="apple" data={data} onSelect={this.setIcon} />
+            ) }
           </div>
         ) }
       </div>

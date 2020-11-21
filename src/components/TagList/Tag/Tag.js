@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { Emoji, getEmojiDataFromNative } from 'emoji-mart';
+import data from 'emoji-mart/data/all.json';
+import { isMac } from '../../../util/utility';
+
 import './Tag.scss';
 
 class Tag extends Component {
@@ -15,6 +19,12 @@ class Tag extends Component {
 
   render() {
     const { onClick, id, tagColor, tagIcon, tagTitle } = this.props;
+
+    let emojiData;
+
+    if (isMac && tagIcon) {
+      emojiData = getEmojiDataFromNative(tagIcon, 'apple', data);
+    }
     return (
       <div
         className={`tag ${tagColor}`}
@@ -22,7 +32,9 @@ class Tag extends Component {
         onClick={() => onClick({ id, tagTitle, tagColor, tagIcon })}
         onDragStart={this.onDragStart.bind(this)}
         onDragEnd={this.onDragEnd}
-      >{tagIcon} {tagTitle}</div>
+      >{ !isMac ? tagIcon : (
+        <Emoji emoji={emojiData} set='apple' size={16} />
+      )} {tagTitle}</div>
     );
   }
 }

@@ -16,3 +16,5 @@ export const removeProp = (oldObject, propToRemove) => {
 
 // Whether to show console.log statements
 export const debug = false;
+
+export const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
