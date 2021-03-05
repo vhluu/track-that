@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../../sass/emoji-mart.scss';
 import data from 'emoji-mart/data/all.json';
 import { NimblePicker } from 'emoji-mart';
+import Button from '../../Button/Button';
 import './IconPicker.scss';
 
 class IconPicker extends Component {
@@ -54,7 +55,7 @@ class IconPicker extends Component {
     const { showIconPicker } = this.state;
 
     if (showIconPicker && this.PickerRef && !this.PickerRef.contains(event.target)) {
-      this.toggleIconPicker();
+    this.toggleIconPicker();
     }
   }
 
@@ -63,7 +64,7 @@ class IconPicker extends Component {
     return (
       <div className="tag-field-wrapper tag-icon-wrapper" ref={this.setPickerRef}>
         <label>Icon</label>
-        <div className="tag-field-icon" onClick={this.toggleIconPicker} role="button" tabIndex={0}>{selectedIcon}</div>
+        <Button btnType="tag-field-icon" clicked={this.toggleIconPicker} ariaLabel="Open Icon Picker">{selectedIcon}</Button>
         { showIconPicker && (
           <div className="tag-emoji-picker">
             <NimblePicker native="true" data={data} onSelect={this.setIcon} />

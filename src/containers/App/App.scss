@@ -20,7 +20,6 @@ body {
 }
 
 input {
-  outline: none;
   font-size: 14px;
   font-family: $font-stack;
   padding: 8px 10px;
@@ -31,6 +30,10 @@ input {
 
   &::placeholder {
     color: #b7bdc3;
+  }
+
+  &:focus {
+    outline-color: $focus-blue;
   }
 
   @media screen and (min-width: $bp-desktop-lg) {
@@ -52,18 +55,6 @@ label {
   }
 }
 
-p {
-  font-weight: 500;
-  font-size: 14px;
-
-  @media screen and (min-width: $bp-desktop-md) {
-    font-size: 15px;
-  }
-  @media screen and (min-width: $bp-desktop-lg) {
-    font-size: 16px;
-  }
-}
-
 
 // #### Typography
 h1 {
@@ -75,13 +66,19 @@ h2 {
   font-weight: 700;
 }
 
+p {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@media screen and (min-width: $bp-desktop-md) {
+  p { font-size: 15px; }
+}
+
 @media screen and (min-width: $bp-desktop-lg) {
-  h1 {
-    font-size: 27px;
-  }
-  h2 {
-    font-size: 24px;
-  }
+  h1 { font-size: 27px; }
+  h2 { font-size: 24px; }
+  p { font-size: 16px; }
 }
 
 
