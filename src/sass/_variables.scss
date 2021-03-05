@@ -23,7 +23,11 @@ $zindex-modal: 20;
 $zindex-emoji-picker: 40;
 
 
-// #### Colors
+// #### Focus Color
+$focus-blue: #1fa1e0;
+
+
+// #### Color Picker
 $violet: #f6e6ff;
 $indigo: #dfedff;
 $skyblue: #d1faff;
@@ -40,7 +44,6 @@ $green: #dcffdc;
 $yellow: #fffcd4;
 $redorange: #ffe5d6;
 $gray: #edf1f3;
-
 
 // #### Color Map - for Tag Gradients
 $color-map: ( 

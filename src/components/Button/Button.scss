@@ -11,11 +11,16 @@
   background-size: 300% 100%;
   color: #fff;
   display: inline-block;
-  transition: all .3s ease-in-out;
+  transition: background .3s ease-in-out;
 
   &:hover {
     cursor: pointer;
     background-position: 100% 0;
+  }
+
+  &:focus {
+    background-position: 100% 0;
+    outline: 2px dashed $focus-blue;
   }
 
   @media screen and (min-width: $bp-desktop-lg) {
@@ -33,6 +38,11 @@
 
   &:hover {
     background-color: rgba(92,231,255,0.2);
+  }
+
+  &:focus {
+    background-color: rgba(92,231,255,0.2);
+    outline: 2px dashed $focus-blue;
   }
 
   @media screen and (min-width: $bp-desktop-lg) {
