@@ -27,6 +27,7 @@ class TagForm extends Component {
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.toggleConfirmation = this.toggleConfirmation.bind(this);
     this.updateTag = this.updateTag.bind(this);
+    this.setFocus = this.setFocus.bind(this);
   }
 
   /* Returns an object that has all of the values entered into the form */
@@ -104,6 +105,11 @@ class TagForm extends Component {
     this.setState((prevState) => ({
       showConfirmation: !(prevState.showConfirmation),
     }));
+  }
+
+  /* Focuses on the first field */
+  setFocus() {
+    this.titleInput.current.focus();
   }
 
   render() {

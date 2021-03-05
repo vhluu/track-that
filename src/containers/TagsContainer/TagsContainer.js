@@ -27,6 +27,7 @@ class TagsContainer extends Component {
     this.scrollToBottom = this.scrollToBottom.bind(this);
 
     this.tagListRef = React.createRef();
+    this.tagFormRef = React.createRef();
   }
 
   /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
@@ -117,6 +118,7 @@ class TagsContainer extends Component {
             selectedTag={selectedTag} 
             key={selectedTag ? selectedTag.id : 'tag-form'}
             toggleSelf={this.toggleTagModal.bind(this)}
+            ref={this.tagFormRef}
           />
         </Modal>
         <Modal show={showSignIn} closeSelf={this.closeSignInModal} extraClasses="sign-in-modal">
