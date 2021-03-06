@@ -37,9 +37,11 @@ class Modal extends Component {
           firstChild.ref.current.setFocus();
         }
       }
-      
+      document.body.classList.add('show-modal');
+
     } else if (!show && prevProps.show) {
       this.state.prevFocusElement.focus();
+      document.body.classList.remove('show-modal');
     }
   }
 
@@ -50,7 +52,7 @@ class Modal extends Component {
   /* Closes modal on outside click */
   handleClickOutside(event) {
     const { show, closeSelf } = this.props;
-    
+
     if (show && this.modalRef && !this.modalRef.contains(event.target)) {
       if (closeSelf) closeSelf(event);
     }

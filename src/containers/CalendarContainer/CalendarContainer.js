@@ -202,10 +202,12 @@ class CalendarContainer extends Component {
 
   /* Change the calendar months on left/right arrow keydown */
   handleKeyDown(e) {
-    if (e.keyCode === 37) { // left arrow 
-      this.prevMonth();
-    } else if (e.keyCode === 39) { // right arrow
-      this.nextMonth();
+    if (!document.body.classList.contains('show-modal')) {
+      if (e.keyCode === 37) { // left arrow 
+        this.prevMonth();
+      } else if (e.keyCode === 39) { // right arrow
+        this.nextMonth();
+      }
     }
   }
 
