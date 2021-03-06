@@ -11,6 +11,6 @@ npm install
 # run in development mode
 npm run dev
 
-# build for production with minification (to the `build` folder)
+# build for production with minification (to the "build" folder)
 npm run build
 ```
