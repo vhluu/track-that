@@ -18,7 +18,8 @@
     background-position: 100% 0;
   }
 
-  &:focus {
+  &:focus { outline: none; }
+  &:focus-visible {
     background-position: 100% 0;
     outline: 2px dashed $focus-blue;
   }
@@ -40,7 +41,7 @@
     background-color: rgba(92,231,255,0.2);
   }
 
-  &:focus {
+  &:focus-visible {
     background-color: rgba(92,231,255,0.2);
     outline: 2px dashed $focus-blue;
   }
