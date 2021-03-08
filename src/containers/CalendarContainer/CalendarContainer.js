@@ -227,7 +227,7 @@ class CalendarContainer extends Component {
               <span className="curr-year">{ ` ${year}` }</span>
             </h1>
           </Pagination>
-          {showTodayBtn && <Button btnType="btn-smaller" clicked={this.currentMonth} ariaLabel="Today">Today</Button>}
+          {showTodayBtn && <Button type="smaller" clicked={this.currentMonth} ariaLabel="Today">Today</Button>}
         </div>
 
         <Calendar days={days} monthIndex={monthIndex} month={month} year={year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />

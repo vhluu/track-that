@@ -107,7 +107,7 @@ class TagsContainer extends Component {
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
         <div className="tags-main-wrapper">
           <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} />
-          <Button btnType="btn-dashed" clicked={this.toggleTagModal.bind(this, null)} ariaLabel="Add Tag">+ Add New Tag</Button>
+          <Button type="dashed" clicked={this.toggleTagModal.bind(this, null)} ariaLabel="Add Tag">+ Add New Tag</Button>
         </div>
         <Modal show={showModal} closeSelf={this.closeTagModal}>
           <TagForm

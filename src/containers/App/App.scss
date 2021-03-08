@@ -173,29 +173,6 @@ p {
 }
 
 
-// #### Delete Icon
-.delete-icon {
-  height: 30px;
-  overflow: visible;
-
-  * {
-    pointer-events: none;
-  }
-
-  .delete-icon-top {
-    transition: transform 0.7s;
-  }
-
-  &:hover {
-    cursor: pointer;
-
-    .delete-icon-top {
-      transform: translateX(-40px) rotate(-20deg);
-    }
-  }
-}
-
-
 // #### Sign-in Modal
 .sign-in-modal {
   text-align: center;

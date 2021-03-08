@@ -6,9 +6,9 @@ function Pagination(props) {
   const { prevClick, nextClick, children } = props;
   return (
     <div className="pagination">
-      <Button btnType="pagination-arrow" clicked={prevClick} ariaLabel="Previous Month">&lt;</Button>
+      <Button type="pagination-arrow" clicked={prevClick} ariaLabel="Previous Month">&lt;</Button>
       {children}
-      <Button btnType="pagination-arrow" clicked={nextClick} ariaLabel="Next Month">&gt;</Button>
+      <Button type="pagination-arrow" clicked={nextClick} ariaLabel="Next Month">&gt;</Button>
     </div>
   );
 }
