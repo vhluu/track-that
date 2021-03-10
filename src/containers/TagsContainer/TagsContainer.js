@@ -25,6 +25,7 @@ class TagsContainer extends Component {
     this.signIn = this.signIn.bind(this);
     this.createTag = this.createTag.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.setFocus = this.setFocus.bind(this);
 
     this.tagListRef = React.createRef();
     this.tagFormRef = React.createRef();
@@ -97,6 +98,11 @@ class TagsContainer extends Component {
     }, delay);
   }
 
+  /* Set the focus for the tag form */
+  setFocus() {
+    this.tagFormRef.current.setFocus();
+  }
+
   render() {
     const { showModal, showSignIn, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
@@ -109,7 +115,7 @@ class TagsContainer extends Component {
           <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} />
           <Button type="dashed" clicked={this.toggleTagModal.bind(this, null)} ariaLabel="Add Tag">+ Add New Tag</Button>
         </div>
-        <Modal show={showModal} closeSelf={this.closeTagModal}>
+        <Modal show={showModal} closeSelf={this.closeTagModal} onShow={this.setFocus}>
           <TagForm
             onCreateTag={this.createTag} 
             onDeleteTag={() => { this.toggleTagModal(selectedTag); onDeleteTag(selectedTag.id); }}

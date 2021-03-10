@@ -15,32 +15,36 @@ class Modal extends Component {
   }
 
   componentDidMount() {
+    const { show, onShow } = this.props;
     document.addEventListener('mousedown', this.handleClickOutside);
     document.addEventListener('keydown', this.handleKeyDown);
+
+    if (show) {
+      document.body.classList.add('show-modal');
+      if (onShow) onShow();
+    }
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
     document.removeEventListener('keydown', this.handleKeyDown);
+
+    document.body.classList.remove('show-modal');
   }
 
   componentDidUpdate(prevProps) {
-    const { show, children } = this.props;
+    const { show, onShow, onHide } = this.props;
     
-    // focus on modal content on show
-    if (show && !prevProps.show) {
-      this.setState({ prevFocusElement: document.activeElement });
-      
-      if (children) { // focus on first child
-        const firstChild = children[0] ? children[0] : children;
-        if (firstChild.ref && firstChild.ref.current.setFocus) {
-          firstChild.ref.current.setFocus();
-        }
-      }
+    if (show && !prevProps.show) { // modal goes from hidden to shown
+      this.setState({ prevFocusElement: document.activeElement }); // keep track of last focused element
       document.body.classList.add('show-modal');
 
-    } else if (!show && prevProps.show) {
-      this.state.prevFocusElement.focus();
+      if (onShow) onShow(); // call show event handler if found
+
+    } else if (!show && prevProps.show) {  // modal goes from shown to hidden
+      if (onHide) onHide(); // call hide event handler if found
+
+      this.state.prevFocusElement.focus(); // set focus back on last focused element
       document.body.classList.remove('show-modal');
     }
   }
