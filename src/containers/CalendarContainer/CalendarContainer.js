@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Button from '../../components/Button/Button';
 import Calendar from '../../components/Calendar/Calendar';
 import Pagination from '../../components/Pagination/Pagination';
-import Button from '../../components/Button/Button';
 import './CalendarContainer.scss';
 
 import * as actions from '../../store/actions/index';

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 
 import BarGraph from '../../components/BarGraph/BarGraph';
-import Select from '../../components/Select/Select';
 import Overlay from '../../components/Overlay/Overlay';
+import Select from '../../components/Select/Select';
 import './StatsContainer.scss';
 
 import * as actions from '../../store/actions/index';

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ColorPickerItem from './ColorPickerItem/ColorPickerItem';
 import './ColorPicker.scss';
 

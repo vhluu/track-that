@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import '../../../sass/emoji-mart.scss';
-import data from 'emoji-mart/data/all.json';
 import { NimblePicker } from 'emoji-mart';
+import data from 'emoji-mart/data/all.json';
+import '../../../sass/emoji-mart.scss';
+
 import Button from '../../Button/Button';
 import './IconPicker.scss';
 
