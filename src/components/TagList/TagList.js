@@ -1,12 +1,17 @@
 import React from 'react';
+
+import Loading from '../Loading/Loading';
 import Tag from './Tag/Tag';
 import './TagList.scss';
 
 const TagList = React.forwardRef((props, ref) => {
   const { tags, onClick } = props;
+  const keys = Object.keys(tags);
+
   return (
     <div className="tags-list" ref={ref}>
-      {Object.keys(tags).map((id) => {
+      { keys.length === 0 && <Loading /> }
+      { keys.map((id) => {
         const tag = tags[id];
         return (
           <Tag
@@ -17,7 +22,7 @@ const TagList = React.forwardRef((props, ref) => {
             onClick={() => { tag.id = id; onClick(tag); }}
           />
         );
-      })}
+      }) }
     </div>
   );
 });
