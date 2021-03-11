@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import TagsContainer from '../TagsContainer/TagsContainer';
 import CalendarContainer from '../CalendarContainer/CalendarContainer';
 import StatsContainer from '../StatsContainer/StatsContainer';
+import TagsContainer from '../TagsContainer/TagsContainer';
+
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
 
@@ -64,7 +65,7 @@ class App extends Component {
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
 
-        <Button btnType="round graph-button" clicked={this.toggleGraph}>Stats</Button>
+        <Button type="graph-button" clicked={this.toggleGraph} ariaLabel="View Stats">Stats</Button>
         { showGraph && (
           <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
             <StatsContainer />

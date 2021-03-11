@@ -10,6 +10,9 @@
   align-items: center;
   text-align: center;
   border-radius: 6px;
+  background: #fff;
+
+  &:focus { outline: 1px auto #1fa1e0; }
 
   @media screen and (min-width: $bp-desktop-lg) {
     font-size: 14px;

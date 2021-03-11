@@ -20,7 +20,6 @@ body {
 }
 
 input {
-  outline: none;
   font-size: 14px;
   font-family: $font-stack;
   padding: 8px 10px;
@@ -31,6 +30,10 @@ input {
 
   &::placeholder {
     color: #b7bdc3;
+  }
+
+  &:focus {
+    outline-color: $focus-blue;
   }
 
   @media screen and (min-width: $bp-desktop-lg) {
@@ -52,18 +55,6 @@ label {
   }
 }
 
-p {
-  font-weight: 500;
-  font-size: 14px;
-
-  @media screen and (min-width: $bp-desktop-md) {
-    font-size: 15px;
-  }
-  @media screen and (min-width: $bp-desktop-lg) {
-    font-size: 16px;
-  }
-}
-
 
 // #### Typography
 h1 {
@@ -75,13 +66,19 @@ h2 {
   font-weight: 700;
 }
 
+p {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@media screen and (min-width: $bp-desktop-md) {
+  p { font-size: 15px; }
+}
+
 @media screen and (min-width: $bp-desktop-lg) {
-  h1 {
-    font-size: 27px;
-  }
-  h2 {
-    font-size: 24px;
-  }
+  h1 { font-size: 27px; }
+  h2 { font-size: 24px; }
+  p { font-size: 16px; }
 }
 
 
@@ -173,29 +170,6 @@ h2 {
   background: #fff;
   padding: 30px;
   box-shadow: 0px 8px 30px rgba(24, 41, 139, 0.2);
-}
-
-
-// #### Delete Icon
-.delete-icon {
-  height: 30px;
-  overflow: visible;
-
-  * {
-    pointer-events: none;
-  }
-
-  .delete-icon-top {
-    transition: transform 0.7s;
-  }
-
-  &:hover {
-    cursor: pointer;
-
-    .delete-icon-top {
-      transform: translateX(-40px) rotate(-20deg);
-    }
-  }
 }
 
 

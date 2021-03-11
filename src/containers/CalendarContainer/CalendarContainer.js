@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Button from '../../components/Button/Button';
 import Calendar from '../../components/Calendar/Calendar';
 import Pagination from '../../components/Pagination/Pagination';
-import Button from '../../components/Button/Button';
 import './CalendarContainer.scss';
 
 import * as actions from '../../store/actions/index';
@@ -202,10 +202,12 @@ class CalendarContainer extends Component {
 
   /* Change the calendar months on left/right arrow keydown */
   handleKeyDown(e) {
-    if (e.keyCode === 37) { // left arrow 
-      this.prevMonth();
-    } else if (e.keyCode === 39) { // right arrow
-      this.nextMonth();
+    if (!document.body.classList.contains('show-modal')) {
+      if (e.keyCode === 37) { // left arrow 
+        this.prevMonth();
+      } else if (e.keyCode === 39) { // right arrow
+        this.nextMonth();
+      }
     }
   }
 
@@ -225,7 +227,7 @@ class CalendarContainer extends Component {
               <span className="curr-year">{ ` ${year}` }</span>
             </h1>
           </Pagination>
-          {showTodayBtn && <Button btnType="btn-smaller" clicked={this.currentMonth}>Today</Button>}
+          {showTodayBtn && <Button type="smaller" clicked={this.currentMonth} ariaLabel="Today">Today</Button>}
         </div>
 
         <Calendar days={days} monthIndex={monthIndex} month={month} year={year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />

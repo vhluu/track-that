@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/vhluu/track-that#readme",
   "dependencies": {
-    "emoji-mart": "^2.11.1",
+    "babel-runtime": "^6.26.0",
+    "emoji-mart": "^2.11.2",
     "firebase": "^7.2.0",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",

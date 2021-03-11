@@ -51,13 +51,11 @@
 
   .edit-day {
     font-size: 18px;
-    margin-top: 0;
     font-weight: 600;
     text-align: right;
+    margin-top: 0;
     margin-bottom: 0;
   }  
 
-  .delete-icon {
-    margin-top: 5px;
-  }
+  .btn.delete { margin-top: 5px; }
 }

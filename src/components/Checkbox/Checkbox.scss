@@ -3,14 +3,14 @@
 
 // Checkbox Wrapper
 .checkbox-wrapper {
+  position: relative;
   margin-bottom: 8px;
 
   label {
     display: flex;
     align-items: center;
-    color: rgb(93, 114, 123);
+    color: #5d727b;
     text-transform: none;
-
     
     &:hover .tag {
       background-position: 100% 0;
@@ -19,7 +19,14 @@
   }
 
   input[type="checkbox"] {
-    display: none;
+    position: absolute;
+    opacity: 0;
+
+    &:focus + label .custom-checkbox { 
+      border: 2px solid $focus-blue;
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .tag {
@@ -44,22 +51,21 @@
 .custom-checkbox {
   width: 18px;
   height: 18px;
-  border: 1px solid grey;
-  border-radius: 5px;
   position: relative;
-  border: 1px solid #ced1d4;
   margin-right: 10px;
+  border: 1px solid #ced1d4;
+  border-radius: 5px;
   cursor: pointer;
 
   &:before {
-    display: block;
     content: '';
-    height: 9px;
+    display: block;
     transform: rotate(40deg);
     width: 4px;
-    left: 5px;
-    top: 1px;
+    height: 9px;
     position: absolute;
+    top: 1px;
+    left: 5px;
     border: solid white;
     border-width: 0 2.5px 2.5px 0;
   }

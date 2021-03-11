@@ -5,6 +5,8 @@
   display: flex;
   overflow: auto;
 
+  .loading { margin: 20px 0 20px 5px; }
+
   @media screen and (min-width: $bp-desktop) {
     display: block;
     max-height: calc(55vh - 40px);

@@ -12,10 +12,15 @@
   }
 
   [type="radio"] {
-    display: none;
+    position: absolute;
+    opacity: 0;
 
     &:checked + label .color-picker-item {
       border-color: $gradient-blue-2;
+    }
+
+    &:focus + label .color-picker-item {
+      border-color: $focus-blue;
     }
   }
 }

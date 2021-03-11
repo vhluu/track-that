@@ -25,8 +25,10 @@ class TagsContainer extends Component {
     this.signIn = this.signIn.bind(this);
     this.createTag = this.createTag.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.setFocus = this.setFocus.bind(this);
 
     this.tagListRef = React.createRef();
+    this.tagFormRef = React.createRef();
   }
 
   /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
@@ -96,6 +98,11 @@ class TagsContainer extends Component {
     }, delay);
   }
 
+  /* Set the focus for the tag form */
+  setFocus() {
+    this.tagFormRef.current.setFocus();
+  }
+
   render() {
     const { showModal, showSignIn, action, selectedTag } = this.state;
     const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
@@ -106,9 +113,9 @@ class TagsContainer extends Component {
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
         <div className="tags-main-wrapper">
           <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} />
-          <Button btnType="btn-dashed" clicked={this.toggleTagModal.bind(this, null)}>+ Add New Tag</Button>
+          <Button type="dashed" clicked={this.toggleTagModal.bind(this, null)} ariaLabel="Add Tag">+ Add New Tag</Button>
         </div>
-        <Modal show={showModal} closeSelf={this.closeTagModal}>
+        <Modal show={showModal} closeSelf={this.closeTagModal} onShow={this.setFocus}>
           <TagForm
             onCreateTag={this.createTag} 
             onDeleteTag={() => { this.toggleTagModal(selectedTag); onDeleteTag(selectedTag.id); }}
@@ -117,11 +124,12 @@ class TagsContainer extends Component {
             selectedTag={selectedTag} 
             key={selectedTag ? selectedTag.id : 'tag-form'}
             toggleSelf={this.toggleTagModal.bind(this)}
+            ref={this.tagFormRef}
           />
         </Modal>
         <Modal show={showSignIn} closeSelf={this.closeSignInModal} extraClasses="sign-in-modal">
           <p className="red">Please sign in to continue!</p>
-          <Button clicked={this.signIn}>Sign in w/ Google</Button>
+          <Button clicked={this.signIn} ariaLabel="Sign in with Google">Sign in w/ Google</Button>
         </Modal>
       </div>
     );

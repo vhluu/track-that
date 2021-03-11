@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ColorPickerItem from './ColorPickerItem/ColorPickerItem';
 import './ColorPicker.scss';
 
@@ -9,8 +10,8 @@ function ColorPicker(props) {
     
   return (
     <div className="tag-field-wrapper">
-      <label>Color</label>
-      <div className="color-picker">
+      <label id="color-label">Color</label>
+      <div className="color-picker" role="group" aria-labelledby="color-label">
         {(colors).map((color) => (
           <ColorPickerItem color={color} onChange={onChange} checked={color === defaultVal} />
         ))}

@@ -10,7 +10,7 @@
 .pagination-arrow {
   background-image: linear-gradient(125deg, $gradient-green-1, $gradient-green-2, $gradient-green-2, $gradient-green-2);
   background-size: 300% 100%;
-  transition: 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out;
   color: #fff;
   border-radius: 50%;
   width: 22px;
@@ -20,6 +20,7 @@
   line-height: 20px;
   text-align: center;
   cursor: pointer;
+  padding: 0;
 
   &:hover {
     background-position: 100% 0;
