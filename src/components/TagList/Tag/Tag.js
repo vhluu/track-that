@@ -14,15 +14,15 @@ class Tag extends Component {
   }
 
   render() {
-    const { onClick, id, tagColor, tagIcon, tagTitle } = this.props;
+    const { onClick, id, color, icon, title } = this.props;
     return (
       <div
-        className={`tag ${tagColor}`}
+        className={`tag ${color}`}
         draggable="true"
-        onClick={() => onClick({ id, tagTitle, tagColor, tagIcon })}
+        onClick={() => onClick({ id, title, color, icon })}
         onDragStart={this.onDragStart.bind(this)}
         onDragEnd={this.onDragEnd}
-      >{tagIcon} {tagTitle}</div>
+      >{icon} {title}</div>
     );
   }
 }
