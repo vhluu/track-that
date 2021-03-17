@@ -48,7 +48,8 @@ class Select extends Component {
   /* Closes the select dropdown menu on outside click */
   handleClickOutside(event) {
     const { open } = this.state;
-    if (open && this.SelectRef && !this.SelectRef.contains(event.target)) {
+    
+    if (open && this.selectRef.current.contains(event.target)) {
       this.closeSelect();
     }
   }
