@@ -2,6 +2,7 @@
 import { db } from '../../util/firebase';
 import { fullDate, getTags } from './calendar';
 import { getUserId } from './login';
+import { isMac } from '../../util/utility';
 
 const initialVals = new Map(); // map to store the initial values of the tag checkboxes
 
@@ -30,10 +31,13 @@ export function populateWidget(tags, dayTags) {
       const tag = tags[tagId];
       const isFound = (dayTags && dayTags[tagId]) ? 'checked' : '';
       initialVals.set(tagId, isFound);
+
+      let emojiHTML = isMac ? tag.icon.native : `<emoji-icon emoji="${tag.icon.id}"></emoji-icon>`;
+
       tagHTML += `
         <div>
           <input type="checkbox" id="checkbox-${tagId}" data-cb-id="${tagId}" class="hide" ${isFound} />
-          <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}" title="${tag.title}">${tag.icon}</div></label>
+          <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}" title="${tag.title}">${emojiHTML}</div></label>
         </div>
       `;
     });
