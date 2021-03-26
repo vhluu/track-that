@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import Icon from '../../Icon/Icon';
 import './Tag.scss';
-
 class Tag extends Component {
   onDragStart(e) {
     const { id } = this.props;
@@ -15,6 +15,7 @@ class Tag extends Component {
 
   render() {
     const { onClick, id, color, icon, title } = this.props;
+    
     return (
       <div
         className={`tag ${color}`}
@@ -22,7 +23,7 @@ class Tag extends Component {
         onClick={() => onClick({ id, title, color, icon })}
         onDragStart={this.onDragStart.bind(this)}
         onDragEnd={this.onDragEnd}
-      >{icon} {title}</div>
+      ><Icon data={icon} /> {title}</div>
     );
   }
 }

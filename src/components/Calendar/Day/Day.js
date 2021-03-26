@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from '../../Icon/Icon';
 import './Day.scss';
 
 function Day(props) {
@@ -18,7 +19,7 @@ function Day(props) {
       <span className="day-number">{date}</span>
       <div className="day-tags">
         {fullTags && fullTags.map((tag) => (
-          <div className={`day-tag ${tag.color}`} data-day-tag-id={tag.id}>{ tag.icon }</div>
+          <div className={`day-tag ${tag.color}`} data-day-tag-id={tag.id}><Icon data={tag.icon} /></div>
         ))}
       </div>
     </div>
