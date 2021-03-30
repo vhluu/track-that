@@ -79,5 +79,7 @@
     &.selected {
       background: rgba(92,231,255,0.3);
     }
+
+    & > * { pointer-events: none; }
   }
 }
