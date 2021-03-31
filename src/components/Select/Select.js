@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOMServer from "react-dom/server";
 
 import './Select.scss';
 
@@ -13,7 +12,7 @@ class Select extends Component {
     if (options && value) { // find value in options to get label
       options.forEach((option, index) => {
         if (option.value === value) {
-          label = ReactDOMServer.renderToString(option.label);
+          label = option.label;
           currIndex = index;
         }
       });
@@ -75,10 +74,10 @@ class Select extends Component {
 
   /* Handles when user selects an option */
   selectOption(e) {
-    const { onChange } = this.props;
+    const { options, onChange } = this.props;
     const currVal = e.target.getAttribute('data-value');
-    const currLabel = e.target.innerHTML;
     const focusIndex = e.target.getAttribute('data-index');
+    const currLabel = options[focusIndex].label;
 
     if (onChange) onChange(currVal, currLabel); // pass value/label to onChange handler
 
@@ -183,7 +182,7 @@ class Select extends Component {
     
     return (
       <div className={`select ${selectClass}`} ref={this.selectRef}>
-        <div className="option-current" onClick={this.toggleSelect} data-value={currVal} tabIndex="0" onKeyDown={this.handleKeyDown} dangerouslySetInnerHTML={{ __html: currLabel, }} />
+        <div className="option-current" onClick={this.toggleSelect} data-value={currVal} tabIndex="0" onKeyDown={this.handleKeyDown}>{ currLabel }</div>
         <div className="options-wrapper">
           <div className="options" ref={this.dropdownRef}>
             { options.map((option, index) => <div className={`option${options[focusIndex].value == option.value ? ' selected': ''}`} key={index} data-value={option.value} data-index={index} onClick={this.selectOption} onKeyDown={this.handleKeyDown}>{ option.label }</div>) }
