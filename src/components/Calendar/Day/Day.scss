@@ -56,50 +56,75 @@
   display: flex;
   flex-wrap: wrap;
   pointer-events: none;
+}
 
-  .day-tag {
-    font-size: 15px;
-    border-radius: 50px;
-    width: 25px;
-    height: 25px;
-    margin-right: 5px;
-    margin-bottom: 5px;
+// Day Tag
+.day-tag {
+  font-size: 15px;
+  border-radius: 50px;
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+
+  @media screen and (min-width: $bp-desktop-md) {
+    font-size: 16px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+
+    & > span:not(.emoji-mart-emoji) {
+      display: inline-block;
+      margin-left: -5px;
+      margin-top: 1px;
+    }
+  }
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
 
-    @media screen and (min-width: $bp-desktop-md) {
-      font-size: 16px;
-      width: 28px;
-      height: 28px;
-      line-height: 28px;
-
-      span {
-        display: inline-block;
-        margin-left: -5px;
-        margin-top: 1px;
-      }
+    & > span:not(.emoji-mart-emoji) {
+      margin-left: -4px;
     }
+  }
 
-    @media screen and (min-width: $bp-desktop-lg) {
-      font-size: 18px;
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
+  @media #{$retina} { 
+    text-align: right;
+  }
 
-      span {
-        margin-left: -4px;
-      }
+  @media #{$retina-desktop-md} { 
+    span { 
+      margin-right: 6px;
+      margin-left: 0;
     }
+  }
+}
 
-    @media #{$retina} { 
-      text-align: right;
+
+// Emoji Mart Emoji
+.day-tag .emoji-mart-emoji {
+  margin-top: 3px;
+
+  @media screen and (min-width: $bp-desktop-md) {
+    margin-top: 4px;
+
+    & > span {
+      width: 20px !important;
+      height: 20px !important;
     }
+  }
 
-    @media #{$retina-desktop-md} { 
-      span { 
-        margin-right: 6px;
-        margin-left: 0;
-      }
+  @media screen and (min-width: $bp-desktop-lg) {
+    margin-left: 1px;
+
+    & > span {
+      width: 21px !important;
+      height: 21px !important;
     }
   }
 }

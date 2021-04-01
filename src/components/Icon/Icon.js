@@ -4,8 +4,8 @@ import { isMac } from '../../util/utility';
 
 function Icon(props) {
   const { data } = props;
-  let icon = isMac ? data.native : <Emoji set="apple" emoji={data.id} size={16} />;
-  return (<span>{icon}</span>);
+  let icon = isMac ? <span>{data.native}</span> : <Emoji set="apple" emoji={data.id} size={19} />;
+  return (<>{icon}</>);
 }
 
 export default Icon;

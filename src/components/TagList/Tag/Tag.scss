@@ -3,22 +3,24 @@
 .tag {
   cursor: move; // fallback
   cursor: grab;
+  display: flex;
+  align-items: center;
   position: relative;
-  color: rgba(14,30,37,0.6);
-  padding: 10px 10px;
-  font-size: 14px;
-  line-height: 16px;
-  border-radius: 10px;
-  font-weight: 500;
   width: fit-content;
+  padding: 10px 10px;
   margin: 5px 5px 0 5px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(14,30,37,0.6);
   white-space: nowrap;
   background-size: 300% 100%;
   transition: all .2s ease-in-out;
 
-
   // Generate gradient classes using color map
   @include gradient-classes;
+
+  & > span { margin-right: 6px; }
 
   &:hover {
     background-position: 100% 0;
@@ -39,8 +41,14 @@
     font-size: 16px;
     padding: 12px;
     margin: 0 0 7px 0;
+  }
+}
 
-    span {
+.macos .tag {
+  line-height: 16px;
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    & > span {
       min-width: 22px;
       display: inline-block;
     }
