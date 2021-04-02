@@ -20,6 +20,10 @@
     border-radius: 5px;
     padding: 4px 6px;
     min-height: 33px;
+    display: flex;
+    align-items: center;
+
+    span { margin-right: 4px; }
 
     &:hover {
       border-color: #62d1e4;
@@ -38,10 +42,12 @@
       transform: rotate(45deg);
       border-right: 2px solid #98a6ad;
       border-bottom: 2px solid #98a6ad;
-      border-color: #85c6e6;
       border-color: #62d1e4;
       transition: transform 0.8s;
     }
+
+    &:focus { outline: none; }
+    &:focus-visible { outline: 2px auto $focus-blue; }
   }
 
   .options-wrapper {
@@ -69,7 +75,11 @@
   }
 
   .option {
-    padding: 4px 10px;
+    padding: 4px 6px;
+    display: flex;
+    align-items: center;
+
+    span { margin-right: 4px; }
 
     &:hover {
       cursor: pointer;
@@ -79,5 +89,7 @@
     &.selected {
       background: rgba(92,231,255,0.3);
     }
+
+    & > * { pointer-events: none; }
   }
 }

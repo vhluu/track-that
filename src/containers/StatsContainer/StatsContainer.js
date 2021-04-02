@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import BarGraph from '../../components/BarGraph/BarGraph';
+import Icon from '../../components/Icon/Icon';
 import Overlay from '../../components/Overlay/Overlay';
 import Select from '../../components/Select/Select';
 import './StatsContainer.scss';
@@ -67,7 +68,10 @@ class StatsContainer extends Component {
 
       Object.entries(tags).forEach(([tagId, tag], index) => {
         if (index === 0) defaultValue = tagId;
-        options.push({ value: tagId, label: `${tag.icon} ${tag.title}` });
+        options.push({ 
+          value: tagId,
+          label: <><Icon data={tag.icon} /> {tag.title}</>
+        });
       });
 
       this.setState({

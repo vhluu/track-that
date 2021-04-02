@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { NimblePicker } from 'emoji-mart';
 import data from 'emoji-mart/data/all.json';
+import { isMac } from '../../../util/utility';
 import '../../../sass/emoji-mart.scss';
 
 import Button from '../../Button/Button';
+import Icon from '../../Icon/Icon';
 import './IconPicker.scss';
 
 class IconPicker extends Component {
@@ -31,13 +33,19 @@ class IconPicker extends Component {
 
   /* Handles selection of an emoji */
   setIcon(emoji) {
+    console.log(emoji);
+    let icon = {
+      id: emoji.id,
+      native: emoji.native
+    };
+
     this.setState({
-      selectedIcon: emoji.native,
+      selectedIcon: icon,
     });
     this.toggleIconPicker();
 
     const { onIconSelect } = this.props;
-    onIconSelect(emoji.native);
+    onIconSelect(icon);
   }
 
   setPickerRef(node) {
@@ -62,13 +70,16 @@ class IconPicker extends Component {
 
   render() {
     const { showIconPicker, selectedIcon } = this.state;
+
+    const pickerProps = isMac ? { native: true } : { set: 'apple' };
+
     return (
       <div className="tag-field-wrapper tag-icon-wrapper" ref={this.setPickerRef}>
         <label>Icon</label>
-        <Button type="tag-field-icon" clicked={this.toggleIconPicker} ariaLabel="Open Icon Picker">{selectedIcon}</Button>
+        <Button type="tag-field-icon" clicked={this.toggleIconPicker} ariaLabel="Open Icon Picker">{selectedIcon && <Icon data={selectedIcon} />}</Button>
         { showIconPicker && (
           <div className="tag-emoji-picker">
-            <NimblePicker native="true" data={data} onSelect={this.setIcon} />
+            <NimblePicker {...pickerProps} data={data} onSelect={this.setIcon} />
           </div>
         ) }
       </div>

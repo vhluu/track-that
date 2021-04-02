@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Button from '../Button/Button';
 import Checkbox from '../Checkbox/Checkbox';
 import Day from './Day/Day';
+import Icon from '../Icon/Icon';
 import Modal from '../Modal/Modal';
 
 import './Calendar.scss';
@@ -159,7 +160,7 @@ class Calendar extends Component {
             <div className="day-checkboxes">
               {selectedDayTags && Object.keys(selectedDayTags).map((tagId, index) => (
                 <Checkbox id={`check-${tagId}`} index={index} checked={checkedItems[index]} onChange={this.handleCheckboxChange}>
-                  <div className={`tag ${selectedDayTags[tagId].color}`} draggable="true" id={`${tagId}`} data-tag-color={selectedDayTags[tagId].color} data-tag-icon={selectedDayTags[tagId].icon} data-tag-title={selectedDayTags[tagId].title}>{selectedDayTags[tagId].icon} {selectedDayTags[tagId].title}</div>
+                  <div className={`tag ${selectedDayTags[tagId].color}`} draggable="true" id={`${tagId}`} data-tag-color={selectedDayTags[tagId].color} data-tag-icon={selectedDayTags[tagId].icon} data-tag-title={selectedDayTags[tagId].title}><Icon data={selectedDayTags[tagId].icon} /> {selectedDayTags[tagId].title}</div>
                 </Checkbox>
               ))}
             </div>

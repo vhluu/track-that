@@ -11,6 +11,7 @@ import Modal from '../../components/Modal/Modal';
 import './App.scss';
 
 import * as actions from '../../store/actions/index';
+import { isMac, isWindows } from '../../util/utility';
 
 class App extends Component {
   constructor(props) {
@@ -18,7 +19,6 @@ class App extends Component {
 
     this.state = {
       showGraph: false,
-      isWindows: false,
     };
 
     this.toggleGraph = this.toggleGraph.bind(this);
@@ -38,15 +38,6 @@ class App extends Component {
         return true;
       },
     );
-
-    // detect Windows platform
-    const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
-    const platform = window.navigator.platform;
-    if (windowsPlatforms.indexOf(platform) !== -1) {
-      this.setState({
-        isWindows: true,
-      });
-    }
   }
 
   /* Toggles the stats modal */
@@ -58,10 +49,10 @@ class App extends Component {
 
   render() {
     const { tags, uid } = this.props;
-    const { showGraph, isWindows } = this.state;
+    const { showGraph } = this.state;
 
     return (
-      <div className={`app flex_d main-wrapper card${isWindows ? ' windows' : ''}`}>
+      <div className={`app flex_d main-wrapper card${isMac ? ' macos' : ''}${isWindows ? ' windows' : ''}`}>
         <TagsContainer uid={uid} tags={tags} />
         <CalendarContainer uid={uid} tags={tags} />
 

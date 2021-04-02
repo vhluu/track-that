@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import './Select.scss';
 
 class Select extends Component {
@@ -73,10 +74,10 @@ class Select extends Component {
 
   /* Handles when user selects an option */
   selectOption(e) {
-    const { onChange } = this.props;
+    const { options, onChange } = this.props;
     const currVal = e.target.getAttribute('data-value');
-    const currLabel = e.target.textContent;
     const focusIndex = e.target.getAttribute('data-index');
+    const currLabel = options[focusIndex].label;
 
     if (onChange) onChange(currVal, currLabel); // pass value/label to onChange handler
 

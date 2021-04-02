@@ -1,7 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
-module.exports = {
+module.exports = (env, argv) => ({
   entry: {
     index: './src/index.js',
     popup: './src/js/popup/index.js',
@@ -37,5 +37,6 @@ module.exports = {
     chunkFilename: 'js/[name].min.js',
     path: path.resolve(__dirname, 'build'),
   },
-  watch: true,
-};
+  watch: argv.mode === 'development',
+  devtool: (argv.mode === 'development') ? 'cheap-module-source-map' : false
+});

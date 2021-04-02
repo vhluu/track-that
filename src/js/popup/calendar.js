@@ -1,5 +1,6 @@
 import { db } from '../../util/firebase';
 import { populateWidget } from './addWidget';
+import { isMac } from '../../util/utility';
 
 let tags; // all of the user's tags
 let dayTags; // the tags added for the current day
@@ -55,7 +56,10 @@ export function setTags(userId) {
           let tagWrapperInner = '';
           // create the tags and append to popup template
           tagData.forEach((tag) => {
-            tagWrapperInner += `<div class="day-tag ${tag.color}" id="${tag.id}" title="${tag.title}">${tag.icon}</div>`;
+            const { color, id, icon, title } = tag;
+            let emojiHTML = isMac ? icon.native : `<emoji-icon emoji="${icon.id}"></emoji-icon>`;
+
+            tagWrapperInner += `<div class="day-tag ${color}" id="${id}" title="${title}">${emojiHTML}</div>`;
           });
           tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
         }
