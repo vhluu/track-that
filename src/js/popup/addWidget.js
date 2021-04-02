@@ -31,7 +31,7 @@ export function populateWidget(tags, dayTags) {
       const tag = tags[tagId];
       const isFound = (dayTags && dayTags[tagId]) ? 'checked' : '';
       initialVals.set(tagId, isFound);
-
+      
       let emojiHTML = isMac ? tag.icon.native : `<emoji-icon emoji="${tag.icon.id}"></emoji-icon>`;
 
       tagHTML += `
@@ -90,9 +90,11 @@ function saveTags() {
 function displayTags(added) {
   let tagWrapperInner = '';
   const tags = getTags(); // get the tag information
-  added.forEach((id) => { // create the tag elements
-    const current = tags[id];
-    tagWrapperInner += `<div class="day-tag ${current.color}" id="${current.id}" title="${current.title}">${current.icon}</div>`;
+  added.forEach((currId) => { // create the tag elements
+    const { color, id, title, icon } = tags[currId];
+    let emojiHTML = isMac ? icon.native : `<emoji-icon emoji="${icon.id}"></emoji-icon>`;
+    
+    tagWrapperInner += `<div class="day-tag ${color}" id="${id}" title="${title}">${emojiHTML}</div>`;
   });
 
   const addBtn = document.querySelector('.add-btn');
