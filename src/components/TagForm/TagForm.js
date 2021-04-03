@@ -24,6 +24,7 @@ class TagForm extends Component {
     this.createTag = this.createTag.bind(this);
     this.handleColorSelect = this.handleColorSelect.bind(this);
     this.handleIconSelect = this.handleIconSelect.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.toggleConfirmation = this.toggleConfirmation.bind(this);
     this.updateTag = this.updateTag.bind(this);
@@ -55,9 +56,7 @@ class TagForm extends Component {
   }
 
   /* Handles click of 'Create Tag' btn. Creates tag in store & database */
-  createTag() {
-    const formValues = this.validateForm(); // validate form & get form values
-
+  createTag(formValues) {
     if (formValues) { // form data is valid
       this.props.onCreateTag(formValues); // create tag in store & database
       this.setState({ // clear form
@@ -69,9 +68,8 @@ class TagForm extends Component {
   }
 
   /* Handles click of 'Update Tag' btn. Updates tag in store & database */
-  updateTag() {
+  updateTag(formValues) {
     const { selectedTag, onUpdateTag, toggleSelf } = this.props;
-    const formValues = this.validateForm(); // validate form & get form values
 
     if (formValues) {
       const { title: sTitle, color: sColor, icon: sIcon, id } = selectedTag;
@@ -100,6 +98,16 @@ class TagForm extends Component {
     this.setState({ selectedIcon: icon });
   }
 
+  /* Handles form submit and validates form  */
+  handleFormSubmit(event) {
+    event.preventDefault();
+    const { action } = this.props;
+    const formValues = this.validateForm();
+
+    if (action === 'create') this.createTag(formValues);
+    else this.updateTag(formValues);
+  }
+
   /* Toggles the delete confirmation pop up */
   toggleConfirmation() {
     this.setState((prevState) => ({
@@ -118,7 +126,7 @@ class TagForm extends Component {
     const { icon } = selectedTag || { icon: false };
 
     return (
-      <form>
+      <form onSubmit={this.handleFormSubmit}>
         { showErrorMsg && <p className="tag-error-message">All fields are required!!</p> }
         <div className="tag-field-wrapper">
           <label htmlFor="tag-field-title">Tag Name</label>
@@ -127,11 +135,12 @@ class TagForm extends Component {
         <ColorPicker onChange={this.handleColorSelect} defaultVal={selectedColor} />
         <IconPicker onIconSelect={this.handleIconSelect} defaultVal={icon} />
         
-        { action === 'create' && <Button clicked={this.createTag} ariaLabel="Create Tag">Create Tag</Button> }
+        { action === 'create' && <input type="submit" value="Create Tag" /> }
         
         { action === 'update' && (
           <div className="tag-btn-wrapper">
-            <Button clicked={this.updateTag} ariaLabel="Update Tag">Update</Button>
+            <input type="submit" value="Update" />
+            
             <div className="tag-delete-wrapper">
               <Button type="delete" clicked={this.toggleConfirmation} />
               { showConfirmation && <DeleteConfirm cancel={this.toggleConfirmation} myDelete={() => { this.toggleConfirmation(); onDeleteTag(); }} /> }

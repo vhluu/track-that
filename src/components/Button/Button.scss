@@ -23,6 +23,8 @@
 
   &:hover {
     cursor: pointer;
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
   }
 
   &:focus-visible {

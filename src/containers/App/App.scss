@@ -41,6 +41,36 @@ input {
   }
 }
 
+input[type="submit"] {
+  display: inline-block;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 14px;
+  background-image: linear-gradient(to right, $gradient-blue-1, $gradient-blue-2, $gradient-blue-2, $gradient-blue-2);
+  background-size: 300% 100%;
+  color: #fff;
+  transition: background .3s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
+  }
+
+  &:focus { outline: none; }
+  &:focus-visible {
+    background-position: 100% 0;
+    outline: 2px auto $focus-blue;
+  }
+
+  @media screen and (min-width: $bp-desktop-lg) {
+    font-size: 16px;
+  }
+}
+
+
 label {
   color: #56618f;
   font-size: 14px;
