@@ -13,7 +13,7 @@ function ColorPicker(props) {
       <label id="color-label">Color</label>
       <div className="color-picker" role="group" aria-labelledby="color-label">
         {(colors).map((color) => (
-          <ColorPickerItem color={color} onChange={onChange} checked={color === defaultVal} />
+          <ColorPickerItem key={color} color={color} onChange={onChange} checked={color === defaultVal} />
         ))}
       </div>
     </div>

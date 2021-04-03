@@ -19,7 +19,7 @@ function Day(props) {
       <span className="day-number">{date}</span>
       <div className="day-tags">
         {fullTags && fullTags.map((tag) => (
-          <div className={`day-tag ${tag.color}`} data-day-tag-id={tag.id}><Icon data={tag.icon} /></div>
+          <div key={tag.id} className={`day-tag ${tag.color}`} data-day-tag-id={tag.id}><Icon data={tag.icon} /></div>
         ))}
       </div>
     </div>

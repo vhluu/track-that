@@ -134,10 +134,11 @@ class Calendar extends Component {
     return (
       <div className="calendar">
         { daysOfWeek.map((day) => (
-          <div className="cal-header">{ day }</div>
+          <div className="cal-header" key={day}>{ day }</div>
         ))}
         { days.map((day) => (
-          <Day 
+          <Day
+            key={day.full}
             full={day.full} 
             date={day.date} 
             tags={dayTags ? dayTags[day.full] : null} 
@@ -159,7 +160,7 @@ class Calendar extends Component {
             <Checkbox id="check-select-all" extraClasses="select-all" checked={selectAll} onChange={this.toggleSelectAll}>Select All</Checkbox>
             <div className="day-checkboxes">
               {selectedDayTags && Object.keys(selectedDayTags).map((tagId, index) => (
-                <Checkbox id={`check-${tagId}`} index={index} checked={checkedItems[index]} onChange={this.handleCheckboxChange}>
+                <Checkbox key={tagId} id={`check-${tagId}`} index={index} checked={checkedItems[index]} onChange={this.handleCheckboxChange}>
                   <div className={`tag ${selectedDayTags[tagId].color}`} draggable="true" id={`${tagId}`} data-tag-color={selectedDayTags[tagId].color} data-tag-icon={selectedDayTags[tagId].icon} data-tag-title={selectedDayTags[tagId].title}><Icon data={selectedDayTags[tagId].icon} /> {selectedDayTags[tagId].title}</div>
                 </Checkbox>
               ))}

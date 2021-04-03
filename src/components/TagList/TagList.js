@@ -15,6 +15,7 @@ const TagList = React.forwardRef((props, ref) => {
         const tag = tags[id];
         return (
           <Tag
+            key={id}
             id={id}
             color={tag.color}
             icon={tag.icon} 

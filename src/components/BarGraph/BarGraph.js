@@ -44,17 +44,17 @@ class BarGraph extends Component {
           <div className="x-axis">
             { lineValues.map((value, index) => {
               return (
-                <div className="x-axis-lines">
+                <div className="x-axis-lines" key={index}>
                   { (index % labelStep === 0) && <div className="x-axis-label">{ value }</div> }
                 </div>
               );
             }) }
           </div>
           <div className="bars" ref={this.barsRef}>
-            { data.map((point) => {
+            { data.map((point, index) => {
               return (
-                <div className="bar-wrapper">
-                  <div className="bar" style={{ 'min-height': `calc((${point.value}/${max}) * 100%)` }}>
+                <div className="bar-wrapper" key={index}>
+                  <div className="bar" style={{ 'minHeight': `calc((${point.value}/${max}) * 100%)` }}>
                     <div className="bar-value">{ point.value }</div>
                   </div>
                   <div className="label">{ point.label }</div>
