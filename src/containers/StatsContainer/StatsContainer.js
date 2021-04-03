@@ -95,14 +95,19 @@ class StatsContainer extends Component {
     const tagStats = stats && stats[value || currentValue] ? Object.entries(stats[value || currentValue]) : []; // stats for selected tag
     const noneTagged = (tagStats.length === 0); // whether there are any tagged days
     
-    // populating data array with selected tag stats
-    tagStats.forEach(([date, count]) => {
-      // getting month as abbreviated string (ex. Jan)
-      const monthString = new Date(`${date}-04`).toLocaleString('default', { month: 'short' });
+    let prevYear = '';
+    tagStats.forEach(([date, count]) => { // populate data array with selected tag's stats
+      // get month as abbreviated string (ex. Jan)
+      const dateObj = new Date(`${date}-04`);
+      const monthStr = dateObj.toLocaleString('default', { month: 'short' });
+      const yearStr = dateObj.toLocaleString('default', { year: 'numeric' });
+      
       data.push({
-        label: monthString,
+        label: `${monthStr} ${yearStr !== prevYear ? yearStr : ''}`,
         value: count,
       });
+      
+      prevYear = yearStr;
     });
 
     this.setState({

@@ -5,13 +5,13 @@
 
   .graph-inner {
     display: flex;
-    height: 170px;
+    height: 185px;
     width: 250px;
     position: relative;
   }
 
   .bar-wrapper {
-    height: calc(100% - 40px);
+    height: calc(100% - 55px);
     position: relative;
     min-width: 25px;
     margin-left: 20px;
@@ -35,8 +35,9 @@
 
     .label {
       position: absolute;
-      bottom: -20px;
+      top: calc(100% + 2px);
       font-weight: 500;
+      text-align: center;
     }
   }
 
@@ -74,7 +75,7 @@
   position: absolute;
   left: 0;
   width: 100%;
-  height: calc(100% - 40px);
+  height: calc(100% - 55px);
   margin-top: 20px;
   border-left: 1px solid #dff1f5;
 
@@ -95,7 +96,7 @@
 .windows {
   .overflow {
     .x-axis {
-      height: calc(100% - 57px);
+      height: calc(100% - 72px);
     }
   }
 }
