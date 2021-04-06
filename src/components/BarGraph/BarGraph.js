@@ -55,7 +55,7 @@ class BarGraph extends Component {
               return (
                 <div className="bar-wrapper" key={index}>
                   <div className="bar" style={{ 'minHeight': `calc((${point.value}/${max}) * 100%)` }}>
-                    <div className="bar-value">{ point.value }</div>
+                    <div className="bar-value">{ point.value !== 0 ? point.value : '' }</div>
                   </div>
                   <div className="label">{ point.label }</div>
                 </div>

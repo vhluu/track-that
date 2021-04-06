@@ -16,19 +16,24 @@
     min-width: 25px;
     margin-left: 20px;
     margin-top: 20px;
-    background: rgb(236, 249, 255);
-    background-image: linear-gradient(#cfefff, #d2faff);
+    // background: rgb(236, 249, 255);
+    // background-image: linear-gradient(#cfefff, #d2faff);
     border-radius: 4px;
 
     &:hover {
-      background-image: linear-gradient(#bbe9ff, #d2faff);
+      // background-image: linear-gradient(#bbe9ff, #d2faff);
+      cursor: default;
 
       .bar {
         background-image: linear-gradient($gradient-blue-2, $gradient-blue-1);
+        // background-image: linear-gradient(#77efd3, #85e0f5);
       }
       
       .bar-value, .label {
         font-weight: 600;
+      }
+
+      .bar-value {
         font-size: 14px;
       }
     }
