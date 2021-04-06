@@ -50,7 +50,7 @@ class Select extends Component {
   handleClickOutside(event) {
     const { open } = this.state;
     
-    if (open && this.selectRef.current.contains(event.target)) {
+    if (open && !this.selectRef.current.contains(event.target)) {
       this.closeSelect();
     }
   }
