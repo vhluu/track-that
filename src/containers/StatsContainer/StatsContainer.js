@@ -94,13 +94,41 @@ class StatsContainer extends Component {
     const data = [];
     const tagStats = stats && stats[value || currentValue] ? Object.entries(stats[value || currentValue]) : []; // stats for selected tag
     const noneTagged = (tagStats.length === 0); // whether there are any tagged days
-    
+
+    let fullStats = [];
+    if (tagStats.length > 1) { // add missing months between start & end dates
+      fullStats.push(tagStats[0]);
+      for (let i = 0; i < tagStats.length - 1; i++) {
+        let currDate = { 
+          year: parseInt(tagStats[i][0].substring(0,4)),
+          month: parseInt(tagStats[i][0].substring(5), 10)
+        };
+
+        let nextDate = {
+          year: parseInt(tagStats[i+1][0].substring(0,4)),
+          month: parseInt(tagStats[i+1][0].substring(5), 10)
+        };
+
+        let gap = (12 * (nextDate.year - currDate.year)) + nextDate.month - currDate.month;
+
+        for (let j = 1; j < gap; j++) {
+          currDate.year += Math.floor(currDate.month / 12);
+          currDate.month = currDate.month == 12 ? 1 : currDate.month + 1;
+          
+          fullStats.push([`${currDate.year}-${currDate.month < 10 ? `0${currDate.month}` : currDate.month}`, 0]);
+        }
+
+        fullStats.push(tagStats[i+1]);
+      }
+    } else if (tagStats.length == 1) {
+      fullStats.push(tagStats[0]);
+    }
+
     let prevYear = '';
-    tagStats.forEach(([date, count]) => { // populate data array with selected tag's stats
+    fullStats.forEach(([date, count]) => { // convert stats in more legible graph data
       // get month as abbreviated string (ex. Jan)
-      const dateObj = new Date(`${date}-04`);
-      const monthStr = dateObj.toLocaleString('default', { month: 'short' });
-      const yearStr = dateObj.toLocaleString('default', { year: 'numeric' });
+      const monthStr = (new Date(`${date}-04`)).toLocaleString('default', { month: 'short' });
+      const yearStr = date.substring(0,4);
       
       data.push({
         label: `${monthStr} ${yearStr !== prevYear ? yearStr : ''}`,
