@@ -16,9 +16,10 @@ class StatsContainer extends Component {
     this.state = {
       options: [], // options for select dropdown
       defaultValue: null, // default value for select dropdown
+      selectedValue: null, // current value for select dropdown
       data: [], // graph data
       noneTagged: false, // boolean indicating whether the current tag has no tagged days
-      currentValue: null, // current value for select dropdown
+      saveData: {},
     };
 
     // setting graph config
@@ -40,8 +41,10 @@ class StatsContainer extends Component {
 
   componentDidUpdate(prevProps) {
     const { stats } = this.props;
-    // update the graph if stats has changed
-    if (prevProps.stats !== stats) this.updateGraphData();
+    
+    if (prevProps.stats !== stats) { // update the graph if stats has changed
+      this.updateGraphData();
+    }
   }
 
   componentWillUnmount() {
@@ -52,11 +55,13 @@ class StatsContainer extends Component {
   /* Handles select dropdown change by updating graph w/ new values */
   onSelectChange(value) {
     const { onGetStats, stats } = this.props;
+    
     this.setState({
-      currentValue: value,
+      selectedValue: value,
+    }, () => {
+      if (!stats[value]) onGetStats(value); // get stats for current tag if not found
+      else this.updateGraphData();
     });
-    if (!stats[value]) onGetStats(value);
-    else this.updateGraphData(value);
   }
   
   /* Populates the select dropdown with the tags */
@@ -77,7 +82,7 @@ class StatsContainer extends Component {
       this.setState({
         options,
         defaultValue,
-        currentValue: defaultValue,
+        selectedValue: defaultValue,
       });
     } else {
       this.setState({
@@ -88,60 +93,74 @@ class StatsContainer extends Component {
   }
 
   /* Updates the graph with data from the current stats */
-  updateGraphData(value) {
+  updateGraphData() {
     const { stats } = this.props;
-    const { currentValue } = this.state;
-    const data = [];
-    const tagStats = stats && stats[value || currentValue] ? Object.entries(stats[value || currentValue]) : []; // stats for selected tag
+    const { selectedValue, saveData } = this.state;
+    
+    const tagStats = stats && stats[selectedValue] ? Object.entries(stats[selectedValue]) : []; // stats for selected tag
     const noneTagged = (tagStats.length === 0); // whether there are any tagged days
 
-    let fullStats = [];
-    if (tagStats.length > 1) { // add missing months between start & end dates
-      fullStats.push(tagStats[0]);
-      for (let i = 0; i < tagStats.length - 1; i++) {
-        let currDate = { 
-          year: parseInt(tagStats[i][0].substring(0,4)),
-          month: parseInt(tagStats[i][0].substring(5), 10)
-        };
+    console.log(saveData);
+    if (!saveData[selectedValue]) { // check if there is graph data saved for current tag
+      const data = []; // data for graph
+      let fullStats = [];
+      if (tagStats.length > 1) { // add missing months between start & end dates
+        fullStats.push(tagStats[0]);
+        for (let i = 0; i < tagStats.length - 1; i++) {
+          let currDate = { 
+            year: parseInt(tagStats[i][0].substring(0,4)),
+            month: parseInt(tagStats[i][0].substring(5), 10)
+          };
 
-        let nextDate = {
-          year: parseInt(tagStats[i+1][0].substring(0,4)),
-          month: parseInt(tagStats[i+1][0].substring(5), 10)
-        };
+          let nextDate = {
+            year: parseInt(tagStats[i+1][0].substring(0,4)),
+            month: parseInt(tagStats[i+1][0].substring(5), 10)
+          };
 
-        let gap = (12 * (nextDate.year - currDate.year)) + nextDate.month - currDate.month;
+          let gap = (12 * (nextDate.year - currDate.year)) + nextDate.month - currDate.month;
 
-        for (let j = 1; j < gap; j++) {
-          currDate.year += Math.floor(currDate.month / 12);
-          currDate.month = currDate.month == 12 ? 1 : currDate.month + 1;
-          
-          fullStats.push([`${currDate.year}-${currDate.month < 10 ? `0${currDate.month}` : currDate.month}`, 0]);
+          for (let j = 1; j < gap; j++) {
+            currDate.year += Math.floor(currDate.month / 12);
+            currDate.month = currDate.month == 12 ? 1 : currDate.month + 1;
+            
+            fullStats.push([`${currDate.year}-${currDate.month < 10 ? `0${currDate.month}` : currDate.month}`, 0]);
+          }
+
+          fullStats.push(tagStats[i+1]);
         }
-
-        fullStats.push(tagStats[i+1]);
+      } else if (tagStats.length == 1) {
+        fullStats.push(tagStats[0]);
       }
-    } else if (tagStats.length == 1) {
-      fullStats.push(tagStats[0]);
-    }
 
-    let prevYear = '';
-    fullStats.forEach(([date, count]) => { // convert stats in more legible graph data
-      // get month as abbreviated string (ex. Jan)
-      const monthStr = (new Date(`${date}-04`)).toLocaleString('default', { month: 'short' });
-      const yearStr = date.substring(0,4);
-      
-      data.push({
-        label: `${monthStr} ${yearStr !== prevYear ? yearStr : ''}`,
-        value: count,
+      let prevYear = '';
+
+      fullStats.forEach(([date, count]) => { // convert stats in more legible graph data
+        // get month as abbreviated string (ex. Jan)
+        const monthStr = (new Date(`${date}-04`)).toLocaleString('default', { month: 'short' });
+        const yearStr = date.substring(0,4);
+        
+        data.push({
+          label: `${monthStr} ${yearStr !== prevYear ? yearStr : ''}`,
+          value: count,
+        });
+        
+        prevYear = yearStr;
       });
-      
-      prevYear = yearStr;
-    });
 
-    this.setState({
-      data,
-      noneTagged,
-    });
+      this.setState((prevState) => ({
+        data,
+        saveData: {
+          ...prevState.saveData,
+          [selectedValue]: data
+        },
+        noneTagged
+      }));
+    } else {
+      this.setState({
+        data: saveData[selectedValue],
+        noneTagged
+      });
+    }
   }
 
   render() {
