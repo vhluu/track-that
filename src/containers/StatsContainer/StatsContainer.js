@@ -92,6 +92,68 @@ class StatsContainer extends Component {
     }
   }
 
+  /**
+   * Adds in the missing months between first & last month for tag stats.
+   * Stats initially only contains the tag count for months where the tag is found.
+   * */
+  fillInGaps(stats) {
+    let completeStats = [];
+    if (stats.length > 1) { // add missing months between start & end dates
+      completeStats.push(stats[0]);
+      for (let i = 0; i < stats.length - 1; i++) {
+        let currDate = { 
+          year: parseInt(stats[i][0].substring(0,4)),
+          month: parseInt(stats[i][0].substring(5), 10)
+        };
+
+        let nextDate = {
+          year: parseInt(stats[i+1][0].substring(0,4)),
+          month: parseInt(stats[i+1][0].substring(5), 10)
+        };
+
+        let gap = (12 * (nextDate.year - currDate.year)) + nextDate.month - currDate.month;
+
+        for (let j = 1; j < gap; j++) {
+          currDate.year += Math.floor(currDate.month / 12);
+          currDate.month = currDate.month == 12 ? 1 : currDate.month + 1;
+          
+          completeStats.push([`${currDate.year}-${currDate.month < 10 ? `0${currDate.month}` : currDate.month}`, 0]);
+        }
+
+        completeStats.push(stats[i+1]);
+      }
+    } else if (stats.length == 1) {
+      completeStats.push(stats[0]);
+    }
+
+    return completeStats;
+  }
+
+  /**
+   * Formats stats to be displayed on the graph
+   * The graph labels will be the month + year, and the graph values will be the tag count
+   */
+  formatGraphData(data) {
+    const formatted = [];
+
+    let prevYear = '';
+
+    data.forEach(([date, count]) => { // convert stats in more legible graph data
+      // get month as abbreviated string (ex. Jan)
+      const monthStr = (new Date(`${date}-04`)).toLocaleString('default', { month: 'short' });
+      const yearStr = date.substring(0,4);
+      
+      formatted.push({
+        label: `${monthStr} ${yearStr !== prevYear ? yearStr : ''}`,
+        value: count,
+      });
+      
+      prevYear = yearStr;
+    });
+
+    return formatted;
+  }
+
   /* Updates the graph with data from the current stats */
   updateGraphData() {
     const { stats } = this.props;
@@ -100,52 +162,9 @@ class StatsContainer extends Component {
     const tagStats = stats && stats[selectedValue] ? Object.entries(stats[selectedValue]) : []; // stats for selected tag
     const noneTagged = (tagStats.length === 0); // whether there are any tagged days
 
-    console.log(saveData);
     if (!saveData[selectedValue]) { // check if there is graph data saved for current tag
-      const data = []; // data for graph
-      let fullStats = [];
-      if (tagStats.length > 1) { // add missing months between start & end dates
-        fullStats.push(tagStats[0]);
-        for (let i = 0; i < tagStats.length - 1; i++) {
-          let currDate = { 
-            year: parseInt(tagStats[i][0].substring(0,4)),
-            month: parseInt(tagStats[i][0].substring(5), 10)
-          };
-
-          let nextDate = {
-            year: parseInt(tagStats[i+1][0].substring(0,4)),
-            month: parseInt(tagStats[i+1][0].substring(5), 10)
-          };
-
-          let gap = (12 * (nextDate.year - currDate.year)) + nextDate.month - currDate.month;
-
-          for (let j = 1; j < gap; j++) {
-            currDate.year += Math.floor(currDate.month / 12);
-            currDate.month = currDate.month == 12 ? 1 : currDate.month + 1;
-            
-            fullStats.push([`${currDate.year}-${currDate.month < 10 ? `0${currDate.month}` : currDate.month}`, 0]);
-          }
-
-          fullStats.push(tagStats[i+1]);
-        }
-      } else if (tagStats.length == 1) {
-        fullStats.push(tagStats[0]);
-      }
-
-      let prevYear = '';
-
-      fullStats.forEach(([date, count]) => { // convert stats in more legible graph data
-        // get month as abbreviated string (ex. Jan)
-        const monthStr = (new Date(`${date}-04`)).toLocaleString('default', { month: 'short' });
-        const yearStr = date.substring(0,4);
-        
-        data.push({
-          label: `${monthStr} ${yearStr !== prevYear ? yearStr : ''}`,
-          value: count,
-        });
-        
-        prevYear = yearStr;
-      });
+      const completeStats = this.fillInGaps(tagStats); // add missing months
+      const data = this.formatGraphData(completeStats); // get formatted graph data
 
       this.setState((prevState) => ({
         data,
