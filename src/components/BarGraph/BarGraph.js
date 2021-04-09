@@ -9,28 +9,25 @@ class BarGraph extends Component {
   constructor(props) {
     super(props);
     this.barsRef = React.createRef();
-  }  
+  }
 
   componentDidMount() {
     // get the width of the bars div
     this.barsWidth = this.barsRef.current.getBoundingClientRect().width;
-    this.resetScroll(); // scrolls to the rightmost bar
   }
 
   componentDidUpdate() {
-    this.resetScroll(); // scrolls to the rightmost bar
-  }
-
-  /* Sets the scroll position to initially display the rightmost item in the graph, if there is overflow */
-  resetScroll() {
     const barsRef = this.barsRef.current;
-    const { scrollWidth } = barsRef;
+    const lastBar = barsRef.querySelector(':scope > div:last-child');
+    
+    if (lastBar) {
+      lastBar.scrollIntoView(); // scroll last bar into view
 
-    if (scrollWidth > this.barsWidth) { // check if the graph bars are overflowing its container
-      barsRef.scrollLeft = scrollWidth;
-      barsRef.parentElement.classList.add('overflow');
-    } else {
-      barsRef.parentElement.classList.remove('overflow');
+      if (barsRef.scrollWidth > this.barsWidth) { // check if the graph bars are overflowing its container
+        barsRef.parentElement.classList.add('overflow');
+      } else {
+        barsRef.parentElement.classList.remove('overflow');
+      }
     }
   }
 
@@ -45,7 +42,7 @@ class BarGraph extends Component {
             { lineValues.map((value, index) => {
               return (
                 <div className="x-axis-lines" key={index}>
-                  { (index % labelStep === 0) && <div className="x-axis-label">{ value }</div> }
+                  { (index % labelStep === 0) && <span className="x-axis-label">{ value }</span> }
                 </div>
               );
             }) }
@@ -55,9 +52,9 @@ class BarGraph extends Component {
               return (
                 <div className="bar-wrapper" key={index}>
                   <div className="bar" style={{ 'minHeight': `calc((${point.value}/${max}) * 100%)` }}>
-                    <div className="bar-value">{ point.value !== 0 ? point.value : '' }</div>
+                    <span className="bar-value">{ point.value !== 0 ? point.value : '' }</span>
                   </div>
-                  <div className="label">{ point.label }</div>
+                  <span className="label">{ point.label }</span>
                 </div>
               );
             }) }
