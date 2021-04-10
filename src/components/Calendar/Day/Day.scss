@@ -68,6 +68,11 @@
   margin-bottom: 5px;
   text-align: center;
 
+  & > span:not(.emoji-mart-emoji) {
+    display: inline-block;
+    margin-left: -5px;
+  }
+
   @media screen and (min-width: $bp-desktop-md) {
     font-size: 16px;
     width: 28px;
@@ -75,8 +80,6 @@
     line-height: 28px;
 
     & > span:not(.emoji-mart-emoji) {
-      display: inline-block;
-      margin-left: -5px;
       margin-top: 1px;
     }
   }

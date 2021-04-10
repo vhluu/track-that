@@ -23,7 +23,11 @@
     display: flex;
     align-items: center;
 
-    span { margin-right: 4px; }
+    & > span {
+      margin-top: -1px;
+      margin-right: 5px; 
+      width: 19px;
+    }
 
     &:hover {
       border-color: #62d1e4;
@@ -75,11 +79,15 @@
   }
 
   .option {
-    padding: 4px 6px;
+    padding: 6px;
     display: flex;
     align-items: center;
 
-    span { margin-right: 4px; }
+    & > span {
+      margin-top: -1px;
+      margin-right: 5px;
+      width: 19px;
+    }
 
     &:hover {
       cursor: pointer;
