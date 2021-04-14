@@ -48,19 +48,19 @@ class App extends Component {
   }
 
   render() {
-    const { tags, uid } = this.props;
+    const { tags, orderedTags, uid } = this.props;
     const { showGraph } = this.state;
 
     return (
       <div className={`app flex_d main-wrapper card${isMac ? ' macos' : ''}${isWindows ? ' windows' : ''}`}>
-        <TagsContainer uid={uid} tags={tags} />
-        <CalendarContainer uid={uid} tags={tags} />
+        <TagsContainer uid={uid} tags={orderedTags} />
+        <CalendarContainer uid={uid} tags={tags} orderedTags={orderedTags} />
 
         <Button type="graph-button" clicked={this.toggleGraph} ariaLabel="View Stats">Stats</Button>
         { showGraph && (
           <Modal show={showGraph} closeSelf={this.toggleGraph} extraClasses="graph-modal">
             <StatsContainer />
-          </Modal> 
+          </Modal>
         ) }
       </div>
     );
@@ -70,6 +70,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     tags: state.tags,
+    orderedTags: state.orderedTags,
     uid: state.uid,
   };
 };

@@ -136,13 +136,24 @@ class CalendarContainer extends Component {
 
   /* Takes an array of tag ids and returns an array of tags w/ all of their data (id, title, color, icon) */
   getTagInfo(tagIds) {
-    const { tags } = this.props;
+    const { tags, orderedTags } = this.props;
+
     if (tagIds) {
-      return tagIds.map((tagId) => {
-        const current = tags[tagId];
-        current.id = tagId;
-        return current;
-      });
+      const tagInfo = [];
+      if (tagIds.length > 1) {
+        let count = 0;
+        for (let i = 0; i < orderedTags.length; i++) {
+          if (tagIds.includes(orderedTags[i].id)) {
+            count++;
+            tagInfo.push(orderedTags[i]);
+            if (count == orderedTags.length) break;
+          }
+        }
+      } else {
+        tagInfo.push(tags[tagIds[0]]);
+      }
+
+      return tagInfo;
     }
     return null;
   }
@@ -212,7 +223,7 @@ class CalendarContainer extends Component {
   }
 
   render() {
-    const { onCreateDayTag, onDeleteDayTag, dayTags, tags } = this.props;
+    const { onCreateDayTag, onDeleteDayTag, dayTags, tags, orderedTags } = this.props;
     const { date: { full, monthIndex, month, year }, days } = this.state;
     
     const currentDay = new Date();
@@ -230,7 +241,7 @@ class CalendarContainer extends Component {
           {showTodayBtn && <Button type="smaller" clicked={this.currentMonth} ariaLabel="Today">Today</Button>}
         </div>
 
-        <Calendar days={days} monthIndex={monthIndex} month={month} year={year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={tags && Object.keys(tags).length > 0} />
+        <Calendar days={days} monthIndex={monthIndex} month={month} year={year} dayTags={dayTags} onCreateDayTag={onCreateDayTag} onDeleteDayTag={onDeleteDayTag} getTagInfo={this.getTagInfo} tagsReady={orderedTags && orderedTags.length > 0} />
       </div>
     );
   }

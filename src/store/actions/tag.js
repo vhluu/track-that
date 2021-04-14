@@ -1,7 +1,7 @@
 import { db } from '../../util/firebase';
 import * as actionTypes from './actionTypes';
 
-export const setTags = (tags) => ({ type: actionTypes.SET_TAGS, tags });
+export const setTags = (orderedTags, tags, lastId) => ({ type: actionTypes.SET_TAGS, orderedTags, tags, lastId });
 
 export const addTag = (tag) => ({ type: actionTypes.ADD_TAG, tag });
 

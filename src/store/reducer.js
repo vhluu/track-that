@@ -4,6 +4,7 @@ import { updateObject, removeProp, debug } from '../util/utility';
 const initialState = {
   uid: null, // the user id
   tags: {},
+  orderedTags: [],
   nextId: 1, // the next id to use for newly created tags
   dayTags: {},
   savedStart: null, // the start date for the days we have already grabbed from the database
@@ -47,14 +48,10 @@ const updateTag = (state, action) => {
 /* Sets tags */
 const setTags = (state, action) => {
   if (action.tags) {
-    // get the last tag id number and set nextId to (number + 1)
-    const keys = Object.keys(action.tags);
-    let lastId = keys[keys.length - 1].substring(1);
-    if (Number.isNaN(lastId)) lastId = lastId.substring(1);
-
     return updateObject(state, {
+      orderedTags: action.orderedTags,
       tags: action.tags,
-      nextId: parseInt(lastId, 10) + 1,
+      nextId: action.lastId + 1,
     });
   }
   return {
