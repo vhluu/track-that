@@ -24,14 +24,13 @@ class TagsContainer extends Component {
     this.closeSignInModal = this.closeSignInModal.bind(this);
     this.signIn = this.signIn.bind(this);
     this.createTag = this.createTag.bind(this);
-    this.scrollToBottom = this.scrollToBottom.bind(this);
     this.setFocus = this.setFocus.bind(this);
 
     this.tagListRef = React.createRef();
     this.tagFormRef = React.createRef();
   }
 
-  /* Toggles the tag modal, taking the tag that was clicked on as the parameter */
+  /* Toggles the Tag modal, taking the tag that was clicked on as the parameter */
   toggleTagModal(tag) {
     const { uid } = this.props;
 
@@ -57,6 +56,7 @@ class TagsContainer extends Component {
     }
   }
 
+  /* Close Tag modal */
   closeTagModal(e) {
     if (!e.target.classList.contains('tag')) {
       this.setState({
@@ -65,6 +65,7 @@ class TagsContainer extends Component {
     }
   }
 
+  /* Close Sign-in modal */
   closeSignInModal() {
     this.setState({
       showSignIn: false,
@@ -84,18 +85,11 @@ class TagsContainer extends Component {
     const { onCreateTag } = this.props;
     this.toggleTagModal(); // close tag modal
     onCreateTag(tagData); // add to database & store
-    this.scrollToBottom(this.tagListRef.current, 500); // scroll to bottom of tags list
-  }
-
-  /* Scrolls to bottom of passed in element after delay */
-  scrollToBottom(elem, delay) {
-    setTimeout(() => {
-      const elemHeight = elem.getBoundingClientRect().height; // get height of element
-      
-      if (elem.scrollHeight > elemHeight) { // check if its contents are overflowing
-        elem.scrollTop = elem.scrollHeight;
-      }
-    }, delay);
+    
+    setTimeout(() => { // scroll to bottom of tags list
+      console.log(this.tagListRef.current.querySelector(':scope > div:last-child'));
+      this.tagListRef.current.querySelector(':scope > div:last-child').scrollIntoView(false);
+    }, 100);
   }
 
   /* Set the focus for the tag form */

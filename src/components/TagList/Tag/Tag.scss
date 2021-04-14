@@ -20,7 +20,10 @@
   // Generate gradient classes using color map
   @include gradient-classes;
 
-  & > span { margin-right: 6px; }
+  & > span { 
+    margin-right: 6px;
+    min-width: 19px;
+  }
 
   &:hover {
     background-position: 100% 0;

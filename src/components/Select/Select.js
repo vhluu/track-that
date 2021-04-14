@@ -50,7 +50,7 @@ class Select extends Component {
   handleClickOutside(event) {
     const { open } = this.state;
     
-    if (open && this.selectRef.current.contains(event.target)) {
+    if (open && !this.selectRef.current.contains(event.target)) {
       this.closeSelect();
     }
   }
@@ -186,7 +186,6 @@ class Select extends Component {
         <div className="options-wrapper">
           <div className="options" ref={this.dropdownRef}>
             { options.map((option, index) => <div className={`option${options[focusIndex].value == option.value ? ' selected': ''}`} key={index} data-value={option.value} data-index={index} onClick={this.selectOption} onKeyDown={this.handleKeyDown}>{ option.label }</div>) }
-            { options.length === 0 && <div className="option">No Tags Available</div> }
           </div>
         </div>
       </div>
