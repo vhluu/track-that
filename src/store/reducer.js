@@ -33,14 +33,17 @@ const deleteTag = (state, action) => {
 
   return updateObject(state, {
     tags: removeProp(state.tags, action.tagId),
+    orderedTags: state.orderedTags.filter((tag) => tag.id !== action.tagId),
     dayTags: updatedDT,
   });
 };
 
 /* Updates tags */
 const updateTag = (state, action) => {
+  const tagId = action.updatedTag.id;
   return updateObject(state, {
-    tags: updateObject(state.tags, { [action.updatedTag.id]: action.updatedTag }),
+    tags: updateObject(state.tags, { [tagId]: action.updatedTag }),
+    orderedTags: state.orderedTags.map((tag) => tag.id === tagId ? action.updatedTag : tag )
   });
 };
 
