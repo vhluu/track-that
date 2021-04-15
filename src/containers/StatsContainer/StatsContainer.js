@@ -36,7 +36,7 @@ class StatsContainer extends Component {
     const { onGetStats, tags } = this.props;
     
     this.populateSelect(); // populate the select dropdown
-    if (tags) onGetStats(Object.keys(tags)[0]); // set the first tag as the default dropdown value
+    if (tags) onGetStats(tags[0].id); // set the first tag as the default dropdown value
   }
 
   componentDidUpdate(prevProps) {
@@ -71,10 +71,10 @@ class StatsContainer extends Component {
       const options = [];
       let defaultValue;
 
-      Object.entries(tags).forEach(([tagId, tag], index) => {
-        if (index === 0) defaultValue = tagId;
+      tags.forEach((tag, index) => {
+        if (index === 0) defaultValue = tag.id;
         options.push({ 
-          value: tagId,
+          value: tag.id,
           label: <><Icon data={tag.icon} /> {tag.title}</>
         });
       });
@@ -206,7 +206,7 @@ class StatsContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    tags: state.tags,
+    tags: state.orderedTags,
     stats: state.stats,
   };
 };
