@@ -31,18 +31,14 @@ export const initUser = (greeting, login) => {
         createUser(dispatch, response); // creates user if not already in database
         return db.ref(`users/${response.userId}/tags`).orderByChild('order').once('value').then((snapshot) => {
           let orderedTags = [];
-          let lastId = -1;
 
           snapshot.forEach((child) => {
             orderedTags.push({
               ...child.val(),
               id: child.key,
             });
-
-            let id = child.key.substring(1);
-            if (id > lastId) lastId = id;
           });
-          dispatch(setTags(orderedTags, snapshot.val(), lastId));
+          dispatch(setTags(orderedTags, snapshot.val()));
         });
       }
       

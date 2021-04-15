@@ -5,7 +5,6 @@ const initialState = {
   uid: null, // the user id
   tags: {},
   orderedTags: [],
-  nextId: 1, // the next id to use for newly created tags
   dayTags: {},
   savedStart: null, // the start date for the days we have already grabbed from the database
   savedEnd: null, // the end date ...
@@ -17,9 +16,9 @@ const initialState = {
 
 /* Adds tags */
 const addTag = (state, action) => {
-  return updateObject(state, { 
-    tags: updateObject(state.tags, { [action.tag.id]: action.tag }), 
-    nextId: state.nextId + 1,
+  return updateObject(state, {
+    tags: updateObject(state.tags, { [action.tag.id]: action.tag }),
+    orderedTags: [...state.orderedTags, action.tag],
   });
 };
 
@@ -51,7 +50,6 @@ const setTags = (state, action) => {
     return updateObject(state, {
       orderedTags: action.orderedTags,
       tags: action.tags,
-      nextId: action.lastId + 1,
     });
   }
   return {
@@ -69,7 +67,6 @@ const signOutUser = (state) => {
   return updateObject(state, {
     userId: null,
     tags: {},
-    nextId: 1,
     dayTags: {},
     savedStart: null,
     savedEnd: null,

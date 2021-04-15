@@ -82,12 +82,14 @@ class TagsContainer extends Component {
 
   /* Add tag to database/store & close tag modal */
   createTag(tagData) {
-    const { onCreateTag } = this.props;
-    this.toggleTagModal(); // close tag modal
+    const { onCreateTag, tags } = this.props;
+    
+    tagData.order = tags.length == 0 ? 1 : tags[tags.length - 1].order + 1; // specify order
     onCreateTag(tagData); // add to database & store
+
+    this.toggleTagModal(); // close tag modal
     
     setTimeout(() => { // scroll to bottom of tags list
-      console.log(this.tagListRef.current.querySelector(':scope > div:last-child'));
       this.tagListRef.current.querySelector(':scope > div:last-child').scrollIntoView(false);
     }, 100);
   }
@@ -99,7 +101,7 @@ class TagsContainer extends Component {
 
   render() {
     const { showModal, showSignIn, action, selectedTag } = this.state;
-    const { tags, onCreateTag, onDeleteTag, onUpdateTag } = this.props;
+    const { tags, onDeleteTag, onUpdateTag } = this.props;
 
     return (
       <div className="tags-container">
