@@ -7,7 +7,7 @@
   align-items: center;
   position: relative;
   width: fit-content;
-  padding: 10px 10px;
+  padding: 10px;
   margin: 5px 5px 0 5px;
   border-radius: 10px;
   font-size: 14px;
@@ -20,9 +20,14 @@
   // Generate gradient classes using color map
   @include gradient-classes;
 
-  & > span { 
+  & > span:first-child { 
     margin-right: 6px;
     min-width: 19px;
+  }
+
+  & > span:last-child { 
+    overflow: hidden;
+    line-height: 18px;
   }
 
   &:hover {
@@ -34,6 +39,10 @@
     margin: 0 0 5px 0;
     max-width: 200px;
     overflow-x: auto;
+
+    & > span:last-child { 
+      white-space: break-spaces;
+    }
   }
 
   @media screen and (min-width: $bp-desktop-md) {
@@ -42,8 +51,9 @@
 
   @media screen and (min-width: $bp-desktop-lg) {
     font-size: 16px;
-    padding: 12px;
+    padding: 11px 12px;
     margin: 0 0 7px 0;
+    max-width: 250px;
   }
 }
 
@@ -51,7 +61,7 @@
   line-height: 16px;
 
   @media screen and (min-width: $bp-desktop-lg) {
-    & > span {
+    & > span:first-child {
       min-width: 22px;
       display: inline-block;
     }

@@ -13,6 +13,7 @@ $bp-desktop-lg: 1600px;
 // #### Retina specific query
 $retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)"; 
 $retina-desktop-md: "(-webkit-min-device-pixel-ratio: 2) and (min-width: 1480px), (min-resolution: 192dpi) and (min-width: 1480px)"; 
+$retina-desktop-lg: "(-webkit-min-device-pixel-ratio: 2) and (min-width: 1600px), (min-resolution: 192dpi) and (min-width: 1600px)"; 
 
 // #### Z-index master list
 $zindex-day-modal: 10;
