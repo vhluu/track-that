@@ -5,7 +5,7 @@ import Tag from './Tag/Tag';
 import './TagList.scss';
 
 const TagList = React.forwardRef((props, ref) => {
-  const { tags, onClick } = props;
+  const { tags, onClick, onUpdateOrder } = props;
 
   return (
     <div className="tags-list" ref={ref}>
@@ -18,7 +18,9 @@ const TagList = React.forwardRef((props, ref) => {
             color={tag.color}
             icon={tag.icon} 
             title={tag.title}
+            order={tag.order}
             onClick={() => { onClick(tag); }}
+            onUpdateOrder={onUpdateOrder}
           />
         );
       }) }

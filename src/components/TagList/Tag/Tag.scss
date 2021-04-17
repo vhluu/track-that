@@ -20,6 +20,17 @@
   // Generate gradient classes using color map
   @include gradient-classes;
 
+  &.chosen {
+    border: 2px solid #1fa1e0;
+  }
+
+  &:hover {
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
+  }
+
+  & > * { pointer-events: none; }
+
   & > span:first-child { 
     margin-right: 6px;
     min-width: 19px;
@@ -30,15 +41,9 @@
     line-height: 18px;
   }
 
-  &:hover {
-    background-position: 100% 0;
-    transition: all .2s ease-in-out;
-  }
-
   @media screen and (min-width: $bp-desktop) {
     margin: 0 0 5px 0;
     max-width: 200px;
-    overflow-x: auto;
 
     & > span:last-child { 
       white-space: break-spaces;
@@ -67,3 +72,16 @@
     }
   }
 }
+
+
+// Tag chosen as dropzone
+// .tag.chosen::after {
+//   content: '';
+//   display: block;
+//   width: 100%;
+//   height: 2px;
+//   background: #4dc8ca;
+//   position: absolute;
+//   bottom: -5px;
+//   left: 0;
+// }

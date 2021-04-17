@@ -101,14 +101,14 @@ class TagsContainer extends Component {
 
   render() {
     const { showModal, showSignIn, action, selectedTag } = this.state;
-    const { tags, onDeleteTag, onUpdateTag } = this.props;
+    const { tags, onDeleteTag, onUpdateTag, onUpdateOrder } = this.props;
 
     return (
       <div className="tags-container">
         <h2>Tags</h2>
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
         <div className="tags-main-wrapper">
-          <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} />
+          <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} onUpdateOrder={onUpdateOrder} />
           <Button type="dashed" clicked={this.toggleTagModal.bind(this, null)} ariaLabel="Add Tag">+ Add New Tag</Button>
         </div>
         <Modal show={showModal} closeSelf={this.closeTagModal} onShow={this.setFocus}>
@@ -136,6 +136,7 @@ const mapDispatchToProps = (dispatch) => ({
   onCreateTag: (tagData) => dispatch(actions.createTag(tagData)),
   onDeleteTag: (tagId) => dispatch(actions.deleteTag(tagId)),
   onUpdateTag: (tagData) => dispatch(actions.updateTag(tagData)),
+  onUpdateOrder: (tag1, tag2) => dispatch(actions.updateOrder(tag1, tag2)),
   onInitUser: (msg, login) => dispatch(actions.initUser(msg, login)),
 });
 
