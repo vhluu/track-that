@@ -137,7 +137,7 @@ class CalendarContainer extends Component {
   /* Takes an array of tag ids and returns an array of tags w/ all of their data (id, title, color, icon) */
   getTagInfo(tagIds) {
     const { tags, orderedTags } = this.props;
-
+    
     if (tagIds) {
       const tagInfo = [];
       if (tagIds.length > 1) {
@@ -150,7 +150,7 @@ class CalendarContainer extends Component {
           }
         }
       } else {
-        tagInfo.push(tags[tagIds[0]]);
+        tagInfo.push({ ...tags[tagIds[0]], id: tagIds[0] });
       }
 
       return tagInfo;

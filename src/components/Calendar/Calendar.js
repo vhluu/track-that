@@ -113,7 +113,7 @@ class Calendar extends Component {
 
   /* Gets selected tags and removes them from the selected day */
   deleteDayTags() {
-    const { onDeleteDayTag, month, year } = this.props;
+    const { onDeleteDayTag } = this.props;
     const { selectedDay, checkedItems, selectedDayTags } = this.state;
 
     let tagsToRemove = selectedDayTags.filter((tag, index) => checkedItems[index]);
