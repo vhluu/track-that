@@ -64,6 +64,6 @@ export const updateOrder = (tag1, tag2) => {
     // update the tag order in the database
     db.ref(`users/${getState().uid}/tags/${tag1.id}`).update({ order: tag1.order });
     db.ref(`users/${getState().uid}/tags/${tag2.id}`).update({ order: tag2.order });
-    // dispatch({ type: actionTypes.UPDATE_TAG, updatedTag });
+    dispatch({ type: actionTypes.UPDATE_TAG_ORDER, tag1, tag2 });
   };
 };

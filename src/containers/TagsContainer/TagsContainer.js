@@ -84,7 +84,7 @@ class TagsContainer extends Component {
   createTag(tagData) {
     const { onCreateTag, tags } = this.props;
     
-    tagData.order = tags.length == 0 ? 1 : tags[tags.length - 1].order + 1; // specify order
+    tagData.order = tags.length == 0 ? 1 : parseInt(tags[tags.length - 1].order) + 1; // specify order
     onCreateTag(tagData); // add to database & store
 
     this.toggleTagModal(); // close tag modal

@@ -43,8 +43,8 @@ class Tag extends Component {
 
     // swap order
     if (dropId && targetId && dropId !== targetId) {
-      const tag1 = { id: dropId, order: e.target.getAttribute('data-order') };
-      const tag2 = { id: targetId, order: dropOrder };
+      const tag1 = { id: dropId, order: parseInt(e.target.getAttribute('data-order')) };
+      const tag2 = { id: targetId, order: parseInt(dropOrder) };
       onUpdateOrder(tag1, tag2);
     }
     

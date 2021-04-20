@@ -47,6 +47,38 @@ const updateTag = (state, action) => {
   });
 };
 
+/* Updates tag order */
+const updateOrder = (state, action) => {
+  if (action.tag1 && action.tag2) {
+    let orderedTags = [...state.orderedTags];
+    let firstIndex;
+
+    // swap items in the ordered array and then 
+    for (let i = 0; i < orderedTags.length; i++) {
+      if (orderedTags[i].id === action.tag1.id || orderedTags[i].id === action.tag2.id) {
+        if (firstIndex === undefined) firstIndex = i;
+        else {
+          let tmp = { ...orderedTags[firstIndex], order: orderedTags[i].order };
+          orderedTags[firstIndex] = { ...orderedTags[i], order: orderedTags[firstIndex].order };
+          orderedTags[i] = tmp;
+          break;
+        }
+      }
+    }
+
+    return updateObject(state, {
+      tags: updateObject(state.tags, { 
+        [action.tag1.id]: { ...state.tags[action.tag1.id], order: action.tag1.order },
+        [action.tag2.id]: { ...state.tags[action.tag2.id], order: action.tag2.order },
+      }),
+      orderedTags
+    });
+  }
+  return {
+    ...state,
+  };
+};
+
 /* Sets tags */
 const setTags = (state, action) => {
   if (action.tags) {
@@ -59,6 +91,7 @@ const setTags = (state, action) => {
     ...state,
   };
 };
+
 
 /* Sets user id */
 const setUser = (state, action) => {
@@ -158,6 +191,7 @@ const handlers = {
   ADD_TAG: addTag,
   DELETE_TAG: deleteTag,
   UPDATE_TAG: updateTag,
+  UPDATE_TAG_ORDER: updateOrder,
   SET_TAGS: setTags,
   SET_USER: setUser,
   SIGN_OUT_USER: signOutUser,
