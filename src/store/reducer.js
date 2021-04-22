@@ -4,7 +4,7 @@ import { updateObject, removeProp, debug } from '../util/utility';
 const initialState = {
   uid: null, // the user id
   tags: {},
-  nextId: 1, // the next id to use for newly created tags
+  orderedTags: [],
   dayTags: {},
   savedStart: null, // the start date for the days we have already grabbed from the database
   savedEnd: null, // the end date ...
@@ -16,9 +16,9 @@ const initialState = {
 
 /* Adds tags */
 const addTag = (state, action) => {
-  return updateObject(state, { 
-    tags: updateObject(state.tags, { [action.tag.id]: action.tag }), 
-    nextId: state.nextId + 1,
+  return updateObject(state, {
+    tags: updateObject(state.tags, { [action.tag.id]: action.tag }),
+    orderedTags: [...state.orderedTags, action.tag],
   });
 };
 
@@ -33,34 +33,65 @@ const deleteTag = (state, action) => {
 
   return updateObject(state, {
     tags: removeProp(state.tags, action.tagId),
+    orderedTags: state.orderedTags.filter((tag) => tag.id !== action.tagId),
     dayTags: updatedDT,
   });
 };
 
 /* Updates tags */
 const updateTag = (state, action) => {
+  const tagId = action.updatedTag.id;
   return updateObject(state, {
-    tags: updateObject(state.tags, { [action.updatedTag.id]: action.updatedTag }),
+    tags: updateObject(state.tags, { [tagId]: action.updatedTag }),
+    orderedTags: state.orderedTags.map((tag) => tag.id === tagId ? action.updatedTag : tag )
   });
 };
 
-/* Sets tags */
-const setTags = (state, action) => {
-  if (action.tags) {
-    // get the last tag id number and set nextId to (number + 1)
-    const keys = Object.keys(action.tags);
-    let lastId = keys[keys.length - 1].substring(1);
-    if (Number.isNaN(lastId)) lastId = lastId.substring(1);
+/* Updates tag order */
+const updateOrder = (state, action) => {
+  if (action.tag1 && action.tag2) {
+    let orderedTags = [...state.orderedTags];
+    let firstIndex;
+
+    // swap items in the ordered array and then 
+    for (let i = 0; i < orderedTags.length; i++) {
+      if (orderedTags[i].id === action.tag1.id || orderedTags[i].id === action.tag2.id) {
+        if (firstIndex === undefined) firstIndex = i;
+        else {
+          let tmp = { ...orderedTags[firstIndex], order: orderedTags[i].order };
+          orderedTags[firstIndex] = { ...orderedTags[i], order: orderedTags[firstIndex].order };
+          orderedTags[i] = tmp;
+          break;
+        }
+      }
+    }
 
     return updateObject(state, {
-      tags: action.tags,
-      nextId: parseInt(lastId, 10) + 1,
+      tags: updateObject(state.tags, { 
+        [action.tag1.id]: { ...state.tags[action.tag1.id], order: action.tag1.order },
+        [action.tag2.id]: { ...state.tags[action.tag2.id], order: action.tag2.order },
+      }),
+      orderedTags
     });
   }
   return {
     ...state,
   };
 };
+
+/* Sets tags */
+const setTags = (state, action) => {
+  if (action.tags) {
+    return updateObject(state, {
+      orderedTags: action.orderedTags,
+      tags: action.tags,
+    });
+  }
+  return {
+    ...state,
+  };
+};
+
 
 /* Sets user id */
 const setUser = (state, action) => {
@@ -72,7 +103,6 @@ const signOutUser = (state) => {
   return updateObject(state, {
     userId: null,
     tags: {},
-    nextId: 1,
     dayTags: {},
     savedStart: null,
     savedEnd: null,
@@ -161,6 +191,7 @@ const handlers = {
   ADD_TAG: addTag,
   DELETE_TAG: deleteTag,
   UPDATE_TAG: updateTag,
+  UPDATE_TAG_ORDER: updateOrder,
   SET_TAGS: setTags,
   SET_USER: setUser,
   SIGN_OUT_USER: signOutUser,

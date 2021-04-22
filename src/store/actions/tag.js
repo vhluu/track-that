@@ -1,21 +1,21 @@
 import { db } from '../../util/firebase';
 import * as actionTypes from './actionTypes';
 
-export const setTags = (tags) => ({ type: actionTypes.SET_TAGS, tags });
+export const setTags = (orderedTags, tags) => ({ type: actionTypes.SET_TAGS, orderedTags, tags });
 
 export const addTag = (tag) => ({ type: actionTypes.ADD_TAG, tag });
 
 export const createTag = (newTag) => {
   return (dispatch, getState) => {
     // add tag to the database
-    const { uid, nextId } = getState();
-    let id = nextId < 10 ? `0${nextId}` : nextId; // adds 0 before ids that are less than 10
-    db.ref(`users/${uid}/tags/t${id}`).set({
+    const { uid } = getState();
+    const tagRef = db.ref(`users/${uid}/tags`).push({
       icon: newTag.icon,
       title: newTag.title,
       color: newTag.color,
+      order: newTag.order
     });
-    const tag = { ...newTag, id: `t${id}` }; 
+    const tag = { ...newTag, id: `${tagRef.key}` };
     dispatch(addTag(tag));
   };
 };
@@ -55,5 +55,15 @@ export const deleteTag = (tagId) => {
 
       dispatch({ type: actionTypes.DELETE_TAG, tagId });
     });
+  };
+};
+
+
+export const updateOrder = (tag1, tag2) => {
+  return (dispatch, getState) => {
+    // update the tag order in the database
+    db.ref(`users/${getState().uid}/tags/${tag1.id}`).update({ order: tag1.order });
+    db.ref(`users/${getState().uid}/tags/${tag2.id}`).update({ order: tag2.order });
+    dispatch({ type: actionTypes.UPDATE_TAG_ORDER, tag1, tag2 });
   };
 };

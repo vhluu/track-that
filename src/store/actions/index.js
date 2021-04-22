@@ -7,6 +7,7 @@ export {
   createTag,
   updateTag,
   deleteTag,
+  updateOrder
 } from './tag';
 
 export {

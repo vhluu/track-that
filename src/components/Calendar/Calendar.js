@@ -47,12 +47,12 @@ class Calendar extends Component {
     // creates tag elements
     const { onCreateDayTag, dayTags } = this.props;
 
-    const dropId = e.dataTransfer.getData('text/plain');
+    const dropId = e.dataTransfer.getData('text/plain').split('/')[0];
     const dropDate = e.target.getAttribute('data-date');
     
     // add day tag if that tag wasnt already added
     if (!(dayTags[dropDate] && dayTags[dropDate].includes(dropId))) {
-      onCreateDayTag(e.dataTransfer.getData('text/plain'), dropDate);
+      onCreateDayTag(dropId, dropDate);
     }
     if (e.target.classList.contains('day')) e.target.classList.remove('chosen-day'); // removes bg color from calendar day
   }
@@ -113,7 +113,7 @@ class Calendar extends Component {
 
   /* Gets selected tags and removes them from the selected day */
   deleteDayTags() {
-    const { onDeleteDayTag, month, year } = this.props;
+    const { onDeleteDayTag } = this.props;
     const { selectedDay, checkedItems, selectedDayTags } = this.state;
 
     let tagsToRemove = selectedDayTags.filter((tag, index) => checkedItems[index]);

@@ -29,8 +29,18 @@ export const initUser = (greeting, login) => {
         dispatch(setUser(response));
 
         createUser(dispatch, response); // creates user if not already in database
-        return db.ref(`users/${response.userId}/tags`).once('value').then((snapshot) => dispatch(setTags(snapshot.val())));
-      } 
+        return db.ref(`users/${response.userId}/tags`).orderByChild('order').once('value').then((snapshot) => {
+          let orderedTags = [];
+
+          snapshot.forEach((child) => {
+            orderedTags.push({
+              ...child.val(),
+              id: child.key,
+            });
+          });
+          dispatch(setTags(orderedTags, snapshot.val()));
+        });
+      }
       
       console.log("Couldn't get user");
       dispatch(getUserFailed());

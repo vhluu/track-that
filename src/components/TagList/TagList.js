@@ -5,22 +5,22 @@ import Tag from './Tag/Tag';
 import './TagList.scss';
 
 const TagList = React.forwardRef((props, ref) => {
-  const { tags, onClick } = props;
-  const keys = Object.keys(tags);
+  const { tags, onClick, onUpdateOrder } = props;
 
   return (
     <div className="tags-list" ref={ref}>
-      { keys.length === 0 && <Loading /> }
-      { keys.map((id) => {
-        const tag = tags[id];
+      { tags.length === 0 && <Loading /> }
+      { tags.map((tag) => {
         return (
           <Tag
-            key={id}
-            id={id}
+            key={tag.id}
+            id={tag.id}
             color={tag.color}
             icon={tag.icon} 
             title={tag.title}
-            onClick={() => { tag.id = id; onClick(tag); }}
+            order={tag.order}
+            onClick={() => { onClick(tag); }}
+            onUpdateOrder={onUpdateOrder}
           />
         );
       }) }
