@@ -3,6 +3,7 @@ import { populateWidget } from './addWidget';
 import { isMac } from '../../util/utility';
 
 let tags; // all of the user's tags
+let orderedTags; // list of user's tags in order
 let dayTags; // the tags added for the current day
 
 /* Formats the given number as two digits */
@@ -36,22 +37,51 @@ export function getTags() {
   return tags;
 }
 
+
+/* Returns the a list of tag objects with the given ids */
+function getTagData(tagIds, orderedTags, tags) {
+  if (tagIds) {
+    const tagData = [];
+    if (tagIds.length > 1) {
+      let count = 0;
+      for (let i = 0; i < orderedTags.length; i++) {
+        if (tagIds.includes(orderedTags[i].id)) {
+          count++;
+          tagData.push(orderedTags[i]);
+          if (count == orderedTags.length) break;
+        }
+      }
+    } else {
+      tagData.push({ ...tags[tagIds[0]], id: tagIds[0] });
+    }
+    return tagData;
+  }
+  return null;
+}
+
+
 /* Grabs the tags for the current day and displays them in the popup template */
 export function setTags(userId) {
   // get all of the tags (title, color, icon) from the database
-  db.ref(`users/${userId}/tags`).once('value').then((snapshot1) => {
+  db.ref(`users/${userId}/tags`).orderByChild('order').once('value').then((snapshot1) => {
     tags = snapshot1.val();
-    if (tags) {
+    
+    orderedTags = [];
+    snapshot1.forEach((child) => { // gets tags in order
+      orderedTags.push({
+        ...child.val(),
+        id: child.key,
+      });
+    });
+
+    if (orderedTags.length) {
       // get the tags for the current day from the database
       db.ref(`users/${userId}/tagged/${fullDate}`).once('value').then((snapshot) => {
         dayTags = snapshot.val();
         if (dayTags) {
           // tagData will store an array of tags which include id, title, icon, color
-          const tagData = Object.keys(dayTags).map((tagId) => ({
-            ...tags[tagId],
-            id: tagId,
-          }));
-
+          const tagData = getTagData(Object.keys(dayTags), orderedTags, tags);
+          
           const tagWrapper = document.querySelector('.day-tags');
           let tagWrapperInner = '';
           // create the tags and append to popup template
@@ -63,12 +93,9 @@ export function setTags(userId) {
           });
           tagWrapper.insertAdjacentHTML('afterbegin', tagWrapperInner); // adding day tags to the template
         }
-        populateWidget(tags, dayTags);
+        populateWidget(orderedTags, dayTags);
       });
 
-      Object.keys(tags).forEach((id) => { // add the tag ids to the each tag object
-        tags[id].id = id;
-      });
     } else { // show message if user has no tags
       document.querySelector('.has-tags').classList.add('hide');
       document.querySelector('.no-tags-msg').classList.remove('hide');

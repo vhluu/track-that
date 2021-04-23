@@ -4,7 +4,7 @@ import { fullDate, getTags } from './calendar';
 import { getUserId } from './login';
 import { isMac } from '../../util/utility';
 
-const initialVals = new Map(); // map to store the initial values of the tag checkboxes
+const previousVals = new Map(); // map to store the previous values of the tag checkboxes
 
 /* Opens the add widget */
 export function toggleAdd() {
@@ -15,29 +15,28 @@ export function toggleAdd() {
 }
 
 
-/* Populates the add widget with the user's tags */
-export function populateWidget(tags, dayTags) {
+/* Populates the add widget with today's tags */
+export function populateWidget(orderedTags, dayTags) {
   const addTagWrapper = document.querySelector('.add-tag-wrapper');
   const allTags = addTagWrapper.querySelector('.all-tags');
 
   document.querySelector('.loading-dots').classList.add('hide'); // hide loading message
   document.querySelector('.save-btn').classList.remove('hide'); // hide loading message
 
-  // display the user's tags
-  if (tags && allTags.children.length === 0) {
+  // display today's tags
+  if (orderedTags && allTags.children.length === 0 && dayTags) {
     let tagHTML = '';
 
-    Object.keys(tags).forEach((tagId) => {
-      const tag = tags[tagId];
-      const isFound = (dayTags && dayTags[tagId]) ? 'checked' : '';
-      initialVals.set(tagId, isFound);
+    orderedTags.forEach((tag) => { // display tags in order
+      const isFound = dayTags[tag.id] ? 'checked' : '';
+      previousVals.set(tag.id, isFound);
       
       let emojiHTML = isMac ? tag.icon.native : `<emoji-icon emoji="${tag.icon.id}"></emoji-icon>`;
 
       tagHTML += `
         <div>
-          <input type="checkbox" id="checkbox-${tagId}" data-cb-id="${tagId}" class="hide" ${isFound} />
-          <label for="checkbox-${tagId}"><div class="day-tag ${tag.color}" title="${tag.title}">${emojiHTML}</div></label>
+          <input type="checkbox" id="checkbox-${tag.id}" data-cb-id="${tag.id}" class="hide" ${isFound} />
+          <label for="checkbox-${tag.id}"><div class="day-tag ${tag.color}" title="${tag.title}">${emojiHTML}</div></label>
         </div>
       `;
     });
@@ -57,13 +56,13 @@ function saveTags() {
   tagInputs.forEach((input) => {
     const tagId = input.getAttribute('data-cb-id');
     let value;
-    if (input.checked && !initialVals.get(tagId)) { // if newly checked tag
+    if (input.checked && !previousVals.get(tagId)) { // if newly checked tag
       value = true;
-      initialVals.set(tagId, true);
+      previousVals.set(tagId, true);
       added.push(tagId);
-    } else if (!input.checked && initialVals.get(tagId)) { // if newly unchecked tag
+    } else if (!input.checked && previousVals.get(tagId)) { // if newly unchecked tag
       value = null;
-      initialVals.set(tagId, false);
+      previousVals.set(tagId, false);
     } else { // tag hasn't changed
       if (input.checked) added.push(tagId);
       return;
@@ -77,7 +76,7 @@ function saveTags() {
   const userId = getUserId();
   if (userId) db.ref(`users/${userId}`).update(updates); // bulk add/remove through update
 
-  displayTags(added); // display the updated tags in the frontend
+  displayTags(added); // display the added tags in the frontend
 
   // if calendar is open, then remove user data from there
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -86,10 +85,11 @@ function saveTags() {
 }
 
 
-/* Displays the newly added tags in the frontend */
+/* Displays the added tags in the frontend */
 function displayTags(added) {
   let tagWrapperInner = '';
   const tags = getTags(); // get the tag information
+  
   added.forEach((currId) => { // create the tag elements
     const { color, id, title, icon } = tags[currId];
     let emojiHTML = isMac ? icon.native : `<emoji-icon emoji="${icon.id}"></emoji-icon>`;
