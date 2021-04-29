@@ -15,24 +15,24 @@ export function toggleAdd() {
 }
 
 
-/* Populates the add widget with today's tags */
+/* Populates the add widget with the user's tags */
 export function populateWidget(orderedTags, dayTags) {
   const addTagWrapper = document.querySelector('.add-tag-wrapper');
   const allTags = addTagWrapper.querySelector('.all-tags');
 
-  document.querySelector('.loading-dots').classList.add('hide'); // hide loading message
-  document.querySelector('.save-btn').classList.remove('hide'); // hide loading message
+  document.querySelector('.loading-dots').classList.add('hide'); // hide loading animation
+  document.querySelector('.save-btn').classList.remove('hide');
 
-  // display today's tags
-  if (orderedTags && allTags.children.length === 0 && dayTags) {
+  if (orderedTags && allTags.children.length === 0) {
     let tagHTML = '';
 
-    orderedTags.forEach((tag) => { // display tags in order
-      const isFound = dayTags[tag.id] ? 'checked' : '';
+    orderedTags.forEach((tag) => {
+      const isFound = dayTags && dayTags[tag.id] ? 'checked' : ''; // determine whether the tag is selected for today
       previousVals.set(tag.id, isFound);
       
       let emojiHTML = isMac ? tag.icon.native : `<emoji-icon emoji="${tag.icon.id}"></emoji-icon>`;
 
+      // adds selectable tag
       tagHTML += `
         <div>
           <input type="checkbox" id="checkbox-${tag.id}" data-cb-id="${tag.id}" class="hide" ${isFound} />
@@ -89,7 +89,7 @@ function saveTags() {
 function displayTags(added) {
   let tagWrapperInner = '';
   const tags = getTags(); // get the tag information
-  
+
   added.forEach((currId) => { // create the tag elements
     const { color, id, title, icon } = tags[currId];
     let emojiHTML = isMac ? icon.native : `<emoji-icon emoji="${icon.id}"></emoji-icon>`;
