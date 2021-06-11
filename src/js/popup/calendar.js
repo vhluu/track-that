@@ -87,7 +87,7 @@ export function setTags(userId) {
           // create the tags and append to popup template
           tagData.forEach((tag) => {
             const { color, id, icon, title } = tag;
-            let emojiHTML = isMac ? icon.native : `<emoji-icon emoji="${icon.id}"></emoji-icon>`;
+            let emojiHTML = isMac ? `<span>${icon.native}</span>` : `<emoji-icon emoji="${icon.id}"></emoji-icon>`;
 
             tagWrapperInner += `<div class="day-tag ${color}" id="${id}" title="${title}">${emojiHTML}</div>`;
           });

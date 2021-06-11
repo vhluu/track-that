@@ -30,7 +30,7 @@ export function populateWidget(orderedTags, dayTags) {
       const isFound = dayTags && dayTags[tag.id] ? 'checked' : ''; // determine whether the tag is selected for today
       previousVals.set(tag.id, isFound);
       
-      let emojiHTML = isMac ? tag.icon.native : `<emoji-icon emoji="${tag.icon.id}"></emoji-icon>`;
+      let emojiHTML = isMac ? `<span>${tag.icon.native}</span>` : `<emoji-icon emoji="${tag.icon.id}"></emoji-icon>`;
 
       // adds selectable tag
       tagHTML += `

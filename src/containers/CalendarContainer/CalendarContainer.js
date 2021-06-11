@@ -35,7 +35,7 @@ class CalendarContainer extends Component {
   }
 
   componentDidMount() {
-    const { date, date: { month, year } } = this.state;
+    const { date } = this.state;
 
     this.setCalendar(date); // set calendar to current month
     window.addEventListener('keydown', this.handleKeyDown, true); // listen to keydown for navigating through calendar months

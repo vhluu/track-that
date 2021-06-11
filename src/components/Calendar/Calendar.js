@@ -130,7 +130,7 @@ class Calendar extends Component {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { showDayModal, selectedDayTags, selectAll, checkedItems } = this.state;
     const { days, dayTags, getTagInfo, tagsReady } = this.props;
-
+    
     return (
       <div className="calendar">
         { daysOfWeek.map((day) => (
@@ -161,7 +161,7 @@ class Calendar extends Component {
             <div className="day-checkboxes">
               {selectedDayTags && Object.keys(selectedDayTags).map((tagId, index) => (
                 <Checkbox key={tagId} id={`check-${tagId}`} index={index} checked={checkedItems[index]} onChange={this.handleCheckboxChange}>
-                  <div className={`tag ${selectedDayTags[tagId].color}`} draggable="true" id={`${tagId}`} data-tag-color={selectedDayTags[tagId].color} data-tag-icon={selectedDayTags[tagId].icon} data-tag-title={selectedDayTags[tagId].title}><Icon data={selectedDayTags[tagId].icon} /> {selectedDayTags[tagId].title}</div>
+                  <div className={`tag ${selectedDayTags[tagId].color}`} draggable="true" id={`${tagId}`} data-tag-color={selectedDayTags[tagId].color} data-tag-icon={selectedDayTags[tagId].icon} data-tag-title={selectedDayTags[tagId].title}><Icon data={selectedDayTags[tagId].icon} /> <span>{selectedDayTags[tagId].title}</span></div>
                 </Checkbox>
               ))}
             </div>
