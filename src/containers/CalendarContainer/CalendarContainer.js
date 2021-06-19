@@ -46,7 +46,7 @@ class CalendarContainer extends Component {
     const { uid, onGetDayTags, savedStart, savedEnd } = this.props;
     let { start, end } = this.state;
 
-    // if the userId is set for the first time or the user goes to a different calendar month, 
+    // if the uid is set for the first time or the user goes to a different calendar month, 
     // then get the day tags from the database
     if (uid && (!prevProps.uid || prevState.start !== start || prevState.end !== end)) {
       console.log(`saved: ${savedStart}, ${savedEnd}`);

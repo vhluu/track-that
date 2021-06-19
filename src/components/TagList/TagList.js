@@ -5,11 +5,11 @@ import Tag from './Tag/Tag';
 import './TagList.scss';
 
 const TagList = React.forwardRef((props, ref) => {
-  const { tags, onClick, onUpdateOrder } = props;
+  const { tags, onClick, onUpdateOrder, uid } = props;
 
   return (
     <div className="tags-list" ref={ref}>
-      { tags.length === 0 && <Loading /> }
+      { uid && tags.length === 0 && <Loading /> }
       { tags.map((tag) => {
         return (
           <Tag
