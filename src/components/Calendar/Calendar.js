@@ -26,6 +26,8 @@ class Calendar extends Component {
     this.toggleSelectAll = this.toggleSelectAll.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.deleteDayTags = this.deleteDayTags.bind(this);
+
+    this.daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
   }
 
   /* Handles Calendar Drag & Drop Events */
@@ -127,13 +129,12 @@ class Calendar extends Component {
   }
 
   render() {
-    const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
     const { showDayModal, selectedDayTags, selectAll, checkedItems } = this.state;
     const { days, dayTags, getTagInfo, tagsReady } = this.props;
     
     return (
       <div className="calendar">
-        { daysOfWeek.map((day) => (
+        { this.daysOfWeek.map((day) => (
           <div className="cal-header" key={day}>{ day }</div>
         ))}
         { days.map((day) => (
