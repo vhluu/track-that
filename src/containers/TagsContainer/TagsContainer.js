@@ -101,14 +101,14 @@ class TagsContainer extends Component {
 
   render() {
     const { showModal, showSignIn, action, selectedTag } = this.state;
-    const { tags, onDeleteTag, onUpdateTag, onUpdateOrder } = this.props;
+    const { tags, onDeleteTag, onUpdateTag, onUpdateOrder, uid } = this.props;
 
     return (
       <div className="tags-container">
         <h2>Tags</h2>
         <p>Drag &amp; drop a tag to add it to the calendar!</p>
         <div className="tags-main-wrapper">
-          <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} onUpdateOrder={onUpdateOrder} />
+          <TagList tags={tags} onClick={this.toggleTagModal.bind(this)} ref={this.tagListRef} onUpdateOrder={onUpdateOrder} uid={uid} />
           <Button type="dashed" clicked={this.toggleTagModal.bind(this, null)} ariaLabel="Add Tag">+ Add New Tag</Button>
         </div>
         <Modal show={showModal} closeSelf={this.closeTagModal} onShow={this.setFocus}>

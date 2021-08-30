@@ -60,57 +60,58 @@
 
 // Day Tag
 .day-tag {
-  font-size: 15px;
+  font-size: 13px;
   border-radius: 50px;
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 26px;
   margin-right: 5px;
   margin-bottom: 5px;
   text-align: center;
 
   & > span:not(.emoji-mart-emoji) {
     display: inline-block;
-    // margin-left: -5px;
+    margin-top: 2px;
+    margin-left: -3px;
   }
 
   @media screen and (min-width: $bp-desktop-md) {
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+
+    & > span:not(.emoji-mart-emoji) {
+      margin-top: 1px;
+      margin-left: -4px;
+    }
+  }
+
+  @media #{$retina} { 
+    font-size: 15px;
+    width: 25px;
+    height: 25px;
+
+    span {
+      margin-top: -1px !important;
+      margin-left: 0 !important;
+    }
+  }
+
+  @media #{$retina-desktop-md} { 
     font-size: 16px;
     width: 28px;
     height: 28px;
     line-height: 28px;
-
-    & > span:not(.emoji-mart-emoji) {
-      margin-top: 2px;
-    }
   }
 
-  @media screen and (min-width: $bp-desktop-lg) {
+  @media #{$retina-desktop-lg} { 
     font-size: 18px;
     width: 30px;
     height: 30px;
     line-height: 30px;
     text-align: center;
 
-    // & > span:not(.emoji-mart-emoji) {
-    //   margin-left: -4px;
-    // }
-  }
-
-  @media #{$retina} { 
-    text-align: right;
-  }
-
-  @media #{$retina-desktop-md} { 
-    span { 
-      // margin-right: 6px;
-      // margin-left: 0;
-      margin: 1px 1px auto auto !important;
-    }
-  }
-
-  @media #{$retina-desktop-lg} { 
-    span { 
-      margin-right: 2px !important;
+    span {
+      margin-top: 1px;
     }
   }
 }

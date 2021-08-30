@@ -101,9 +101,10 @@ const setUser = (state, action) => {
 /* Signs out user */
 const signOutUser = (state) => {
   return updateObject(state, {
-    userId: null,
+    uid: null,
     tags: {},
     dayTags: {},
+    orderedTags: [],
     savedStart: null,
     savedEnd: null,
   });
