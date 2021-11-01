@@ -5,6 +5,10 @@
   display: flex;
   align-items: center;
   margin-right: 20px;
+
+  & > div:first-child svg {
+    transform: rotate(180deg);
+  }
 }
 
 .pagination-arrow {
@@ -14,13 +18,12 @@
   color: #fff;
   border-radius: 50%;
   width: 22px;
-  font-weight: 700;
-  font-size: 18px;
   height: 22px;
-  line-height: 20px;
-  text-align: center;
   cursor: pointer;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     background-position: 100% 0;
